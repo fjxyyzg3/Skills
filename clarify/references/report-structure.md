@@ -1,46 +1,46 @@
-# Clarify Report Structure
+# Clarify 报告结构
 
-Use this reference when generating a standalone HTML report for a codebase explanation.
+为代码库解释生成独立 HTML 报告时，使用这份参考说明。
 
-## Required Sections
+## 必需章节
 
-1. Title and scope
-   - State the exact question being answered.
-   - State project, date, and any assumptions when known.
+1. 标题与范围
+   - 说明正在回答的精确问题。
+   - 在已知时说明项目、日期和假设。
 
-2. Executive answer
-   - Give the short answer before details.
-   - Separate source-backed facts from inferences.
+2. 结论摘要
+   - 先给出简短答案，再展开细节。
+   - 区分有源码支撑的事实和推断。
 
-3. Evidence map
-   - Table columns: Role, Symbol, File, Lines, Why it matters.
-   - Include only files actually inspected.
+3. 证据地图
+   - 表格列建议使用：角色、Symbol、File、Lines、为什么重要。
+   - 只包含实际检查过的文件。
 
-4. Architecture diagram
-   - Use Mermaid `flowchart LR` or `classDiagram`.
-   - Show modules, important classes/functions, and ownership boundaries.
+4. 架构图
+   - 使用 Mermaid `flowchart LR` 或 `classDiagram`。
+   - 展示 module、重要 class/function 和 ownership boundary。
 
-5. Execution flow
-   - Use Mermaid `sequenceDiagram` or `flowchart TD`.
-   - Show entry point, dispatch/registration, key branches, and final effects.
+5. 执行流程
+   - 使用 Mermaid `sequenceDiagram` 或 `flowchart TD`。
+   - 展示入口、dispatch/registration、关键分支和最终效果。
 
-6. Code walkthrough
-   - Explain important code in source order or runtime order.
-   - Keep snippets short and cite exact locations.
+6. 代码讲解
+   - 按源码顺序或运行时顺序解释重要代码。
+   - 保持代码片段简短，并引用精确位置。
 
-7. Ambiguities and follow-up
-   - List assumptions, uncertain inferences, and suggested follow-up inspection.
+7. 歧义与后续
+   - 列出假设、不确定推断和建议的后续检查。
 
-## Diagram Guidance
+## 图表建议
 
-- Prefer two readable diagrams over one dense diagram.
-- Keep node names stable and close to real symbol names.
-- Add short edge labels only when they clarify ownership, data movement, or conditions.
-- Avoid styling that hides semantics. Let text explain what the diagram cannot.
+- 优先使用两张可读图，而不是一张过密的图。
+- 保持节点名稳定，并尽量贴近真实 symbol 名称。
+- 只有在能澄清 ownership、数据移动或条件时，才添加简短边标签。
+- 避免用样式掩盖语义。图表表达不了的内容交给文字解释。
 
-## HTML Guidance
+## HTML 建议
 
-- Escape `<`, `>`, and `&` in code snippets.
-- Use `<pre class="mermaid">` blocks for diagrams.
-- Use tables for evidence and compact lists for findings.
-- Include a small footer with timestamp and source project when appropriate.
+- 在代码片段中转义 `<`、`>` 和 `&`。
+- 用 `<pre class="mermaid">` 代码块放置图表。
+- 用表格呈现证据，用紧凑列表呈现发现。
+- 适当时在页脚中加入时间戳和来源项目。

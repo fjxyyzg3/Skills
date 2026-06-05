@@ -1,4 +1,4 @@
 interface:
   display_name: "Clarify"
-  short_description: "Clarify code questions with diagrams and docs"
-  default_prompt: "Use $clarify to clarify my code question, explore the codebase, and generate an HTML/Mermaid explanation document."
+  short_description: "用图表和文档澄清代码问题"
+  default_prompt: "使用 $clarify 澄清我的代码问题，探索代码库，并生成 HTML/Mermaid 解释文档。"

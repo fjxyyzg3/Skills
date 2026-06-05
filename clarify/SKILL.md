@@ -1,65 +1,65 @@
 ---
 name: clarify
-description: Clarify ambiguous codebase questions, inspect source code instead of asking when details are discoverable, and produce source-grounded explanations with file locations, code walkthroughs, Mermaid architecture and flow diagrams, plus optional HTML documentation. Use when the user asks how code works, where behavior lives, what calls what, how a feature flows, or requests detailed code analysis, diagrams, reports, or generated documentation.
+description: 澄清代码库中的模糊问题；当细节可从源码、文档、配置、测试或历史中发现时，先检查来源而不是追问；基于源码位置、代码讲解、Mermaid 架构图和流程图，以及可选 HTML 文档输出结论。Use when the user asks how code works, where behavior lives, what calls what, how a feature flows, or requests detailed code analysis, diagrams, reports, or generated documentation.
 ---
 
 # Clarify
 
-Turn a codebase question into a source-grounded explanation. Clarify only what cannot be discovered, inspect the relevant source deeply enough to avoid guessing, and answer with code locations, code explanations, diagrams, and a document when useful.
+把代码库问题转化为有来源支撑的解释。只澄清无法自行发现的信息；充分检查相关源码以避免猜测；在有帮助时，用代码位置、代码解释、图表和文档回答。
 
-## Core Rules
+## 核心规则
 
-- Ask at most one clarification question at a time, and include your recommended default answer.
-- If a detail can be discovered from code, docs, config, examples, tests, history, or generated artifacts, inspect those sources instead of asking.
-- Mark inferences as inferences. Do not present guesses as source facts.
-- Prefer precise file and line references over vague module names.
+- 一次最多问一个澄清问题，并给出你建议采用的默认答案。
+- 如果细节可以从代码、文档、配置、示例、测试、历史记录或生成产物中发现，先检查这些来源，不要直接提问。
+- 明确标注推断。不要把猜测当作有源码支撑的事实。
+- 优先给出精确的文件和行号引用，而不是模糊的模块名。
 
-## Workflow
+## 工作流程
 
-1. Define the target question.
-   - Restate the user's question as the concrete behavior, subsystem, or flow to explain.
-   - Identify the answer shape needed: source locations, main symbols, call/data flow, diagrams, and documentation output if requested.
-   - If the requested scope is ambiguous and code exploration cannot resolve it, ask one question and recommend a default path.
+1. 定义目标问题。
+   - 将用户问题重述为要解释的具体行为、子系统或流程。
+   - 判断需要的回答形态：源码位置、主要 symbol、调用/数据流、图表，以及用户要求时的文档输出。
+   - 如果请求范围不清晰，且代码探索无法解决歧义，只问一个问题并推荐默认路径。
 
-2. Explore the codebase.
-   - Inspect project documentation that explains architecture, domain language, setup, or feature behavior when it helps answer the question.
-   - Use the available source navigation tools for the environment: symbol search, text search, caller/callee lookup, dependency graphs, tests, logs, and focused file reads.
-   - Start from user-provided names, error text, feature terms, API names, classes, functions, config keys, routes, commands, tests, and docs.
-   - Follow the path through callers, callees, registration points, config, tests, generated code, and adjacent implementations until the explanation has enough evidence.
-   - Keep an evidence map with `file:line`, symbol, role in the flow, and confidence.
+2. 探索代码库。
+   - 当项目文档能帮助回答问题时，检查解释架构、领域语言、设置方式或功能行为的文档。
+   - 使用当前环境可用的源码导航工具：symbol search、text search、caller/callee lookup、dependency graph、测试、日志和聚焦文件读取。
+   - 从用户提供的名称、错误文本、功能术语、API 名称、class、function、配置 key、route、command、测试和文档开始。
+   - 沿 caller、callee、注册点、配置、测试、生成代码和相邻实现继续追踪，直到解释具备足够证据。
+   - 维护证据地图，记录 `file:line`、symbol、在流程中的角色和可信度。
 
-3. Synthesize the answer.
-   - Answer the question first, then show the supporting code path.
-   - Explain each important class/function/module in plain language and why it matters.
-   - Include key code references with clickable paths when the environment supports them.
-   - Explain control flow and data flow separately when both matter.
-   - Call out unresolved ambiguity, version-dependent behavior, missing tests, or places that require runtime verification.
+3. 综合答案。
+   - 先直接回答问题，再展示支撑结论的代码路径。
+   - 用自然语言解释每个重要 class、function 或 module，以及它为什么重要。
+   - 在环境支持时，给出带可点击路径的关键代码引用。
+   - 当控制流和数据流都重要时，分别解释两者。
+   - 明确指出未解决的歧义、依赖版本的行为、缺失测试，或需要运行时验证的位置。
 
-4. Draw diagrams.
-   - Include Mermaid diagrams for non-trivial architecture or flow questions.
-   - Use `flowchart`, `sequenceDiagram`, or `classDiagram` based on the question.
-   - Keep node labels short, quote labels that contain punctuation, and avoid diagrams so dense that they replace explanation.
-   - Use architecture diagrams for ownership/module relationships and flow diagrams for execution paths.
+4. 绘制图表。
+   - 对非平凡的架构或流程问题加入 Mermaid 图。
+   - 根据问题选择 `flowchart`、`sequenceDiagram` 或 `classDiagram`。
+   - 保持节点标签简短；包含标点的标签要加引号；避免用过密的图替代解释。
+   - 用架构图表达 ownership/module 关系，用流程图表达执行路径。
 
-5. Generate documentation when requested or when the answer is substantial.
-   - Read `references/report-structure.md` before creating an HTML document.
-   - Use `assets/clarify-report-template.html` as the starting point when writing a standalone report.
-   - Save the report in a user-specified path when provided; otherwise choose a clear, local path based on the topic and project layout.
-   - Check the generated HTML enough to avoid broken markup. If visual Mermaid rendering cannot be checked, say so explicitly.
+5. 在用户要求或答案较大时生成文档。
+   - 创建 HTML 文档前，先阅读 `references/report-structure.md`。
+   - 编写独立报告时，以 `assets/clarify-report-template.html` 作为起点。
+   - 如果用户指定路径，将报告保存到该路径；否则根据主题和项目结构选择清晰的本地路径。
+   - 充分检查生成的 HTML，避免破损 markup。如果无法检查 Mermaid 的可视化渲染，要明确说明。
 
-## Output Shape
+## 输出形态
 
-For concise answers:
+简短回答：
 
-- Direct answer
-- Code locations
-- Walkthrough
-- Mermaid diagram when useful
-- Remaining questions or risks
+- 直接答案
+- 代码位置
+- 代码讲解
+- 有帮助时的 Mermaid 图
+- 剩余问题或风险
 
-For document-generation answers:
+生成文档时：
 
-- State the generated file path
-- Summarize the key conclusion
-- Summarize the evidence inspected
-- Mention unresolved ambiguity when it remains
+- 说明生成文件路径
+- 总结关键结论
+- 总结已检查的证据
+- 如仍存在未解决歧义，明确指出
