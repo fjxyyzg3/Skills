@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{TITLE}}</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f6f7f9;
+      --panel: #ffffff;
+      --text: #1f2933;
+      --muted: #5b6573;
+      --line: #d8dee8;
+      --accent: #2563eb;
+      --code: #0f172a;
+    }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font: 14px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    main {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 32px 24px 48px;
+    }
+    header {
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+    }
+    h1, h2, h3 {
+      line-height: 1.25;
+      margin: 0 0 12px;
+    }
+    h1 {
+      font-size: 30px;
+    }
+    h2 {
+      border-bottom: 1px solid var(--line);
+      font-size: 20px;
+      margin-top: 28px;
+      padding-bottom: 6px;
+    }
+    h3 {
+      font-size: 16px;
+      margin-top: 20px;
+    }
+    .meta, .muted {
+      color: var(--muted);
+    }
+    section {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      margin: 16px 0;
+      padding: 18px;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th, td {
+      border-bottom: 1px solid var(--line);
+      padding: 8px 10px;
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      background: #eef2f7;
+      font-weight: 600;
+    }
+    code {
+      background: #eef2f7;
+      border-radius: 4px;
+      padding: 1px 4px;
+    }
+    pre {
+      overflow: auto;
+      background: var(--code);
+      border-radius: 8px;
+      color: #e5e7eb;
+      padding: 14px;
+    }
+    pre.mermaid {
+      background: #ffffff;
+      border: 1px solid var(--line);
+      color: var(--text);
+    }
+    a {
+      color: var(--accent);
+    }
+    footer {
+      color: var(--muted);
+      margin-top: 28px;
+      text-align: right;
+    }
+  </style>
+  <script type="module">
+    import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs";
+    mermaid.initialize({ startOnLoad: true, securityLevel: "strict" });
+  </script>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>{{TITLE}}</h1>
+      <div class="meta">{{SCOPE}}</div>
+    </header>
+
+    <section>
+      <h2>Executive Answer</h2>
+      <p>{{EXECUTIVE_ANSWER}}</p>
+    </section>
+
+    <section>
+      <h2>Evidence Map</h2>
+      {{EVIDENCE_TABLE}}
+    </section>
+
+    <section>
+      <h2>Architecture</h2>
+      <pre class="mermaid">
+{{ARCHITECTURE_MERMAID}}
+      </pre>
+    </section>
+
+    <section>
+      <h2>Execution Flow</h2>
+      <pre class="mermaid">
+{{FLOW_MERMAID}}
+      </pre>
+    </section>
+
+    <section>
+      <h2>Code Walkthrough</h2>
+      {{CODE_WALKTHROUGH}}
+    </section>
+
+    <section>
+      <h2>Ambiguities and Follow-up</h2>
+      {{AMBIGUITIES_AND_FOLLOW_UP}}
+    </section>
+
+    <footer>{{GENERATED_FOOTER}}</footer>
+  </main>
+</body>
+</html>

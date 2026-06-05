@@ -1,0 +1,4 @@
+interface:
+  display_name: "Clarify"
+  short_description: "Clarify code questions with diagrams and docs"
+  default_prompt: "Use $clarify to clarify my code question, explore the codebase, and generate an HTML/Mermaid explanation document."
