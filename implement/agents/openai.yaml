@@ -1,0 +1,4 @@
+interface:
+  display_name: "Implement"
+  short_description: "从 PRD 或本地 issues 执行实现并完成验证"
+  default_prompt: "使用 $implement 读取 PRD 或本地 issue 文档，推荐并确认执行模式，然后按 TDD 完成实现。"
