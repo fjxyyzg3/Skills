@@ -24,7 +24,7 @@ description: Use when a task may match one or more local workflow skills, when s
 | 生成产品/工程 PRD | `to-prd` | `to-issues` |
 | 把 PRD/plan/spec 拆成本地 issues | `to-issues` | `analyze` |
 | 检查 PRD/issues/plan 是否一致 | `analyze` | `to-prd`、`to-issues` 或 `implement` |
-| 执行实现 | `using-worktrees` + `implement` | `requesting-code-review`、`verification-before-completion`、`finishing-branch` |
+| 执行实现 | `checking-branch` + `implement` | `requesting-code-review`、`verification-before-completion`、`finishing-branch` |
 | debug、bug、failing、broken、performance regression | `diagnose` | `requesting-code-review`、`verification-before-completion` |
 | UE/Unreal Engine 问题 | `diagnose-ue` | `requesting-code-review`、`verification-before-completion` |
 | 新增或修改本仓库 skill | `writing-skills` | `analyze`、`verification-before-completion` |
@@ -37,7 +37,7 @@ description: Use when a task may match one or more local workflow skills, when s
 1. 用 `grill-me` 或 `to-prd` 明确目标、边界和验收。
 2. 用 `to-issues` 拆成 vertical slices、dependency graph 和 execution waves。
 3. 用 `analyze` 做只读一致性与覆盖率检查。
-4. 用 `using-worktrees` 建立隔离工作空间。
+4. 用 `checking-branch` 确认当前开发分支、Git 状态和 baseline。
 5. 用 `implement` 按 TDD 执行。
 6. 用 `requesting-code-review` 评审规格符合性和代码质量。
 7. 用 `verification-before-completion` 做完成前验证。

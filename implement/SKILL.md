@@ -9,7 +9,7 @@ description: Use when executing local issues, PRDs, specs, implementation plans,
 
 ## 必须配合的流程
 
-- 开始实现前：使用 `using-worktrees` 检查分支/工作树和 baseline。
+- 开始实现前：使用 `checking-branch` 确认当前开发分支、Git 状态和 baseline。
 - 有 PRD/issues/plan artifacts 时：优先运行或读取 `analyze` 结果；`CRITICAL` finding 未解决前不要开始实现。
 - 实现后：使用 `requesting-code-review` 做 spec compliance 和 code quality review。
 - 声明完成前：使用 `verification-before-completion`。
@@ -21,7 +21,7 @@ description: Use when executing local issues, PRDs, specs, implementation plans,
 - 如果没有 issue 文档，只有 PRD、plan、spec 或当前 conversation context，默认 `inline serial execution`，除非用户主动要求多 agent 并行。
 - 不要从 PRD 或上下文直接推断可以并行执行；并行只建立在明确 issue 依赖、执行波次和共享写入风险已经拆清楚的基础上。
 - feature、bugfix、refactor 或 behavior change 使用 TDD：先写一个可观察行为的失败测试，确认失败原因正确，再写最小实现，最后重构并保持测试通过。
-- 不在 `main` / `master` 上开始实现，除非用户明确同意；优先让 `using-worktrees` 处理隔离。
+- 不在 `main` / `master` 上开始实现，除非用户明确同意；默认认为用户会先准备好开发分支。
 - 不要跳过 review 和 verification 来换取“更快完成”。
 
 ## 输入判定
@@ -114,7 +114,7 @@ description: Use when executing local issues, PRDs, specs, implementation plans,
 
 完成前确认：
 
-- 已执行或明确降级 `using-worktrees`。
+- 已执行或明确降级 `checking-branch`。
 - 已处理 artifacts 中的 `CRITICAL` analyze findings。
 - 已覆盖 PRD requirements 或选定 issues 的 acceptance criteria。
 - 已运行相关测试和必要的更宽验证。

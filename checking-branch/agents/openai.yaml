@@ -1,0 +1,4 @@
+interface:
+  display_name: "Checking Branch"
+  short_description: "确认当前开发分支、Git 状态、已有改动和实现前测试基线"
+  default_prompt: "使用 $checking-branch 在开始实现前确认当前分支、Git 状态和测试基线。"

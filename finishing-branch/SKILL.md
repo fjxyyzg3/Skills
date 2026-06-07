@@ -1,6 +1,6 @@
 ---
 name: finishing-branch
-description: Use after implementation or debugging work is complete on a local branch/worktree, when preparing handoff, summarizing git status, deciding merge/PR/commit/keep/discard options, cleaning branch artifacts, or reporting final verification and residual risks.
+description: Use after implementation or debugging work is complete on a local branch, when preparing handoff, summarizing git status, deciding merge/PR/commit/keep/discard options, cleaning branch artifacts, or reporting final verification and residual risks.
 ---
 
 # Finishing Branch

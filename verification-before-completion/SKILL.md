@@ -27,7 +27,7 @@ description: Use before claiming a task is done, after implementation, debugging
    - 删除或标记 throwaway harness、prototype、临时 trace。
    - 不删除用户或工具产生但与任务无关的文件；只报告。
 
-5. 工作树状态。
+5. Git 状态。
    - 运行 `git status --short`。
    - 区分本次改动、用户已有改动和生成产物。
    - 确认没有遗留正在运行的进程或 dev server，除非用户需要并已说明。

@@ -1,4 +1,0 @@
-interface:
-  display_name: "Using Worktrees"
-  short_description: "建立隔离分支或 worktree，并验证实现前基线"
-  default_prompt: "使用 $using-worktrees 在开始实现前检查当前分支，并建立隔离工作空间和测试基线。"

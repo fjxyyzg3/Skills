@@ -1,6 +1,6 @@
 <!--
 Sync Impact Report
-Version: None -> 0.1.0
+Version: 0.1.0 -> 0.2.0
 Changed Principles:
 - Added: Skill Routing First
 - Added: Artifact Traceability
@@ -9,10 +9,11 @@ Changed Principles:
 - Added: Local-First Outputs
 - Added: Chinese-First, English-Preserved Writing
 - Added: Progressive Disclosure
+- Added: Branch Prepared By User
 Templates/Skills:
 - Updated: using-skills, to-prd, to-issues, analyze, implement
 - Updated: requesting-code-review, verification-before-completion, finishing-branch
-- Updated: writing-skills, using-worktrees
+- Updated: writing-skills, checking-branch
 Follow-up TODOs:
 - None
 -->
@@ -21,9 +22,9 @@ Follow-up TODOs:
 
 ## Metadata
 
-- **Version**: 0.1.0
+- **Version**: 0.2.0
 - **Ratified**: 2026-06-07
-- **Last Amended**: 2026-06-07
+- **Last Amended**: 2026-06-08
 
 ## Principles
 
@@ -54,6 +55,10 @@ Workflow artifacts MUST be written locally by default. Skills in this repository
 ### 7. Progressive Disclosure
 
 Skill bodies SHOULD stay concise and action-oriented. Large references, reusable scripts, and output assets SHOULD live in `references/`, `scripts/`, or `assets/` and be loaded only when needed.
+
+### 8. Branch Prepared By User
+
+Implementation workflows MUST assume the user prepares the development branch before asking the agent to code. The agent MUST confirm the current branch and Git status before implementation, but MUST NOT create extra local workspaces by default. If the current branch is `main` or `master`, the agent MUST stop and ask the user to switch branches or explicitly approve continuing.
 
 ## Governance
 
