@@ -1,0 +1,4 @@
+interface:
+  display_name: "Using Skills"
+  short_description: "选择并串联本地 workflow skills，作为任务入口路由"
+  default_prompt: "使用 $using-skills 判断当前任务应该启用哪些本地 skills，并按正确顺序执行。"

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Requesting Code Review"
+  short_description: "两阶段评审规格符合性、代码质量、测试和回归风险问题"
+  default_prompt: "使用 $requesting-code-review 对本次改动做 spec compliance 和 code quality 两阶段评审。"

@@ -1,0 +1,4 @@
+interface:
+  display_name: "To Issues"
+  short_description: "把 PRD 拆成本地 issues、覆盖表、依赖图和执行波次"
+  default_prompt: "使用 $to-issues 将本地 PRD 拆成 vertical-slice issues、依赖图和执行波次。"

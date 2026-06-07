@@ -1,0 +1,4 @@
+interface:
+  display_name: "Analyze"
+  short_description: "检查本地 artifacts 的一致性、覆盖率和质量门风险"
+  default_prompt: "使用 $analyze 对本地 PRD、issues 和执行计划做只读一致性与覆盖率分析。"

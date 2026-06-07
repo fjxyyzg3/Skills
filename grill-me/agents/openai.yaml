@@ -1,0 +1,4 @@
+interface:
+  display_name: "Grill Me"
+  short_description: "连续追问并压力测试方案假设、边界、风险和验收标准定义"
+  default_prompt: "使用 $grill-me 拷问我的方案，按决策树追问目标、约束、风险、失败条件和验收标准。"

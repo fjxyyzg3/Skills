@@ -1,0 +1,4 @@
+interface:
+  display_name: "Finishing Branch"
+  short_description: "整理开发分支状态、验证结果、风险和交付选项用于收尾"
+  default_prompt: "使用 $finishing-branch 在任务完成后整理分支状态、验证结果和后续 merge/PR/保留选择。"

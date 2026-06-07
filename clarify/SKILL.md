@@ -1,6 +1,6 @@
 ---
 name: clarify
-description: 澄清代码库中的模糊问题；当细节可从源码、文档、配置、测试或历史中发现时，先检查来源而不是追问；基于源码位置、代码讲解、Mermaid 架构图和流程图，以及可选 HTML 文档输出结论。Use when the user asks how code works, where behavior lives, what calls what, how a feature flows, or requests detailed code analysis, diagrams, reports, or generated documentation.
+description: Use when answering codebase questions, finding where behavior lives, tracing callers/callees or data flow, explaining architecture, locating source evidence, generating Mermaid diagrams, or producing source-grounded local explanation reports.
 ---
 
 # Clarify

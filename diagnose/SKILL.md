@@ -1,6 +1,6 @@
 ---
 name: diagnose
-description: 用于困难 bug 和性能回归的纪律化诊断循环：复现 → 最小化 → 提出假设 → 加仪表 → 修复 → 回归测试。Use when user says "diagnose this" / "debug this"，报告 bug，说某处 broken/throwing/failing，或描述 performance regression。
+description: Use when debugging bug reports, failing tests, broken behavior, thrown errors, crashes, flaky or hanging behavior, wrong output, regressions, performance slowdowns, or any issue requiring disciplined root-cause analysis.
 ---
 
 # 诊断

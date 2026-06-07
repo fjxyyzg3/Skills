@@ -1,6 +1,6 @@
 ---
 name: grill-me
-description: 以连续追问的方式拷问用户的计划或设计，直到形成共同理解，并逐一解决决策树上的分支与依赖。Use when user wants to stress-test a plan, get grilled on their design, be challenged on a proposal, or mentions "grill me", "拷问我", "盘问我", "挑战我的方案".
+description: Use when stress-testing a plan, design, proposal, product idea, architecture decision, or implementation approach; when challenging assumptions, decision trees, boundaries, failure modes, risks, tradeoffs, or acceptance criteria; or when user says grill me, 拷问我, 盘问我, 挑战我的方案.
 ---
 
 # Grill Me

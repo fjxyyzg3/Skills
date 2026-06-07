@@ -1,6 +1,6 @@
 ---
 name: diagnose-ue
-description: UE/Unreal Engine 项目问题查修的纪律化诊断循环。Use when user asks to diagnose/debug/fix UE issues，包括 C++/Blueprint crash、assert/ensure、PIE/Standalone/Cooked/Shipping 行为差异、打包失败、Editor 卡死、渲染/动画/物理/网络同步/GAS/UMG/Asset 问题、性能回归、内存/GC/加载问题。
+description: Use when diagnosing or fixing Unreal Engine / UE issues involving C++, Blueprint, crashes, asserts, ensures, PIE, Standalone, Cooked, Packaged, Shipping, Editor hangs, rendering, animation, physics, networking, GAS, UMG, assets, memory, GC, or performance regressions.
 ---
 
 # Diagnose UE
