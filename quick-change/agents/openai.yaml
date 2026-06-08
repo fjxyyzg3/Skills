@@ -1,0 +1,4 @@
+interface:
+  display_name: "Quick Change"
+  short_description: "处理小型 bug、小需求、低风险快速改动和最小验证"
+  default_prompt: "使用 $quick-change 处理这个小型 bug 或低风险需求，先确认 scope、验收和快速验证方式。"

@@ -1,6 +1,6 @@
 ---
 name: using-skills
-description: Use when a task may match one or more local workflow skills, when starting a new request, choosing skill order, chaining clarify/grill-me/to-prd/to-issues/analyze/implement/diagnose/review/verification/finish workflows, or deciding whether a requested skill should be loaded before acting.
+description: Use when a task may match one or more local workflow skills, when starting a new request, choosing skill order, chaining clarify/grill-me/quick-change/to-prd/to-issues/analyze/implement/diagnose/review/verification/finish workflows, or deciding whether a requested skill should be loaded before acting.
 ---
 
 # Using Skills
@@ -21,6 +21,7 @@ description: Use when a task may match one or more local workflow skills, when s
 | --- | --- | --- |
 | 解释代码、找行为位置、画流程图 | `clarify` | `to-prd` 或 `analyze` |
 | 拷问方案、打磨需求边界 | `grill-me` | `to-prd` |
+| 小型 bug、小需求、quick fix | `quick-change` | `checking-branch`、`implement`、必要时升级 |
 | 生成产品/工程 PRD | `to-prd` | `to-issues` |
 | 把 PRD/plan/spec 拆成本地 issues | `to-issues` | `analyze` |
 | 检查 PRD/issues/plan 是否一致 | `analyze` | `to-prd`、`to-issues` 或 `implement` |
@@ -31,6 +32,14 @@ description: Use when a task may match one or more local workflow skills, when s
 | 更新项目原则或质量门 | `constitution` | `analyze` |
 
 ## 标准链路
+
+### 快速链路
+
+1. 用 `quick-change` 判断是否满足小任务条件。
+2. 用 `checking-branch` 确认当前开发分支、Git 状态和 baseline。
+3. 写下 scope、acceptance、verification。
+4. 做最小实现并运行 targeted verification。
+5. 如发现范围或风险扩大，升级到 `diagnose`、`to-prd`、`to-issues`、`analyze` 或 `requesting-code-review`。
 
 ### 新功能
 
