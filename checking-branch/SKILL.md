@@ -7,6 +7,10 @@ description: Use when starting implementation work, checking the current git bra
 
 开始实现前确认当前分支、Git 状态和分支决策。agent 先把当前状态展示给用户，再让用户选择直接修改或提供新分支名。
 
+## Language Contract
+
+Language Contract: generated documents and chat outputs default to Chinese-first; preserve English for code, commands, API names, contract fields, IDs, proper nouns, and necessary technical terms. 用户或目标项目明确要求英文时可以例外，但必须记录原因。
+
 ## 核心规则
 
 - 先检查当前 git 状态，再开始写文件。

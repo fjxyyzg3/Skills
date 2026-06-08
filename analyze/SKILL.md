@@ -7,6 +7,10 @@ description: Use when checking local PRD, spec, plan, issue files, task lists, d
 
 对本地 artifacts 做只读一致性分析。目标是在实现前发现需求、拆分、依赖、并行建议和质量门之间的断裂。
 
+## Language Contract
+
+Language Contract: generated documents and chat outputs default to Chinese-first; preserve English for code, commands, API names, contract fields, IDs, proper nouns, and necessary technical terms. 用户或目标项目明确要求英文时可以例外，但必须记录原因。
+
 ## 核心规则
 
 - 默认只读，不修改文件。
@@ -54,27 +58,27 @@ description: Use when checking local PRD, spec, plan, issue files, task lists, d
 ## 输出格式
 
 ```markdown
-## Artifact Analysis Report
+## 产物分析报告 (Artifact Analysis Report)
 
 | ID | Severity | Category | Location | Finding | Recommendation |
 | --- | --- | --- | --- | --- | --- |
 | A1 | HIGH | Coverage | docs/... | ... | ... |
 
-## Coverage Summary
+## 覆盖摘要 (Coverage Summary)
 
 | Requirement | Covered by | Verification seam | Notes |
 | --- | --- | --- | --- |
 
-## Dependency And Parallelization
+## 依赖和并行 (Dependency And Parallelization)
 
 - Cycles: None / ...
 - Unsafe parallel claims: ...
 
-## Constitution Alignment
+## 治理原则对齐 (Constitution Alignment)
 
 - Pass / Findings...
 
-## Next Actions
+## 下一步 (Next Actions)
 
 1. ...
 ```

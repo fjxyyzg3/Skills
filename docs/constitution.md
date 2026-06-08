@@ -1,11 +1,12 @@
 <!--
 Sync Impact Report
-Version: 0.3.0 -> 0.4.0
+Version: 0.4.0 -> 0.5.0
 Changed Principles:
-- Replaced: Branch Prepared By User -> Branch Decision Gate
+- Expanded: Chinese-First, English-Preserved Writing
 Templates/Skills:
-- Updated: checking-branch, implement, using-skills
-- Updated: README, AGENTS
+- Updated: all workflow skills with Language Contract marker
+- Updated: to-prd, to-issues, analyze, handoff, requesting-code-review, verification-before-completion, finishing-branch templates
+- Updated: architecture HTML/interface references, README, AGENTS, validator
 Follow-up TODOs:
 - None
 -->
@@ -14,9 +15,9 @@ Follow-up TODOs:
 
 ## Metadata
 
-- **Version**: 0.4.0
+- **Version**: 0.5.0
 - **Ratified**: 2026-06-07
-- **Last Amended**: 2026-06-08
+- **Last Amended**: 2026-06-09
 
 ## Principles
 
@@ -42,7 +43,9 @@ Workflow artifacts MUST be written locally by default. Skills in this repository
 
 ### 6. Chinese-First, English-Preserved Writing
 
-`SKILL.md` 正文 MUST 优先使用中文。文件名、目录名、YAML frontmatter key、配置字段、命令、代码、API 名称、英文专业术语和英文专有名词 MUST 保留 English。
+`SKILL.md` 正文 MUST 优先使用中文。Skill 生成的 Markdown/HTML 文档、分析结论、review、handoff、完成报告和聊天式输出 MUST default to Chinese-first。文件名、目录名、YAML frontmatter key、配置字段、命令、代码、API 名称、workflow contract fields、稳定 ID、英文专业术语和英文专有名词 MUST 保留 English。
+
+用户明确要求 English，或目标项目已有 English artifact 规范时，skills MAY 例外输出 English，但 MUST 在 metadata、assumptions 或完成报告中记录原因。产出型 skills MUST include a `Language Contract` marker for lightweight validation. Core section headings SHOULD use 中文优先 + English 括注，避免破坏 PRD、issues、analysis、review 和 verification 链路的 contract recognition。
 
 ### 7. Progressive Disclosure
 

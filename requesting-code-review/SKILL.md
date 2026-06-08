@@ -7,6 +7,10 @@ description: Use when reviewing local implementation changes, PR diffs, complete
 
 对实现结果做两阶段评审：先确认有没有做对，再确认做法是否可靠。评审优先输出问题，不先写总结。
 
+## Language Contract
+
+Language Contract: generated documents and chat outputs default to Chinese-first; preserve English for code, commands, API names, contract fields, IDs, proper nouns, and necessary technical terms. 用户或目标项目明确要求英文时可以例外，但必须记录原因。
+
 ## 输入
 
 - PRD、spec、issue、plan 或用户原始要求。
@@ -36,17 +40,17 @@ description: Use when reviewing local implementation changes, PR diffs, complete
 ## 输出格式
 
 ```markdown
-## Findings
+## 发现 (Findings)
 
 - HIGH [file:line] 问题描述。
   Impact: ...
   Recommendation: ...
 
-## Open Questions
+## 开放问题 (Open Questions)
 
 - ...
 
-## Review Summary
+## 评审摘要 (Review Summary)
 
 - Spec compliance: pass / fail
 - Code quality: pass / fail

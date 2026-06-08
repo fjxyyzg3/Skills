@@ -7,6 +7,10 @@ description: Use when the user wants to improve codebase architecture, find deep
 
 发现可执行的架构加深机会：把 shallow modules 调整成更 deep 的 modules，让 interface 更小、implementation 承担更多行为，并提升 testability、locality 和 agent navigability。
 
+## Language Contract
+
+Language Contract: generated documents and chat outputs default to Chinese-first; preserve English for code, commands, API names, contract fields, IDs, proper nouns, and necessary technical terms. 用户或目标项目明确要求英文时可以例外，但必须记录原因。
+
 ## Pressure Scenarios
 
 1. User says: "看看这个仓库哪里值得重构。"

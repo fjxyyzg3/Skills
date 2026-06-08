@@ -7,6 +7,10 @@ description: Use after implementation or debugging work is complete on a local b
 
 完成开发分支时整理交付状态。它不自动 merge、push、discard；只在用户明确要求时执行这些改变远端或历史的动作。
 
+## Language Contract
+
+Language Contract: generated documents and chat outputs default to Chinese-first; preserve English for code, commands, API names, contract fields, IDs, proper nouns, and necessary technical terms. 用户或目标项目明确要求英文时可以例外，但必须记录原因。
+
 ## 前置条件
 
 - 已运行 `verification-before-completion`，或明确说明为什么无法运行。
@@ -43,7 +47,7 @@ git diff --stat
 ## 输出格式
 
 ```markdown
-## Branch Finish Report
+## 分支收尾报告 (Branch Finish Report)
 
 - Branch: <name>
 - Status: clean / dirty

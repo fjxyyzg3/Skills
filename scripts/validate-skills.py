@@ -13,6 +13,12 @@ NAME_RE = re.compile(r"^[a-z0-9-]+$")
 FIELD_RE = re.compile(r"^([A-Za-z0-9_-]+):\s*(.*)$")
 SHORT_DESCRIPTION_RE = re.compile(r'short_description:\s*"([^"]+)"')
 BAD_TEXT = ("[TODO", "TODO:", "placeholder", "\ufffd")
+LANGUAGE_CONTRACT_MARKER = (
+    "Language Contract: generated documents and chat outputs default to Chinese-first; "
+    "preserve English for code, commands, API names, contract fields, IDs, proper nouns, "
+    "and necessary technical terms."
+)
+LANGUAGE_CONTRACT_EXCEPTION = "用户或目标项目明确要求英文时可以例外，但必须记录原因。"
 
 
 def read_text(path: Path) -> str:
@@ -64,6 +70,10 @@ def validate_skill(skill_dir: Path) -> list[str]:
 
     for token in has_bad_text(text):
         errors.append(f"{skill_path.relative_to(ROOT)}: contains {token!r}")
+    if LANGUAGE_CONTRACT_MARKER not in text:
+        errors.append(f"{skill_path.relative_to(ROOT)}: missing Language Contract marker")
+    if LANGUAGE_CONTRACT_EXCEPTION not in text:
+        errors.append(f"{skill_path.relative_to(ROOT)}: missing Language Contract exception rule")
 
     agents_path = skill_dir / "agents" / "openai.yaml"
     if not agents_path.exists():

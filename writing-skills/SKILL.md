@@ -7,11 +7,16 @@ description: Use when creating, editing, validating, or refactoring Codex skills
 
 把 skill 当成可测试的流程代码来维护。新增或修改 skill 前，先明确它要阻止哪些 agent 失败模式；修改后验证 agent 是否更稳定地执行。
 
+## Language Contract
+
+Language Contract: generated documents and chat outputs default to Chinese-first; preserve English for code, commands, API names, contract fields, IDs, proper nouns, and necessary technical terms. 用户或目标项目明确要求英文时可以例外，但必须记录原因。
+
 ## 核心原则
 
 - Skill 只写对 agent 执行任务直接有帮助的内容。
 - `description` 优先描述触发条件和症状，避免把完整 workflow 摘成捷径。
 - 正文使用中文为主；文件名、YAML key、命令、API、英文术语保留英文。
+- 新增或修改 skill 时必须包含统一 `Language Contract` 标记；产出的文档和聊天输出默认中文为主，例外必须记录原因。
 - 新 skill 默认包含 `SKILL.md` 和 `agents/openai.yaml`；只有确实需要时才加 `scripts/`、`references/`、`assets/`。
 - 不把一次性经验写成 skill；只有可复用流程、纪律、工具或领域知识才沉淀。
 
@@ -53,6 +58,10 @@ description: Use when ...
 # Skill Name
 
 一句话说明这个 skill 解决什么执行问题。
+
+## Language Contract
+
+Language Contract: generated documents and chat outputs default to Chinese-first; preserve English for code, commands, API names, contract fields, IDs, proper nouns, and necessary technical terms. 用户或目标项目明确要求英文时可以例外，但必须记录原因。
 
 ## 核心规则
 
@@ -100,6 +109,7 @@ interface:
 ## 验证
 
 - 对每个 skill 运行结构验证工具；没有统一工具时，至少检查 `SKILL.md` frontmatter、目录名、name 一致性和 metadata 存在。
+- 确认 `Language Contract` 标记存在，且输出模板的核心 heading 中文优先、English 括注。
 - 运行文本搜索确认没有脚手架残留、未完成标记或乱码。
 - 对新流程 skill，至少人工执行一次 pressure scenario walkthrough。
 - 如果使用 subagent forward-test，只给 subagent skill 路径和用户式请求，不泄露预期答案。

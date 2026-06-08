@@ -7,6 +7,10 @@ description: Use before claiming a task is done, after implementation, debugging
 
 完成声明之前做最后质量门。核心问题是：用户要求的东西是否真的完成，证据是否足够，工作区是否干净到可以交接。
 
+## Language Contract
+
+Language Contract: generated documents and chat outputs default to Chinese-first; preserve English for code, commands, API names, contract fields, IDs, proper nouns, and necessary technical terms. 用户或目标项目明确要求英文时可以例外，但必须记录原因。
+
 ## 检查项
 
 1. 需求覆盖。
@@ -35,7 +39,7 @@ description: Use before claiming a task is done, after implementation, debugging
 ## 输出格式
 
 ```markdown
-## Verification
+## 验证 (Verification)
 
 - Requirements: pass / partial / blocked
 - Commands run:

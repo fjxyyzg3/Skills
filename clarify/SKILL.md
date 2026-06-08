@@ -7,6 +7,10 @@ description: Use when answering codebase questions, finding where behavior lives
 
 把代码库问题转化为有来源支撑的解释。只澄清无法自行发现的信息；充分检查相关源码以避免猜测；在有帮助时，用代码位置、代码解释、图表和文档回答。
 
+## Language Contract
+
+Language Contract: generated documents and chat outputs default to Chinese-first; preserve English for code, commands, API names, contract fields, IDs, proper nouns, and necessary technical terms. 用户或目标项目明确要求英文时可以例外，但必须记录原因。
+
 ## 核心规则
 
 - 一次最多问一个澄清问题，并给出你建议采用的默认答案。

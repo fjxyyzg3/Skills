@@ -7,6 +7,10 @@ description: Use for small bug fixes, quick fixes, small feature requests, tiny 
 
 面向小型 bug 和小型需求的快速链路。它跳过 PRD、issue breakdown 和 `analyze`，但不跳过分支确认、范围收束、最小验证和风险升级。
 
+## Language Contract
+
+Language Contract: generated documents and chat outputs default to Chinese-first; preserve English for code, commands, API names, contract fields, IDs, proper nouns, and necessary technical terms. 用户或目标项目明确要求英文时可以例外，但必须记录原因。
+
 ## 适用条件
 
 全部满足时使用：
@@ -56,13 +60,13 @@ description: Use for small bug fixes, quick fixes, small feature requests, tiny 
 ## 输出格式
 
 ```markdown
-## Quick Change Contract
+## 快速变更契约 (Quick Change Contract)
 
 - Scope:
 - Acceptance:
 - Verification:
 
-## Result
+## 结果 (Result)
 
 - Changed:
 - Verified:

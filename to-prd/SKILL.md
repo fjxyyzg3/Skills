@@ -7,9 +7,15 @@ description: Use when creating a local PRD, feature spec, product requirements, 
 
 将当前上下文和必要的 codebase 理解综合成本地 PRD。PRD 是后续 `to-issues`、`analyze` 和 `implement` 的需求来源，不是逐文件实施计划。
 
+## Language Contract
+
+Language Contract: generated documents and chat outputs default to Chinese-first; preserve English for code, commands, API names, contract fields, IDs, proper nouns, and necessary technical terms. 用户或目标项目明确要求英文时可以例外，但必须记录原因。
+
 ## 输出约定
 
 - 只生成本地 Markdown 文档，不创建远端 issue。
+- 文档正文默认中文为主；核心 section heading 使用中文优先、English 括注，例如 `## 功能需求 (Functional Requirements)`。
+- 保留 `FR-001`、`SC-001`、`Metadata`、`Status`、`Source` 等 workflow contract fields 和稳定 ID。
 - 如果用户指定输出路径，写入该路径。
 - 如果项目已有 `docs/features/`，或这是新的 feature，默认使用 `docs/features/<feature-slug>/prd.md`。
 - 如果项目明显沿用旧结构 `docs/prd/`，可以使用 `docs/prd/<feature-slug>.md`，但完成报告要说明未使用 feature workspace。
@@ -54,53 +60,53 @@ Success criteria 使用 `SC-001`, `SC-002`, ...。只有可由实现或验证工
 ```markdown
 # <Feature Name> PRD
 
-## Metadata
+## 元数据 (Metadata)
 
 - **Status**: Draft
 - **Source**: conversation context / local file / codebase notes
 - **Generated at**: <YYYY-MM-DD>
 - **Feature Slug**: <feature-slug>
 
-## Problem Statement
+## 问题陈述 (Problem Statement)
 
 从用户视角描述正在面对的问题。
 
-## Goals
+## 目标 (Goals)
 
 - ...
 
-## Non-Goals
+## 非目标 (Non-Goals)
 
 - ...
 
-## User Stories
+## 用户故事 (User Stories)
 
 1. As an <actor>, I want <capability>, so that <benefit>.
 
-## Functional Requirements
+## 功能需求 (Functional Requirements)
 
 - **FR-001**: ...
 - **FR-002**: ...
 
-## Success Criteria
+## 成功标准 (Success Criteria)
 
 - **SC-001**: ...
 
-## Implementation Decisions
+## 实现决策 (Implementation Decisions)
 
 - 已确定的 module、contract、schema、API、interaction 或 architecture decisions。
 
-## Testing Decisions
+## 测试决策 (Testing Decisions)
 
 - Verification seam:
 - Prior art:
 - Manual fallback:
 
-## Risks and Open Questions
+## 风险和开放问题 (Risks and Open Questions)
 
 - ...
 
-## Handoff Notes for Issue Breakdown
+## Issue 拆分交接说明 (Handoff Notes for Issue Breakdown)
 
 - 推荐 vertical slice 维度。
 - 高风险 dependencies。
@@ -114,13 +120,13 @@ Success criteria 使用 `SC-001`, `SC-002`, ...。只有可由实现或验证工
 ```markdown
 # <Feature Name> Manifest
 
-## Artifacts
+## 产物 (Artifacts)
 
 - PRD: `prd.md`
 - Issues: `issues/00-index.md` (pending)
 - Analysis: `analysis.md` (pending)
 
-## Status
+## 状态 (Status)
 
 - PRD: Draft
 - Issues: Not started

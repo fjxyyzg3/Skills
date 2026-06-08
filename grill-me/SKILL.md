@@ -7,6 +7,10 @@ description: Use when stress-testing a plan, design, proposal, product idea, arc
 
 围绕用户的计划或设计进行高强度追问，直到双方对目标、约束、决策、风险和取舍形成共同理解。
 
+## Language Contract
+
+Language Contract: generated documents and chat outputs default to Chinese-first; preserve English for code, commands, API names, contract fields, IDs, proper nouns, and necessary technical terms. 用户或目标项目明确要求英文时可以例外，但必须记录原因。
+
 ## 工作方式
 
 - 一次只问一个问题。

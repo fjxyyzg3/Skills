@@ -7,12 +7,17 @@ description: Use when creating, updating, or applying project governance princip
 
 维护项目级原则和质量门。constitution 不是普通说明文档；它是后续 PRD、issues、analysis、implementation 和 verification 的上游约束。
 
+## Language Contract
+
+Language Contract: generated documents and chat outputs default to Chinese-first; preserve English for code, commands, API names, contract fields, IDs, proper nouns, and necessary technical terms. 用户或目标项目明确要求英文时可以例外，但必须记录原因。
+
 ## 输出位置
 
 - 如果项目已有 `.specify/memory/constitution.md`，优先更新它。
 - 否则如果项目已有 `docs/constitution.md`，更新该文件。
 - 否则默认创建 `docs/constitution.md`。
 - 写入前读取 `README.md`、`AGENTS.md`、`CLAUDE.md`、`CONTEXT.md`、`docs/adr/` 中明显相关的内容。
+- 生成或更新 governance 文档时默认中文为主；原则名、Sync Impact Report 字段、`MUST`/`SHOULD`/`MAY` 和 workflow contract 可保留 English。
 
 ## 工作流程
 
@@ -34,7 +39,7 @@ description: Use when creating, updating, or applying project governance princip
    - 如果版本提升不确定，给出推荐并说明理由。
 
 4. 同步影响面。
-   - 检查 `to-prd`、`to-issues`、`analyze`、`implement`、`verification-before-completion` 是否需要引用或遵守新增原则。
+   - 检查 `to-prd`、`to-issues`、`analyze`、`implement`、`requesting-code-review`、`verification-before-completion` 和其他产出型 skills 是否需要引用或遵守新增原则。
    - 如果当前任务不允许修改这些 skill，至少在完成报告中列出 pending sync。
 
 5. 产出 Sync Impact Report。
@@ -58,13 +63,13 @@ Follow-up items:
 
 # Project Constitution
 
-## Metadata
+## 元数据 (Metadata)
 
 - **Version**: 0.1.0
 - **Ratified**: YYYY-MM-DD
 - **Last Amended**: YYYY-MM-DD
 
-## Principles
+## 原则 (Principles)
 
 ### 1. Artifact Traceability
 
@@ -78,7 +83,7 @@ Every behavior change MUST define an observable verification seam before impleme
 
 Implementation work MUST pass spec compliance review and code quality review before completion is claimed.
 
-## Governance
+## 治理 (Governance)
 
 Amendments require updating this document, incrementing the version, and checking affected workflow artifacts.
 ```

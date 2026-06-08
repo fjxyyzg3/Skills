@@ -8,13 +8,17 @@ argument-hint: "下一位 agent 要接着做什么？"
 
 把当前会话整理成可继续执行的 handoff document，让下一位 agent 不需要重新追溯上下文。
 
+## Language Contract
+
+Language Contract: generated documents and chat outputs default to Chinese-first; preserve English for code, commands, API names, contract fields, IDs, proper nouns, and necessary technical terms. 用户或目标项目明确要求英文时可以例外，但必须记录原因。
+
 ## 核心规则
 
 - 生成 Markdown handoff document，并保存到用户 OS 的临时目录；不要写入当前 workspace，除非用户明确要求。
 - 文件名包含 `handoff` 和时间戳，避免覆盖旧文件。
 - 只保留继续工作必需的信息：目标、当前状态、关键决策、已改文件、未完成事项、验证证据和残留风险。
 - 已经存在于 PRD、issues、ADR、plans、commits、diffs 或报告中的内容不要重复粘贴；用 path 或 URL 引用。
-- 必须包含 `Suggested Skills` section，列出下一位 agent 应优先加载的 skills 及原因。
+- 必须包含 `建议 Skills (Suggested Skills)` section，列出下一位 agent 应优先加载的 skills 及原因。
 - 不要逐字转录完整对话；只写可执行摘要。
 - Redact secrets、API keys、tokens、passwords 和 personally identifiable information；不确定是否敏感时，只描述类型，不写具体值。
 - 如果用户传入参数，把参数视为下一次会话的重点，并据此裁剪 handoff。
@@ -33,14 +37,14 @@ argument-hint: "下一位 agent 要接着做什么？"
 
 handoff document 至少包含：
 
-- `Purpose`: 下一次会话要完成什么。
-- `Current State`: 当前进展、分支、工作区和最重要上下文。
-- `Artifact References`: 已存在文档、issues、commits、diffs 或文件路径。
-- `Decisions`: 已确认的技术或产品决策。
-- `Verification`: 已运行的命令、结果和未验证项。
-- `Open Work`: 下一步清单、阻塞点和需要用户确认的问题。
-- `Suggested Skills`: 推荐加载的 skills 和原因。
-- `Risks`: 残留风险、敏感信息处理和不要误做的事项。
+- `目的 (Purpose)`: 下一次会话要完成什么。
+- `当前状态 (Current State)`: 当前进展、分支、工作区和最重要上下文。
+- `产物引用 (Artifact References)`: 已存在文档、issues、commits、diffs 或文件路径。
+- `决策 (Decisions)`: 已确认的技术或产品决策。
+- `验证 (Verification)`: 已运行的命令、结果和未验证项。
+- `未完成工作 (Open Work)`: 下一步清单、阻塞点和需要用户确认的问题。
+- `建议 Skills (Suggested Skills)`: 推荐加载的 skills 和原因。
+- `风险 (Risks)`: 残留风险、敏感信息处理和不要误做的事项。
 
 ## 完成标准
 
@@ -48,4 +52,4 @@ handoff document 至少包含：
 - 文档能让下一位 agent 继续工作，不依赖原始聊天全文。
 - 没有泄露 secrets、tokens、passwords 或不必要的个人信息。
 - 已引用现有 artifacts，避免重复长文档内容。
-- 已包含 `Suggested Skills` 和未完成事项。
+- 已包含 `建议 Skills (Suggested Skills)` 和未完成事项。

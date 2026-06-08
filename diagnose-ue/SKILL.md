@@ -9,6 +9,10 @@ description: Use when diagnosing or fixing Unreal Engine / UE issues involving C
 
 UE 问题通常横跨 C++、Blueprint、Asset、Editor state、Cooked content、平台配置和异步线程。不要只按 Web 应用思路找 request/response；要先确定问题发生在哪个运行形态：Editor、PIE、Standalone、Dedicated Server、Listen Server、Client、Cooked、Packaged、Shipping、目标平台。
 
+## Language Contract
+
+Language Contract: generated documents and chat outputs default to Chinese-first; preserve English for code, commands, API names, contract fields, IDs, proper nouns, and necessary technical terms. 用户或目标项目明确要求英文时可以例外，但必须记录原因。
+
 ## Phase 1 — 建立 UE 反馈循环
 
 先得到一个能稳定暴露症状的 pass/fail 信号。优先选择能被命令行、自动化测试或固定操作脚本重复执行的循环。

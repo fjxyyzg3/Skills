@@ -7,6 +7,10 @@ description: Use when executing local issues, PRDs, specs, implementation plans,
 
 读取 PRD、issue 文档或当前上下文，选择合适执行模式，并把实现推进到验证完成。实现不是结束于“代码写完”，而是结束于需求覆盖、测试、review 和 completion verification 都有证据。
 
+## Language Contract
+
+Language Contract: generated documents and chat outputs default to Chinese-first; preserve English for code, commands, API names, contract fields, IDs, proper nouns, and necessary technical terms. 用户或目标项目明确要求英文时可以例外，但必须记录原因。
+
 ## 必须配合的流程
 
 - 开始实现前：使用 `checking-branch` 展示当前分支状态，并确认直接修改或创建新分支。

@@ -1,8 +1,10 @@
-# Interface Design
+# Interface 设计 (Interface Design)
 
 当用户选中某个 deepening candidate，并希望继续探索 interface 形状时，使用本流程。目标是避免第一个方案过早定型。
 
-## 1. Frame The Problem Space
+输出默认中文为主；`interface`、`implementation`、`seam`、`adapter`、`leverage`、`locality` 等 architecture nouns 保留 English。
+
+## 1. 定义问题空间 (Frame The Problem Space)
 
 先向用户说明候选的设计空间：
 
@@ -14,7 +16,7 @@
 
 说明后直接进入方案设计，不要停在解释。
 
-## 2. Generate Alternatives
+## 2. 生成备选方案 (Generate Alternatives)
 
 有 parallel sub-agent 工具时，启动至少 3 个 agents。没有时，由当前 agent 自己产出至少 3 个明显不同的 designs。
 
@@ -28,12 +30,12 @@
 每个 design 输出：
 
 1. Interface：types、methods、params、invariants、ordering、error modes。
-2. Usage example：caller 如何使用。
-3. Hidden implementation：interface 后面隐藏什么。
-4. Dependency strategy：adapter 和 seam 如何安排。
-5. Trade-offs：leverage 高在哪里，locality 薄在哪里。
+2. 使用示例 (Usage example)：caller 如何使用。
+3. 隐藏的 implementation (Hidden implementation)：interface 后面隐藏什么。
+4. 依赖策略 (Dependency strategy)：adapter 和 seam 如何安排。
+5. 取舍 (Trade-offs)：leverage 高在哪里，locality 薄在哪里。
 
-## 3. Compare And Recommend
+## 3. 比较并推荐 (Compare And Recommend)
 
 按顺序展示 designs，再比较：
 

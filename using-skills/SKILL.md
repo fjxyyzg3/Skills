@@ -7,6 +7,10 @@ description: Use when a task may match one or more local workflow skills, when s
 
 本 skill 是仓库级 workflow router。先判断任务类型，再加载最小必要 skill，并按正确顺序执行。它解决的是“有 skill 但 agent 没有稳定调用”的问题。
 
+## Language Contract
+
+Language Contract: generated documents and chat outputs default to Chinese-first; preserve English for code, commands, API names, contract fields, IDs, proper nouns, and necessary technical terms. 用户或目标项目明确要求英文时可以例外，但必须记录原因。
+
 ## 核心规则
 
 - 收到任务后，先判断是否有本地 skill 适用；有适用 skill 时先加载 skill，再行动。

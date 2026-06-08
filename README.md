@@ -48,6 +48,9 @@ flowchart LR
 
 - 主要语言使用中文。
 - Skill 结构要求、文件名、目录名、YAML frontmatter key、配置字段、命令、代码、API 名称、英文专业术语和英文专有名词保留英文。
+- Skill 生成的 Markdown/HTML 文档、分析结论、review、handoff、完成报告和聊天式输出默认中文为主；代码、命令、API 名称、contract fields、稳定 ID、英文专有名词和必要技术术语保留 English。
+- 用户明确要求英文，或目标项目已有英文 artifact 规范时可以例外，但必须记录原因。
+- 产出型 skill 使用统一 `Language Contract` 标记；核心 section heading 使用中文优先、English 括注。
 - 新增或修改 skill 时，先使用 `writing-skills`，再运行本地 validator。
 - 小型 bug 和小需求优先使用 `quick-change`，但触发升级条件时必须回到完整链路。
 - 非平凡实现链路优先使用 `to-prd -> to-issues -> analyze -> checking-branch -> implement -> requesting-code-review -> verification-before-completion`。

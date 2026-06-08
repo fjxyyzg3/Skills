@@ -1,15 +1,17 @@
-# HTML Report Format
+# HTML 报告格式 (HTML Report Format)
 
 架构评审报告是写到 OS temp directory 的 self-contained HTML file。它不应落进仓库，除非用户明确要求保存。
 
-## Scaffold
+报告正文默认中文为主；保留 `module`、`interface`、`implementation`、`depth`、`deep`、`shallow`、`seam`、`adapter`、`leverage`、`locality` 等 architecture nouns。
+
+## 脚手架 (Scaffold)
 
 ```html
 <!doctype html>
-<html lang="en">
+<html lang="zh-CN">
   <head>
     <meta charset="utf-8" />
-    <title>Architecture review - {{repo name}}</title>
+    <title>架构评审 - {{repo name}}</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script type="module">
       import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
@@ -31,7 +33,7 @@
 </html>
 ```
 
-## Header
+## 头部 (Header)
 
 包含 repo name、date 和简短 legend：
 
@@ -40,26 +42,26 @@
 - red arrow = leakage
 - thick dark box = deep module
 
-不要写长 introduction。直接进入 candidates。
+不要写长 introduction。直接进入 candidates，展示性文本使用中文。
 
-## Candidate Card
+## 候选卡片 (Candidate Card)
 
 每个 candidate 使用一个 `<article>`：
 
-- Title: 短标题，直接命名 deepening。
-- Badge row: recommendation strength，取值 `Strong`、`Worth exploring`、`Speculative`。
-- Dependency tag: `in-process`、`local-substitutable`、`ports & adapters`、`mock`。
-- Files: monospaced file list。
+- 标题 (Title): 短标题，直接命名 deepening。
+- 推荐强度 (Recommendation strength): 取值 `Strong`、`Worth exploring`、`Speculative`。
+- 依赖策略 (Dependency tag): `in-process`、`local-substitutable`、`ports & adapters`、`mock`。
+- 文件 (Files): monospaced file list。
 - Before / After diagram: 报告重点，左右对比。
-- Problem: 一句话说明 architecture friction。
-- Solution: 一句话说明 deepening shape。
-- Wins: 不超过 5 个短 bullets，使用 locality、leverage、interface、seam。
-- Evidence: 文件和行为证据。
+- 问题 (Problem): 一句话说明 architecture friction。
+- 方案 (Solution): 一句话说明 deepening shape。
+- 收益 (Wins): 不超过 5 个短 bullets，使用 locality、leverage、interface、seam。
+- 证据 (Evidence): 文件和行为证据。
 - ADR callout: 如有冲突，用 amber callout 标注。
 
 如果 prose 需要很多段才能解释清楚，优先重画 diagram。
 
-## Diagram Patterns
+## 图表模式 (Diagram Patterns)
 
 ### Mermaid Graph
 
@@ -94,7 +96,7 @@
 
 Before 展示分散 call tree；After 把 tree 收进一个 deep module，内部调用淡化显示。
 
-## Style Guidance
+## 样式指引 (Style Guidance)
 
 - 风格偏 editorial，不做 dashboard。
 - 主色克制：stone/slate 为底，一种 accent，red 只表示 leakage，amber 只表示 warning。
@@ -102,7 +104,7 @@ Before 展示分散 call tree；After 把 tree 收进一个 deep module，内部
 - 模块标签用 `text-xs uppercase tracking-wider`。
 - 除 Tailwind CDN 和 Mermaid ESM import 外，不加其他 scripts。
 
-## Top Recommendation
+## 首选建议 (Top Recommendation)
 
 报告末尾放一个更大的 card：
 
@@ -110,8 +112,8 @@ Before 展示分散 call tree；After 把 tree 收进一个 deep module，内部
 - 一句话说明为什么先做它
 - 链接到 candidate card
 
-## Tone
+## 语气 (Tone)
 
-使用简洁 English 或中英混合，但 architecture nouns 必须来自 `language.md`：module、interface、implementation、depth、deep、shallow、seam、adapter、leverage、locality。
+使用简洁中文为主，但 architecture nouns 必须来自 `language.md`：module、interface、implementation、depth、deep、shallow、seam、adapter、leverage、locality。
 
 避免：component、service、unit、API、signature、boundary。

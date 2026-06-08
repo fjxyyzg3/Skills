@@ -9,6 +9,10 @@ description: Use when debugging bug reports, failing tests, broken behavior, thr
 
 探索代码库时，先使用项目的 domain glossary 建立相关模块的清晰心智模型，并检查你要触碰区域的 ADR。
 
+## Language Contract
+
+Language Contract: generated documents and chat outputs default to Chinese-first; preserve English for code, commands, API names, contract fields, IDs, proper nouns, and necessary technical terms. 用户或目标项目明确要求英文时可以例外，但必须记录原因。
+
 ## Phase 1 — 建立反馈循环
 
 **这就是本 skill 的核心。** 其他步骤都是机械执行。如果你有一个快速、确定性、agent 可运行的 bug pass/fail 信号，你就能找到原因；bisection、hypothesis-testing 和 instrumentation 都只是消费这个信号。没有这个信号，盯着代码看再久也救不了你。
