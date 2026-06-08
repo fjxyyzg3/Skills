@@ -31,6 +31,7 @@ description: Use when a task may match one or more local workflow skills, when s
 | 新增或修改本仓库 skill | `writing-skills` | `analyze`、`verification-before-completion` |
 | 架构改进、重构机会、深模块设计、testability 提升 | `improve-codebase-architecture` | `grill-me`、`to-prd` 或 `implement` |
 | 更新项目原则或质量门 | `constitution` | `analyze` |
+| 生成交接文档、移交上下文、context reset/session transfer | `handoff` | `verification-before-completion` |
 
 ## 标准链路
 

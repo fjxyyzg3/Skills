@@ -10,6 +10,7 @@ flowchart LR
   Router --> Quick["quick-change"]
   Router --> PRD["to-prd"]
   Router --> Architecture["improve-codebase-architecture"]
+  Router --> Handoff["handoff"]
   Quick --> Branch
   PRD --> Issues["to-issues"]
   Issues --> Analyze["analyze"]
@@ -40,6 +41,7 @@ flowchart LR
 | `requesting-code-review` | 两阶段实现评审 |
 | `verification-before-completion` | 完成前验证质量门 |
 | `finishing-branch` | 开发分支收尾和交付选项 |
+| `handoff` | 生成跨会话交接文档，方便下一位 agent 接手 |
 | `writing-skills` | 新增/修改 skill 的压力场景和验证流程 |
 
 ## 开发原则

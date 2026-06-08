@@ -1,0 +1,4 @@
+interface:
+  display_name: "Handoff"
+  short_description: "生成跨会话交接文档，保留上下文、风险和建议技能用于下一位 agent 接手"
+  default_prompt: "使用 $handoff 为下一次会话生成交接文档，保存到系统临时目录，并标出建议启用的 skills。"
