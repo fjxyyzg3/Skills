@@ -36,7 +36,7 @@ description: Use when a task may match one or more local workflow skills, when s
 ### 快速链路
 
 1. 用 `quick-change` 判断是否满足小任务条件。
-2. 用 `checking-branch` 确认当前开发分支、Git 状态和 baseline。
+2. 用 `checking-branch` 展示当前分支状态，并确认直接修改或创建新分支。
 3. 写下 scope、acceptance、verification。
 4. 做最小实现并运行 targeted verification。
 5. 如发现范围或风险扩大，升级到 `diagnose`、`to-prd`、`to-issues`、`analyze` 或 `requesting-code-review`。
@@ -46,7 +46,7 @@ description: Use when a task may match one or more local workflow skills, when s
 1. 用 `grill-me` 或 `to-prd` 明确目标、边界和验收。
 2. 用 `to-issues` 拆成 vertical slices、dependency graph 和 execution waves。
 3. 用 `analyze` 做只读一致性与覆盖率检查。
-4. 用 `checking-branch` 确认当前开发分支、Git 状态和 baseline。
+4. 用 `checking-branch` 展示当前分支状态，并确认直接修改或创建新分支。
 5. 用 `implement` 按 TDD 执行。
 6. 用 `requesting-code-review` 评审规格符合性和代码质量。
 7. 用 `verification-before-completion` 做完成前验证。

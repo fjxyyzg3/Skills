@@ -31,7 +31,7 @@ flowchart LR
 | `to-prd` | 将上下文整理成本地 PRD |
 | `to-issues` | 将 PRD/plan/spec 拆成本地 issues |
 | `analyze` | 只读检查 artifacts 一致性和覆盖率 |
-| `checking-branch` | 确认当前开发分支、Git 状态和 baseline |
+| `checking-branch` | 展示当前分支状态，确认直接修改或创建新分支 |
 | `implement` | 按 TDD 执行实现 |
 | `diagnose` | 通用 bug / 性能回归诊断 |
 | `diagnose-ue` | Unreal Engine 问题诊断 |

@@ -1,20 +1,11 @@
 <!--
 Sync Impact Report
-Version: 0.2.0 -> 0.3.0
+Version: 0.3.0 -> 0.4.0
 Changed Principles:
-- Added: Skill Routing First
-- Added: Artifact Traceability
-- Added: Observable Verification
-- Added: Skill Changes Are Tested Workflows
-- Added: Local-First Outputs
-- Added: Chinese-First, English-Preserved Writing
-- Added: Progressive Disclosure
-- Added: Branch Prepared By User
-- Added: Fast Path With Guardrails
+- Replaced: Branch Prepared By User -> Branch Decision Gate
 Templates/Skills:
-- Updated: using-skills, quick-change, to-prd, to-issues, analyze, implement
-- Updated: requesting-code-review, verification-before-completion, finishing-branch
-- Updated: writing-skills, checking-branch
+- Updated: checking-branch, implement, using-skills
+- Updated: README, AGENTS
 Follow-up TODOs:
 - None
 -->
@@ -23,7 +14,7 @@ Follow-up TODOs:
 
 ## Metadata
 
-- **Version**: 0.3.0
+- **Version**: 0.4.0
 - **Ratified**: 2026-06-07
 - **Last Amended**: 2026-06-08
 
@@ -57,9 +48,9 @@ Workflow artifacts MUST be written locally by default. Skills in this repository
 
 Skill bodies SHOULD stay concise and action-oriented. Large references, reusable scripts, and output assets SHOULD live in `references/`, `scripts/`, or `assets/` and be loaded only when needed.
 
-### 8. Branch Prepared By User
+### 8. Branch Decision Gate
 
-Implementation workflows MUST assume the user prepares the development branch before asking the agent to code. The agent MUST confirm the current branch and Git status before implementation, but MUST NOT create extra local workspaces by default. If the current branch is `main` or `master`, the agent MUST stop and ask the user to switch branches or explicitly approve continuing.
+Before implementation, the agent MUST display the current branch name and Git status, then ask whether to modify the current branch directly. If the user does not approve direct modification and provides a new branch name, the agent MUST create that branch from the repository default branch when one is defined. If the repository default branch cannot be confirmed, the agent MUST ask whether to create the branch from the current branch and MUST wait for approval before doing so. The agent MUST NOT overwrite an existing branch or discard user changes without explicit approval.
 
 ### 9. Fast Path With Guardrails
 
