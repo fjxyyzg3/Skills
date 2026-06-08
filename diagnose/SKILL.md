@@ -114,4 +114,4 @@ description: Use when debugging bug reports, failing tests, broken behavior, thr
 - [ ] Throwaway prototypes 已删除（或移动到明确标记的 debug location）
 - [ ] 在 commit / PR message 中说明最终被证明正确的 hypothesis，让下一位调试者能学到东西
 
-**然后问：什么原本可以防止这个 bug？** 如果答案涉及 architectural change（没有好的 test seam、callers 缠绕、hidden coupling），就带着具体信息交给 `/improve-codebase-architecture` skill。建议要在 fix 完成**之后**提出，而不是之前；此时你掌握的信息比刚开始更多。
+**然后问：什么原本可以防止这个 bug？** 如果答案涉及 architectural change（没有好的 test seam、callers 缠绕、hidden coupling），就带着具体信息交给 `improve-codebase-architecture`。建议要在 fix 完成**之后**提出，而不是之前；此时你掌握的信息比刚开始更多。

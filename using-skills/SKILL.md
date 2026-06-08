@@ -26,9 +26,10 @@ description: Use when a task may match one or more local workflow skills, when s
 | 把 PRD/plan/spec 拆成本地 issues | `to-issues` | `analyze` |
 | 检查 PRD/issues/plan 是否一致 | `analyze` | `to-prd`、`to-issues` 或 `implement` |
 | 执行实现 | `checking-branch` + `implement` | `requesting-code-review`、`verification-before-completion`、`finishing-branch` |
-| debug、bug、failing、broken、performance regression | `diagnose` | `requesting-code-review`、`verification-before-completion` |
+| debug、bug、failing、broken、performance regression | `diagnose` | `requesting-code-review`、`verification-before-completion`、必要时 `improve-codebase-architecture` |
 | UE/Unreal Engine 问题 | `diagnose-ue` | `requesting-code-review`、`verification-before-completion` |
 | 新增或修改本仓库 skill | `writing-skills` | `analyze`、`verification-before-completion` |
+| 架构改进、重构机会、深模块设计、testability 提升 | `improve-codebase-architecture` | `grill-me`、`to-prd` 或 `implement` |
 | 更新项目原则或质量门 | `constitution` | `analyze` |
 
 ## 标准链路
@@ -57,6 +58,7 @@ description: Use when a task may match one or more local workflow skills, when s
 1. 用 `diagnose` 或 `diagnose-ue` 建立反馈循环并收敛根因。
 2. 修复后用 `requesting-code-review` 检查 regression test 和实现质量。
 3. 用 `verification-before-completion` 确认原始 repro、回归测试和临时 instrumentation。
+4. 如果复盘显示 test seam、hidden coupling 或 locality 问题，使用 `improve-codebase-architecture` 产出后续架构候选。
 
 ### Skill 维护
 

@@ -9,6 +9,7 @@ flowchart LR
   Router["using-skills"] --> Grill["grill-me"]
   Router --> Quick["quick-change"]
   Router --> PRD["to-prd"]
+  Router --> Architecture["improve-codebase-architecture"]
   Quick --> Branch
   PRD --> Issues["to-issues"]
   Issues --> Analyze["analyze"]
@@ -35,6 +36,7 @@ flowchart LR
 | `implement` | 按 TDD 执行实现 |
 | `diagnose` | 通用 bug / 性能回归诊断 |
 | `diagnose-ue` | Unreal Engine 问题诊断 |
+| `improve-codebase-architecture` | 架构加深、重构机会和 testability 改进 |
 | `requesting-code-review` | 两阶段实现评审 |
 | `verification-before-completion` | 完成前验证质量门 |
 | `finishing-branch` | 开发分支收尾和交付选项 |

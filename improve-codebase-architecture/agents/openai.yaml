@@ -1,0 +1,4 @@
+interface:
+  display_name: "Improve Codebase Architecture"
+  short_description: "发现架构加深机会并生成可行动的重构评审报告完整工作流"
+  default_prompt: "使用 $improve-codebase-architecture 检查代码库架构，找出可执行的 deepening opportunities，并给出证据和建议。"
