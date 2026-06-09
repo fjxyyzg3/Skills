@@ -1,6 +1,6 @@
 ---
 name: diagnose-ue
-description: Use when diagnosing or fixing Unreal Engine / UE issues involving C++, Blueprint, crashes, asserts, ensures, PIE, Standalone, Cooked, Packaged, Shipping, Editor hangs, rendering, animation, physics, networking, GAS, UMG, assets, memory, GC, or performance regressions.
+description: Use when diagnosing or fixing a concrete Unreal Engine / UE runtime or editor symptom, such as crash/assert/ensure, wrong PIE/Standalone/Cooked/Packaged/Shipping behavior, editor hang, Blueprint/asset/load/cook failure, network desync, rendering artifact, memory/performance regression, or platform-only failure. Do not use for general UE learning, API explanation, feature design, architecture planning, pure code review, or RenderDoc .rdc capture analysis unless the task is to return to the UE project and establish a repro/fix verification loop.
 ---
 
 # Diagnose UE
@@ -9,22 +9,47 @@ description: Use when diagnosing or fixing Unreal Engine / UE issues involving C
 
 UE 问题通常横跨 C++、Blueprint、Asset、Editor state、Cooked content、平台配置和异步线程。不要只按 Web 应用思路找 request/response；要先确定问题发生在哪个运行形态：Editor、PIE、Standalone、Dedicated Server、Listen Server、Client、Cooked、Packaged、Shipping、目标平台。
 
+## 适用边界
+
+使用本 skill 的前提是：存在具体 UE 症状，需要定位原因或验证修复。
+
+适用：
+
+- crash、assert、ensure、Editor hang、PIE/Standalone/Cooked/Packaged/Shipping 差异。
+- 错误运行时行为、Blueprint 异常、asset/load/cook 问题。
+- network desync、replication 错误、rendering artifact、memory/performance regression、platform-only failure。
+
+不适用：
+
+- UE API 教学、概念解释、一般架构设计。
+- 新功能设计或普通实现任务。
+- 纯代码 review。
+- RenderDoc `.rdc` 捕获分析，除非目标是回到 UE 工程里建立 repro 和修复验证循环。
+
 ## Language Contract
 
 Language Contract: generated documents and chat outputs default to Chinese-first; preserve English for code, commands, API names, contract fields, IDs, proper nouns, and necessary technical terms. 用户或目标项目明确要求英文时可以例外，但必须记录原因。
+
+## 压力规则
+
+- 用户要求“直接修”时，仍必须先确认运行形态、精确症状和最短反馈循环；未复现或未定界前不要改代码。
+- 只有 log、callstack、截图或 trace、没有工程访问时，不要声称已复现；标记为 artifact-based diagnosis，并列出需要用户补充的最小材料。
+- 只在 Cooked、Packaged、Shipping、network、platform 或特定 RHI 出现的问题，不能用 PIE 或不对应的运行形态通过作为完成验证。
+- 性能问题必须先固定 baseline、地图、视角、scalability、RHI、分辨率和采样窗口，再改代码。
+- 临时 instrumentation 必须能对应某个 hypothesis 的 prediction；结束前清理或明确保留位置。
 
 ## Phase 1 — 建立 UE 反馈循环
 
 先得到一个能稳定暴露症状的 pass/fail 信号。优先选择能被命令行、自动化测试或固定操作脚本重复执行的循环。
 
-按大致顺序尝试：
+按以下优先顺序尝试：
 
 1. **最小地图 / 最小 Actor / 最小 Asset**：复制或新建只包含触发问题所需对象的 map、BP、DataAsset、AnimBP、Material、Widget 或 GameplayAbility。
 2. **Automation / Functional Test**：能写自动化测试时，优先用 UE Automation Test、Functional Test、Gauntlet 或项目已有测试框架复现。
 3. **固定命令行启动**：用项目已有脚本或 UE 命令行启动指定 map/mode/config，并捕获 log。保留完整 command line、Engine version、platform、build configuration。
 4. **PIE/Standalone 操作脚本**：如果必须在 Editor 中触发，写出最短人工步骤；能用 Editor Utility、Python、console command、exec command 或 automation driver 替代点击时就替代。
 5. **Cook/Package 复现**：如果只在 cooked/packaged/shipping 出现，建立 `BuildCookRun` 或项目打包脚本循环，不要用 PIE 结果替代。
-6. **网络复现**：明确 server/client 数量、角色、travel 方式、packet lag/loss、replication graph、net dormancy、prediction/rollback 条件；尽量脚本化多实例启动。
+6. **网络复现**：明确 server/client 数量、角色、travel 方式、packet lag/loss、replication graph、net dormancy、prediction/rollback 条件；优先脚本化多实例启动，不能脚本化时记录手工步骤、实例启动参数和不可脚本化原因。
 7. **性能复现**：固定地图、视角、玩家数量、资产集、scalability、RHI、分辨率、帧数采样窗口；使用 Unreal Insights、stat 命令或项目 profiling harness。
 8. **崩溃复现**：保留 callstack、CrashContext、minidump、Saved/Logs、最后一次成功操作和相关 asset 路径。能稳定崩溃时，循环就是“启动 -> 触发 -> 捕获 callstack”。
 9. **HITL 循环**：最后手段。如果必须人手操作，给用户一组编号步骤，让用户每轮只回传固定信息：log 片段、callstack、截图、Insights trace、复现次数。
@@ -35,7 +60,7 @@ Language Contract: generated documents and chat outputs default to Chinese-first
 - 让它更尖锐：断言具体症状，例如 crash function、ensure 文本、错误 asset、错误 replicated value、帧时间阈值。
 - 让它更确定：固定随机种子、固定地图和 GameMode、清理 DerivedDataCache 影响、隔离 Saved/Config、明确 Editor vs packaged。
 
-没有可信反馈循环时，停下来说明已尝试内容，并向用户请求可复现工程、最小 repro、log/minidump/trace/HAR 等 artifact、目标平台访问，或允许添加临时 instrumentation。
+没有可信反馈循环时，停下来说明已尝试内容，并向用户请求缺失的最小材料：可复现工程、最小 repro、Saved/Logs、callstack、CrashContext/minidump、Unreal Insights trace、Network Profiler capture、Cook/Package log、目标平台访问，或允许添加临时 instrumentation。
 
 ## Phase 2 — 复现并定界
 
@@ -78,7 +103,7 @@ UE 常见假设维度：
 1. **Debugger / breakpoint / watch**：C++ 崩溃、断言、生命周期问题优先用 debugger。
 2. **已有 UE 工具**：Unreal Insights、Session Frontend、stat unit/stat game/stat gpu、MemReport、obj refs、Reference Viewer、Asset Audit、Network Profiler。
 3. **定向 log**：只在能区分假设的边界加 log，使用项目已有 log category；临时 log 必须带唯一前缀，例如 `[DEBUG-UE-a4f2]`。
-4. **Blueprint probe**：只在必要时添加 Print String、breakpoint、watch pin，并在结束前清理。
+4. **Blueprint probe**：只有 C++ debugger、已有 UE 工具或定向 log 无法观察 Blueprint-only 状态时，才添加 Print String、breakpoint、watch pin，并在结束前清理。
 
 不要 “log everything and grep”。性能问题先测 baseline，再改代码；渲染问题先判断 CPU/GPU/render thread/RHI thread；网络问题先分清 server truth、client prediction 和 replicated presentation。
 
