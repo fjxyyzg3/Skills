@@ -15,6 +15,7 @@
 - 新增或修改 skill 时，保持结构精简，只加入对 agent 执行任务有直接帮助的内容。
 - 新增或修改 skill 时，先参考 `writing-skills`，明确 pressure scenarios、trigger description、metadata 和验证方式。
 - 仓库级工作流以 `using-skills` 为入口；PRD、issues、analysis、implementation、review、verification 和 branch finish 应保持可追溯。
+- `session-curator` 只由用户在会话结束后手动调用，用于提炼通用经验并在确认修改计划后同步项目文档、agent 规则和记忆；不要自动触发。
 - 小型 bug 和小需求可使用 `quick-change`，但必须保留 scope、acceptance、verification，并在风险扩大时升级到完整链路。
 - 实现前使用 `checking-branch` 展示当前分支名和状态；用户不同意直接修改但提供新分支名时，默认从仓库主分支创建，无法确认主分支时需再确认是否从当前分支创建。
 - 非平凡 feature work 默认经过 `to-prd -> to-issues -> analyze -> checking-branch -> implement -> requesting-code-review -> verification-before-completion`。

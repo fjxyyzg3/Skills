@@ -21,6 +21,8 @@ flowchart LR
   Verify --> Finish["finishing-branch"]
 ```
 
+`session-curator` 是用户手动触发的会话收尾整理 skill，不在默认实现链路中自动运行。
+
 ## Skills
 
 | Skill | 用途 |
@@ -42,6 +44,7 @@ flowchart LR
 | `verification-before-completion` | 完成前验证质量门 |
 | `finishing-branch` | 开发分支收尾和交付选项 |
 | `handoff` | 生成跨会话交接文档，方便下一位 agent 接手 |
+| `session-curator` | 会话结束后手动提炼通用经验，确认计划后同步项目文档、agent 规则和记忆 |
 | `writing-skills` | 新增/修改 skill 的压力场景和验证流程 |
 
 ## 开发原则
