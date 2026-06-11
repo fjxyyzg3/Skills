@@ -1,11 +1,17 @@
 ---
 name: to-prd
-description: Use when creating a local PRD, feature spec, product requirements, engineering requirements, or implementation-ready requirements document from conversation context, local plans/specs, codebase context, or design notes, especially before issue breakdown or implementation.
+description: Use only when the user explicitly invokes To PRD, to-prd, or $to-prd to create a local PRD, feature spec, product requirements, engineering requirements, or implementation-ready requirements document; do not infer this skill from ordinary planning, feature, spec, issue breakdown, or implementation requests.
 ---
 
 # To PRD
 
-将当前上下文和必要的 codebase 理解综合成本地 PRD。PRD 是后续 `to-issues`、`analyze` 和 `implement` 的需求来源，不是逐文件实施计划。
+将当前上下文和必要的 codebase 理解综合成本地 PRD。PRD 是后续 issue breakdown、analysis 和 implementation 的需求来源，不是逐文件实施计划。
+
+## 手动触发边界
+
+- 只在用户明确写出 `to-prd`、`To PRD`、`$to-prd` 或“使用 PRD skill”时加载本 skill。
+- 不要因为用户在做 feature planning、spec、需求整理、issue breakdown 或实现前准备就自动触发。
+- 如果当前任务适合本流程但用户没有手动调用，只能简短建议“可以使用 `$to-prd`”，不要自行切换到本 skill。
 
 ## Language Contract
 
@@ -143,4 +149,4 @@ Success criteria 使用 `SC-001`, `SC-002`, ...。只有可由实现或验证工
 - 没有要求运行外部 setup skill 或创建远端 issue。
 - `Implementation Decisions` 没有不必要的易过期 file paths。
 
-最后向用户报告 PRD 路径、manifest 路径、核心 assumptions 和建议的下一步 `to-issues`。
+最后向用户报告 PRD 路径、manifest 路径、核心 assumptions；如果需要拆 issue，只建议用户显式调用 `$to-issues`。

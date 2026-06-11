@@ -1,11 +1,17 @@
 ---
 name: to-issues
-description: Use when converting a local PRD, feature spec, plan, task list, or conversation context into local Markdown issues, tracer-bullet vertical slices, dependency graphs, execution waves, requirement coverage, acceptance criteria, and subagent parallelization guidance.
+description: Use only when the user explicitly invokes To Issues, to-issues, or $to-issues to convert a local PRD, feature spec, plan, task list, or conversation context into local Markdown issues, tracer-bullet vertical slices, dependency graphs, execution waves, requirement coverage, acceptance criteria, and subagent parallelization guidance; do not infer this skill from ordinary planning or implementation requests.
 ---
 
 # To Issues
 
 将 PRD、plan、spec 或当前上下文拆成可独立领取的本地 issues。每个 issue 都应该是一条 tracer-bullet vertical slice，能端到端交付一小段完整行为。
+
+## 手动触发边界
+
+- 只在用户明确写出 `to-issues`、`To Issues`、`$to-issues` 或“使用 issues 拆分 skill”时加载本 skill。
+- 不要因为用户提供 PRD、plan、spec、task list、feature request 或准备实现就自动触发。
+- 如果当前任务适合本流程但用户没有手动调用，只能简短建议“可以使用 `$to-issues`”，不要自行切换到本 skill。
 
 ## Language Contract
 
@@ -199,4 +205,4 @@ Issue 文件模板：
 - Dependency graph 没有 cycle。
 - 没有要求调用远端 tracker、远端标签配置或外部 skill。
 
-最后报告输出目录、issue 数量、coverage gap、execution waves，以及是否建议在 `implement` 前运行 `analyze`。
+最后报告输出目录、issue 数量、coverage gap、execution waves，以及是否建议在执行实现前运行 `analyze`；需要 `implement` 流程时，只建议用户显式调用 `$implement`。

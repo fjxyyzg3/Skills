@@ -1,6 +1,6 @@
 ---
 name: diagnose-ue
-description: Use when diagnosing or fixing a concrete Unreal Engine / UE runtime or editor symptom, such as crash/assert/ensure, wrong PIE/Standalone/Cooked/Packaged/Shipping behavior, editor hang, Blueprint/asset/load/cook failure, network desync, rendering artifact, memory/performance regression, or platform-only failure. Do not use for general UE learning, API explanation, feature design, architecture planning, pure code review, or RenderDoc .rdc capture analysis unless the task is to return to the UE project and establish a repro/fix verification loop.
+description: Use only when the user explicitly invokes Diagnose UE, diagnose-ue, or $diagnose-ue to diagnose or fix a concrete Unreal Engine / UE symptom; do not infer this skill from ordinary UE crash/assert/ensure, PIE/Standalone/Cooked/Packaged behavior, Blueprint/asset/load/cook, networking, rendering, memory, performance, or platform-only requests.
 ---
 
 # Diagnose UE
@@ -8,6 +8,12 @@ description: Use when diagnosing or fixing a concrete Unreal Engine / UE runtime
 面向 UE 开发问题的查修纪律。核心不是先猜代码，而是先构造一个可重复、可观察、agent 可运行或可指导用户运行的反馈循环；再用可证伪假设、定向仪表和回归验证收敛问题。
 
 UE 问题通常横跨 C++、Blueprint、Asset、Editor state、Cooked content、平台配置和异步线程。不要只按 Web 应用思路找 request/response；要先确定问题发生在哪个运行形态：Editor、PIE、Standalone、Dedicated Server、Listen Server、Client、Cooked、Packaged、Shipping、目标平台。
+
+## 手动触发边界
+
+- 只在用户明确写出 `diagnose-ue`、`Diagnose UE`、`$diagnose-ue` 或“使用 UE 诊断 skill”时加载本 skill。
+- 不要因为用户描述 UE crash、assert、ensure、PIE/Standalone/Cooked/Packaged 差异、Blueprint、asset/load/cook、network、rendering、memory、performance 或平台问题就自动触发。
+- 如果问题看起来适合本流程但用户没有手动调用，只能简短建议“可以使用 `$diagnose-ue`”，不要自行切换到本 skill。
 
 ## 适用边界
 

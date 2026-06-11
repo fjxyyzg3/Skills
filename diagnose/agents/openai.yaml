@@ -1,4 +1,7 @@
 interface:
   display_name: "Diagnose"
-  short_description: "用反馈循环、假设和仪表定位 bug 与性能回归根因"
+  short_description: "手动调用后用反馈循环、假设和仪表定位 bug 与性能回归根因"
   default_prompt: "使用 $diagnose 诊断这个 bug 或性能回归，先建立可重复反馈循环，再提出假设、加仪表、修复并回归验证。"
+
+policy:
+  allow_implicit_invocation: false

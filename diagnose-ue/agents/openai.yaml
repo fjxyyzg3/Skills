@@ -1,4 +1,7 @@
 interface:
   display_name: "Diagnose UE"
-  short_description: "用于具体 UE 症状的系统化复现、定界、查修和回归验证"
+  short_description: "手动调用后诊断具体 UE 症状并完成复现、查修和回归验证"
   default_prompt: "使用 $diagnose-ue 诊断已有具体症状的 UE 问题，例如崩溃、断言、蓝图异常、渲染伪影、网络不同步、性能回退或打包差异；先建立可重复反馈循环，再提出假设、加仪表、修复并回归验证。"
+
+policy:
+  allow_implicit_invocation: false

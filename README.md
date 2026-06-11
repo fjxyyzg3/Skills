@@ -6,38 +6,34 @@ lihuanyu 个人的 Codex skill 仓库，用于沉淀、维护和迭代可复用 
 
 ```mermaid
 flowchart LR
-  Router["using-skills"] --> Grill["grill-me"]
-  Router --> Quick["quick-change"]
-  Router --> PRD["to-prd"]
-  Router --> Architecture["improve-codebase-architecture"]
-  Router --> Handoff["handoff"]
-  Quick --> Branch
-  PRD --> Issues["to-issues"]
-  Issues --> Analyze["analyze"]
+  Start["task context"] --> Grill["grill-me"]
+  Start --> Architecture["improve-codebase-architecture"]
+  Start --> Handoff["handoff"]
+  Start --> Analyze["analyze existing artifacts"]
   Analyze --> Branch["checking-branch"]
-  Branch --> Implement["implement"]
-  Implement --> Review["requesting-code-review"]
+  Branch --> Work["implementation work"]
+  Work --> Review["requesting-code-review"]
   Review --> Verify["verification-before-completion"]
   Verify --> Finish["finishing-branch"]
+  Start -. "explicit only" .-> Manual["to-prd / to-issues / quick-change / diagnose / diagnose-ue / implement / session-curator"]
 ```
 
-`session-curator` 是用户手动触发的会话收尾整理 skill，不在默认实现链路中自动运行。
+`to-prd`、`to-issues`、`quick-change`、`diagnose`、`diagnose-ue`、`implement` 和 `session-curator` 都是用户手动触发的 skill，不在默认路由或实现链路中自动运行。
 
 ## Skills
 
 | Skill | 用途 |
 | --- | --- |
-| `using-skills` | 任务入口和 skill 路由 |
 | `clarify` | 源码解释、调用链、图表和报告 |
 | `grill-me` | 追问方案、约束、风险和验收 |
-| `quick-change` | 小型 bug、小需求和低风险快速改动 |
-| `to-prd` | 将上下文整理成本地 PRD |
-| `to-issues` | 将 PRD/plan/spec 拆成本地 issues |
+| `quick-change` | 手动调用后处理小型 bug、小需求和低风险快速改动 |
+| `to-prd` | 手动调用后将上下文整理成本地 PRD |
+| `to-issues` | 手动调用后将 PRD/plan/spec 拆成本地 issues |
 | `analyze` | 只读检查 artifacts 一致性和覆盖率 |
 | `checking-branch` | 展示当前分支状态，确认直接修改或创建新分支 |
-| `implement` | 按 TDD 执行实现 |
-| `diagnose` | 通用 bug / 性能回归诊断 |
-| `diagnose-ue` | Unreal Engine 问题诊断 |
+| `implement` | 手动调用后按 TDD 执行实现 |
+| `diagnose` | 手动调用后执行通用 bug / 性能回归诊断 |
+| `diagnose-ue` | 手动调用后执行 Unreal Engine 问题诊断 |
 | `improve-codebase-architecture` | 架构加深、重构机会和 testability 改进 |
 | `requesting-code-review` | 两阶段实现评审 |
 | `verification-before-completion` | 完成前验证质量门 |
@@ -54,8 +50,8 @@ flowchart LR
 - 用户明确要求英文，或目标项目已有英文 artifact 规范时可以例外，但必须记录原因。
 - 产出型 skill 使用统一 `Language Contract` 标记；核心 section heading 使用中文优先、English 括注。
 - 新增或修改 skill 时，先使用 `writing-skills`，再运行本地 validator。
-- 小型 bug 和小需求优先使用 `quick-change`，但触发升级条件时必须回到完整链路。
-- 非平凡实现链路优先使用 `to-prd -> to-issues -> analyze -> checking-branch -> implement -> requesting-code-review -> verification-before-completion`。
+- `to-prd`、`to-issues`、`quick-change`、`diagnose`、`diagnose-ue`、`implement` 和 `session-curator` 只能由用户显式调用；可建议用户使用，但不要按任务类型自动触发。
+- 非平凡实现如果已有 PRD/issues/plan artifacts，优先使用 `analyze -> checking-branch -> requesting-code-review -> verification-before-completion`；如需生成 PRD 或 issues，只能建议用户显式调用 `$to-prd` 或 `$to-issues`。
 
 ## 验证
 

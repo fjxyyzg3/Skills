@@ -1,11 +1,17 @@
 ---
 name: quick-change
-description: Use for small bug fixes, quick fixes, small feature requests, tiny behavior changes, copy or configuration tweaks, and low-risk implementation tasks that can be scoped in one sentence, touch only a few files, and have a fast verification path without requiring PRD, issue breakdown, or artifact analysis.
+description: Use only when the user explicitly invokes Quick Change, quick-change, or $quick-change for a small bug fix, quick fix, tiny behavior change, copy/configuration tweak, or low-risk implementation task; do not infer this skill from ordinary small requests or quick fixes.
 ---
 
 # Quick Change
 
 面向小型 bug 和小型需求的快速链路。它跳过 PRD、issue breakdown 和 `analyze`，但不跳过分支确认、范围收束、最小验证和风险升级。
+
+## 手动触发边界
+
+- 只在用户明确写出 `quick-change`、`Quick Change`、`$quick-change` 或“使用快速变更 skill”时加载本 skill。
+- 不要因为任务看起来小、用户说 quick fix、小 bug、小需求、copy tweak 或配置改动就自动触发。
+- 如果当前任务适合本流程但用户没有手动调用，只能简短建议“可以使用 `$quick-change`”，不要自行切换到本 skill。
 
 ## Language Contract
 
@@ -35,7 +41,7 @@ Language Contract: generated documents and chat outputs default to Chinese-first
 
 升级目标：
 
-- 复杂 bug：使用 `diagnose` 或 `diagnose-ue`。
+- 复杂 bug：停止快速链路，并建议用户显式调用 `$diagnose` 或 `$diagnose-ue`。
 - 需求边界不清：使用 `grill-me` 或 `to-prd`。
 - 多 slice 实现：使用 `to-issues` 和 `analyze`。
 - 中高风险改动：使用 `requesting-code-review`。

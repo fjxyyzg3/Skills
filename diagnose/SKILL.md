@@ -1,6 +1,6 @@
 ---
 name: diagnose
-description: Use when debugging bug reports, failing tests, broken behavior, thrown errors, crashes, flaky or hanging behavior, wrong output, regressions, performance slowdowns, or any issue requiring disciplined root-cause analysis.
+description: Use only when the user explicitly invokes Diagnose, diagnose, or $diagnose to run disciplined root-cause analysis for a bug or performance regression; do not infer this skill from ordinary bug reports, failing tests, crashes, wrong output, flaky behavior, or debugging requests.
 ---
 
 # 诊断
@@ -8,6 +8,12 @@ description: Use when debugging bug reports, failing tests, broken behavior, thr
 面向困难 bug 的工作纪律。只有在理由明确时，才跳过阶段。
 
 探索代码库时，先使用项目的 domain glossary 建立相关模块的清晰心智模型，并检查你要触碰区域的 ADR。
+
+## 手动触发边界
+
+- 只在用户明确写出 `diagnose`、`Diagnose`、`$diagnose` 或“使用诊断 skill”时加载本 skill。
+- 不要因为用户描述 bug、failing test、crash、regression、wrong output、performance slowdown 或要求 debug 就自动触发。
+- 如果问题看起来适合本流程但用户没有手动调用，只能简短建议“可以使用 `$diagnose`”，不要自行切换到本 skill。
 
 ## Language Contract
 

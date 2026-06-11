@@ -1,6 +1,6 @@
 ---
 name: session-curator
-description: Use only when the user explicitly invokes Session Curator or $session-curator near the end of a conversation/session to extract durable project knowledge, reconcile docs and memory against the current code/conversation, prevent documentation rot and bloat, and after presenting a proposed edit plan for confirmation, update README.md, AGENTS.md, CLAUDE.md, docs, CONTEXT/MEMORY, or other project memory artifacts.
+description: Use only when the user explicitly invokes Session Curator, session-curator, or $session-curator near the end of a conversation/session to extract durable project knowledge, reconcile docs and memory, prevent documentation rot and bloat, and after presenting a proposed edit plan for confirmation, update README.md, AGENTS.md, CLAUDE.md, docs, CONTEXT/MEMORY, or other project memory artifacts; do not infer this skill automatically.
 ---
 
 # Session Curator

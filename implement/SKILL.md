@@ -1,11 +1,17 @@
 ---
 name: implement
-description: Use when executing local issues, PRDs, specs, implementation plans, bugfixes, refactors, or conversation-scoped coding work; when choosing serial vs multi-agent execution; or when applying TDD, review, verification, and branch handoff gates to implementation work.
+description: Use only when the user explicitly invokes Implement, implement, or $implement to execute local issues, PRDs, specs, implementation plans, bugfixes, refactors, or conversation-scoped coding work with TDD, review, verification, and branch handoff gates; do not infer this skill from ordinary coding requests.
 ---
 
 # Implement
 
 读取 PRD、issue 文档或当前上下文，选择合适执行模式，并把实现推进到验证完成。实现不是结束于“代码写完”，而是结束于需求覆盖、测试、review 和 completion verification 都有证据。
+
+## 手动触发边界
+
+- 只在用户明确写出 `implement`、`Implement`、`$implement` 或“使用实现 skill”时加载本 skill。
+- 不要因为用户要求改代码、修 bug、执行 plan、处理 PRD/issues 或做 refactor 就自动触发。
+- 如果当前任务适合本流程但用户没有手动调用，只能简短建议“可以使用 `$implement`”，不要自行切换到本 skill。
 
 ## Language Contract
 
