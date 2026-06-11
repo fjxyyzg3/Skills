@@ -31,6 +31,7 @@ flowchart LR
 | `to-issues` | 手动调用后将 PRD/plan/spec 拆成本地 issues |
 | `analyze` | 只读检查 artifacts 一致性和覆盖率 |
 | `checking-branch` | 展示当前分支状态，确认直接修改或创建新分支 |
+| `tdd` | 按 RED/GREEN/REFACTOR 循环推进测试先行实现 |
 | `implement` | 手动调用后按 TDD 执行实现 |
 | `diagnose` | 手动调用后执行通用 bug / 性能回归诊断 |
 | `diagnose-ue` | 手动调用后执行 Unreal Engine 问题诊断 |

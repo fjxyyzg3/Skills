@@ -1,0 +1,4 @@
+interface:
+  display_name: "TDD"
+  short_description: "按 RED/GREEN/REFACTOR 循环推进测试先行实现"
+  default_prompt: "使用 $tdd 先写失败测试或 repro，再按 RED/GREEN/REFACTOR 的 vertical slices 完成功能或 bugfix。"
