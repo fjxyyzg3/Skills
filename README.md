@@ -28,7 +28,6 @@ flowchart LR
 | Skill | 用途 |
 | --- | --- |
 | `using-skills` | 任务入口和 skill 路由 |
-| `constitution` | 项目原则、质量门和流程治理 |
 | `clarify` | 源码解释、调用链、图表和报告 |
 | `grill-me` | 追问方案、约束、风险和验收 |
 | `quick-change` | 小型 bug、小需求和低风险快速改动 |

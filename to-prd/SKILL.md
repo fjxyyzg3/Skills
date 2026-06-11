@@ -30,12 +30,11 @@ Language Contract: generated documents and chat outputs default to Chinese-first
 
 轻量探索项目事实：
 
-- 读取存在的 `README.md`、`AGENTS.md`、`CLAUDE.md`、`CONTEXT.md`、`CONTEXT-MAP.md`。
-- 读取存在的 `docs/constitution.md` 或 `.specify/memory/constitution.md`。
-- 查看 `docs/adr/` 或相关 ADRs 中明显相关的决策。
+- 读取用户指定或与当前需求直接相关的项目文档。
+- 查看明显相关的 ADRs 或 domain docs。
 - 使用项目已有 domain vocabulary；没有 glossary 时不要编造术语。
 
-不要因为缺少 domain docs、ADRs 或 constitution 而停止；缺失只写入 assumptions 或 risks。
+不要因为缺少 domain docs 或 ADRs 而停止；缺失只写入 assumptions 或 risks。
 
 ### 2. 明确需求 contract
 

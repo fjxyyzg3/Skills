@@ -37,7 +37,7 @@ Language Contract: generated documents and chat outputs default to Chinese-first
    - 读取本次要执行的 issue 文件；如果用户没有指定范围，读取 index 中所有 issue 的摘要、coverage 和依赖信息。
 2. 用户指定的 PRD、plan 或 spec 文件。
    - 读取完整文档。
-   - 轻量检查相关代码、测试、README、AGENTS、constitution、ADR 或 domain docs。
+   - 轻量检查相关代码、测试和输入 artifacts 明确引用的 supporting docs。
    - 如果 scope 超过一个薄 slice，建议先用 `to-issues` 拆分；用户要求直接做时，当前 agent 自行拆成少量 slices。
 3. 当前 conversation context。
    - 将已知目标、约束和验收条件整理成可执行 slice。

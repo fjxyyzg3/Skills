@@ -28,7 +28,7 @@ Language Contract: generated documents and chat outputs default to Chinese-first
 
 ## 核心规则
 
-- 先读取项目的 domain docs：`CONTEXT.md`、`README.md`、`docs/adr/`、`docs/constitution.md`，没有就记录缺失，不要编造。
+- 先读取用户指定或与扫描范围直接相关的 domain docs、ADRs 和架构说明；没有就记录缺失，不要编造。
 - 使用 `references/language.md` 的架构词汇：`module`、`interface`、`implementation`、`depth`、`seam`、`adapter`、`leverage`、`locality`。
 - 每个候选必须有源码证据：文件位置、调用关系、重复知识、测试痛点、依赖泄漏或维护 friction。
 - 只提出 deepening opportunities；除非用户明确要求实现，不要直接改业务代码。

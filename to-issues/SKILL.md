@@ -30,12 +30,12 @@ Language Contract: generated documents and chat outputs default to Chinese-first
 
 优先读取用户给出的 PRD、plan 或 spec。没有明确路径时，从当前上下文和 `docs/features/`、`docs/prd/`、`docs/issues/` 中寻找最相关 artifact。
 
-同时读取存在的 constitution：
+同时读取与拆分直接相关的项目决策文档：
 
-- `docs/constitution.md`
-- `.specify/memory/constitution.md`
+- 用户指定的来源文档。
+- PRD 或 plan 引用的 ADRs、domain docs、接口说明或架构说明。
 
-Issue titles 和 descriptions 应使用项目已有 domain vocabulary，并尊重 ADRs 和 constitution。
+Issue titles 和 descriptions 应使用项目已有 domain vocabulary，并尊重输入 artifacts 中明确写出的约束和决策。
 
 ### 2. 建立 coverage map
 

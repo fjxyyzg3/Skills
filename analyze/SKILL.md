@@ -1,6 +1,6 @@
 ---
 name: analyze
-description: Use when checking local PRD, spec, plan, issue files, task lists, dependency graphs, execution waves, implementation notes, or constitution alignment before implementation, especially to find ambiguity, inconsistency, missing coverage, dependency cycles, parallelization risk, or quality-gate violations.
+description: Use when checking local PRD, spec, plan, issue files, task lists, dependency graphs, execution waves, implementation notes, ambiguity, inconsistency, missing coverage, dependency cycles, parallelization risk, or quality-gate violations before implementation.
 ---
 
 # Analyze
@@ -15,7 +15,7 @@ Language Contract: generated documents and chat outputs default to Chinese-first
 
 - 默认只读，不修改文件。
 - 先检查用户指定的文件；没有指定时，按当前 feature 目录、`docs/features/`、`docs/prd/`、`docs/issues/` 的线索查找。
-- 如果存在 `docs/constitution.md` 或 `.specify/memory/constitution.md`，把 constitution 作为最高优先级约束。
+- 只把用户指定文件、输入 artifacts 和它们明确引用的文档作为分析来源。
 - 报告具体位置，避免只给泛泛建议。
 - 不要因为 artifacts 不完整而编造缺失内容；缺失本身就是 finding。
 
@@ -34,7 +34,7 @@ Language Contract: generated documents and chat outputs default to Chinese-first
    - PRD/spec: goals、requirements、user stories、success criteria、open questions。
    - Issues/tasks: issue ID、acceptance criteria、testing notes、dependencies、wave、parallelization。
    - Implementation notes: contracts、schemas、module decisions、verification commands。
-   - Constitution: MUST/SHOULD 规则。
+   - Constraints: 输入 artifacts 中明确写出的 MUST/SHOULD 规则。
 
 2. 建立 traceability map。
    - 每个 requirement 是否至少被一个 issue/task 覆盖。
@@ -47,10 +47,10 @@ Language Contract: generated documents and chat outputs default to Chinese-first
    - Coverage gap: requirement 没有 issue、issue 没有验收、测试 seam 缺失。
    - Dependency issue: cycle、hard dependency 漏写、wave 顺序错误。
    - Parallelization risk: 标记 `parallel-safe` 但共享 contract/schema/core module。
-   - Constitution violation: 违反 MUST 或缺少强制质量门。
+   - Constraint violation: 违反输入 artifacts 中的明确 MUST 约定或缺少强制质量门。
 
 4. 分配严重度。
-   - `CRITICAL`: constitution MUST 冲突、核心 requirement 无覆盖、dependency cycle 阻塞执行。
+   - `CRITICAL`: 明确 MUST 约束冲突、核心 requirement 无覆盖、dependency cycle 阻塞执行。
    - `HIGH`: 不可测试验收、冲突需求、错误并行建议、高风险质量门缺失。
    - `MEDIUM`: 术语漂移、非核心 requirement 漏测、依赖理由不足。
    - `LOW`: 可读性、格式、轻微重复。
@@ -74,7 +74,7 @@ Language Contract: generated documents and chat outputs default to Chinese-first
 - Cycles: None / ...
 - Unsafe parallel claims: ...
 
-## 治理原则对齐 (Constitution Alignment)
+## 约束对齐 (Constraint Alignment)
 
 - Pass / Findings...
 

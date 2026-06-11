@@ -90,7 +90,7 @@ Language Contract: generated documents and chat outputs default to Chinese-first
 - agent 会不会只看 description 就执行错？
 - 有没有未定义的停止条件？
 - 有没有“应当测试”但没有测试 seam 的地方？
-- 是否和 `constitution`、`using-skills`、`implement` 等上游流程冲突？
+- 是否和 `using-skills`、`implement` 等上游 workflow 冲突？
 - 是否可以删掉对执行没有帮助的段落？
 
 ## Metadata

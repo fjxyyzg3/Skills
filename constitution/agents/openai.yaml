@@ -1,4 +1,0 @@
-interface:
-  display_name: "Constitution"
-  short_description: "维护项目原则、质量门、流程约束和 artifact 治理"
-  default_prompt: "使用 $constitution 创建或更新项目治理原则，并同步影响到 PRD、issues 和实现流程。"
