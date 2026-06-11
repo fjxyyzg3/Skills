@@ -40,7 +40,6 @@ flowchart LR
 | `finishing-branch` | 开发分支收尾和交付选项 |
 | `handoff` | 生成跨会话交接文档，方便下一位 agent 接手 |
 | `session-curator` | 会话结束后手动提炼通用经验，确认计划后同步项目文档、agent 规则和记忆 |
-| `writing-skills` | 新增/修改 skill 的压力场景和验证流程 |
 
 ## 开发原则
 
@@ -49,7 +48,7 @@ flowchart LR
 - Skill 生成的 Markdown/HTML 文档、分析结论、review、handoff、完成报告和聊天式输出默认中文为主；代码、命令、API 名称、contract fields、稳定 ID、英文专有名词和必要技术术语保留 English。
 - 用户明确要求英文，或目标项目已有英文 artifact 规范时可以例外，但必须记录原因。
 - 产出型 skill 使用统一 `Language Contract` 标记；核心 section heading 使用中文优先、English 括注。
-- 新增或修改 skill 时，先使用 `writing-skills`，再运行本地 validator。
+- 新增或修改 skill 时，明确 pressure scenarios、trigger description 和 metadata，再运行本地 validator。
 - `to-prd`、`to-issues`、`quick-change`、`diagnose`、`diagnose-ue`、`implement` 和 `session-curator` 只能由用户显式调用；可建议用户使用，但不要按任务类型自动触发。
 - 非平凡实现如果已有 PRD/issues/plan artifacts，优先使用 `analyze -> checking-branch -> requesting-code-review -> verification-before-completion`；如需生成 PRD 或 issues，只能建议用户显式调用 `$to-prd` 或 `$to-issues`。
 

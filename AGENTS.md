@@ -13,7 +13,7 @@
 - 用户明确要求英文，或目标项目已有英文 artifact 规范时可以例外，但必须在 metadata、assumptions 或完成报告中记录原因。
 - 产出型 skill 必须包含统一 `Language Contract` 标记，便于 validator 做轻量检查；核心 section heading 使用中文优先、English 括注。
 - 新增或修改 skill 时，保持结构精简，只加入对 agent 执行任务有直接帮助的内容。
-- 新增或修改 skill 时，先参考 `writing-skills`，明确 pressure scenarios、trigger description、metadata 和验证方式。
+- 新增或修改 skill 时，明确 pressure scenarios、trigger description、metadata 和验证方式。
 - 仓库级工作流按任务类型直接选择最小必要 skill；PRD、issues、analysis、implementation、review、verification 和 branch finish 应保持可追溯。
 - `session-curator`、`diagnose`、`diagnose-ue`、`implement`、`quick-change`、`to-prd` 和 `to-issues` 只由用户手动调用；可建议用户显式使用 `$skill-name`，但不要按任务类型自动触发。
 - 用户显式调用 `$quick-change` 处理小型 bug 和小需求时，必须保留 scope、acceptance、verification，并在风险扩大时升级到完整链路。

@@ -1,4 +1,0 @@
-interface:
-  display_name: "Writing Skills"
-  short_description: "用压力场景、metadata 和结构验证改进 skills"
-  default_prompt: "使用 $writing-skills 创建或修改 skill，并用压力场景验证 agent 是否真正遵守。"
