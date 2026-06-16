@@ -1,6 +1,6 @@
 ---
 name: to-prd
-description: Use only when the user explicitly invokes To PRD, to-prd, or $to-prd to create a local PRD, feature spec, product requirements, engineering requirements, or implementation-ready requirements document; do not infer this skill from ordinary planning, feature, spec, issue breakdown, or implementation requests.
+description: Use only when the user explicitly invokes To PRD, to-prd, or $to-prd to create a local Chinese-first PRD, feature spec, product requirements, engineering requirements, or implementation-ready requirements document; preserve English only for stable workflow fields, IDs, code, APIs, commands, proper nouns, and necessary technical terms; do not infer this skill from ordinary planning, feature, spec, issue breakdown, or implementation requests.
 ---
 
 # To PRD
@@ -17,11 +17,14 @@ description: Use only when the user explicitly invokes To PRD, to-prd, or $to-pr
 
 Language Contract: generated documents and chat outputs default to Chinese-first; preserve English for code, commands, API names, contract fields, IDs, proper nouns, and necessary technical terms. 用户或目标项目明确要求英文时可以例外，但必须记录原因。
 
+PRD 正文必须中文优先。`FR-001`、`SC-001`、`Metadata`、`Status`、`Source`、`Feature Slug`、`Verification seam` 等 workflow contract fields 可以保留英文，但其后的描述句必须使用中文主文。不要沿用英文模板句式，例如 `As a ... I want ... so that ...`、`must ...`、`should ...`、`Recommended vertical slice ...`，除非用户明确要求英文 PRD。
+
 ## 输出约定
 
 - 只生成本地 Markdown 文档，不创建远端 issue。
 - 文档正文默认中文为主；核心 section heading 使用中文优先、English 括注，例如 `## 功能需求 (Functional Requirements)`。
 - 保留 `FR-001`、`SC-001`、`Metadata`、`Status`、`Source` 等 workflow contract fields 和稳定 ID。
+- 用户故事、功能需求、成功标准、实现决策、测试决策、风险、开放问题和 issue 拆分交接说明都必须使用中文主文；英文只作为字段名、ID、API、命令、代码标识符或必要技术术语出现。
 - 如果用户指定输出路径，写入该路径。
 - 如果项目已有 `docs/features/`，或这是新的 feature，默认使用 `docs/features/<feature-slug>/prd.md`。
 - 如果项目明显沿用旧结构 `docs/prd/`，可以使用 `docs/prd/<feature-slug>.md`，但完成报告要说明未使用 feature workspace。
@@ -44,13 +47,13 @@ Language Contract: generated documents and chat outputs default to Chinese-first
 
 ### 2. 明确需求 contract
 
-PRD 中的 functional requirements 必须使用稳定 ID：
+PRD 中的 functional requirements 必须使用稳定 ID，并用中文描述外部可观察行为：
 
 - `FR-001`, `FR-002`, ...
-- 每条 requirement 描述外部可观察行为。
+- 每条 requirement 描述外部可观察行为，描述正文使用中文。
 - 每条 requirement 应能被 issue、test 或手动 verification seam 覆盖。
 
-Success criteria 使用 `SC-001`, `SC-002`, ...。只有可由实现或验证工作直接影响的 success criteria 才进入后续 issue coverage；纯业务结果可以保留但标记为 post-launch metric。
+Success criteria 使用 `SC-001`, `SC-002`, ...，描述正文使用中文。只有可由实现或验证工作直接影响的 success criteria 才进入后续 issue coverage；纯业务结果可以保留但标记为 post-launch metric。
 
 ### 3. 明确测试 seam
 
@@ -86,16 +89,16 @@ Success criteria 使用 `SC-001`, `SC-002`, ...。只有可由实现或验证工
 
 ## 用户故事 (User Stories)
 
-1. As an <actor>, I want <capability>, so that <benefit>.
+1. 作为 <角色>，我希望 <能力>，以便 <收益>。
 
 ## 功能需求 (Functional Requirements)
 
-- **FR-001**: ...
-- **FR-002**: ...
+- **FR-001**: 用中文描述一个外部可观察行为。
+- **FR-002**: 用中文描述另一个可验证需求。
 
 ## 成功标准 (Success Criteria)
 
-- **SC-001**: ...
+- **SC-001**: 用中文描述可验证成功标准。
 
 ## 实现决策 (Implementation Decisions)
 
@@ -103,13 +106,14 @@ Success criteria 使用 `SC-001`, `SC-002`, ...。只有可由实现或验证工
 
 ## 测试决策 (Testing Decisions)
 
-- Verification seam:
-- Prior art:
-- Manual fallback:
+- Verification seam（验证切入点）:
+- Prior art（现有依据）:
+- Manual fallback（手动兜底）:
 
 ## 风险和开放问题 (Risks and Open Questions)
 
-- ...
+- **Risk**: 用中文描述风险。
+- **Open Question**: 用中文描述开放问题。
 
 ## Issue 拆分交接说明 (Handoff Notes for Issue Breakdown)
 
@@ -146,6 +150,8 @@ Success criteria 使用 `SC-001`, `SC-002`, ...。只有可由实现或验证工
 - PRD 是本地 Markdown 文件。
 - Functional requirements 使用稳定 `FR-###`。
 - Testing Decisions 至少有 seam 假设或 open question。
+- 用户故事、FR、SC、Implementation Decisions、Testing Decisions、Risks and Open Questions、Handoff Notes 的描述正文是中文主文。
+- 没有残留英文模板句式，例如 `As a ... I want ... so that ...`、`must ...`、`should ...`、`Recommended vertical slice ...`，除非用户明确要求英文 PRD。
 - 没有要求运行外部 setup skill 或创建远端 issue。
 - `Implementation Decisions` 没有不必要的易过期 file paths。
 
