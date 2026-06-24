@@ -1,6 +1,6 @@
 ---
 name: brainstorming
-description: Use when brainstorming, exploring an idea before design/spec/implementation, comparing product/UX/architecture approaches, or turning a vague feature request into a validated design; ask one question at a time, propose alternatives, and require user approval before writing design artifacts or recommending next workflow skills.
+description: Use when brainstorming, exploring an idea before design/spec/implementation, comparing product/UX/architecture approaches, or turning a vague feature request into a validated design; ask one question at a time, propose alternatives, and prepare a PRD handoff for $to-prd after user approval.
 ---
 
 # Brainstorming
@@ -29,9 +29,9 @@ description: Use when brainstorming, exploring an idea before design/spec/implem
    - Common failure without skill: 提前写 PRD 或实现计划，后续大幅返工。
    - Behavior this skill must force: 在每个关键 section 后取得用户确认。
 3. User says: "这个 UI/架构方向有几种可能，帮我比较。"
-   - Expected skill trigger: 比较方案时给出推荐和风险，必要时使用 visual companion 展示可视化差异。
+   - Expected skill trigger: 比较方案时给出具体结构、状态、用户路径和风险。
    - Common failure without skill: 用抽象描述代替具体结构，用户难以判断。
-   - Behavior this skill must force: 对视觉问题用图或 mockup，对文本问题保持终端讨论。
+   - Behavior this skill must force: 用具体结构、状态和取舍说明方案，避免用抽象描述替代可判断的设计。
 
 ## 核心规则
 
@@ -83,15 +83,23 @@ description: Use when brainstorming, exploring an idea before design/spec/implem
 
 每个 section 后明确问用户是否认可。如果用户提出修正，更新设计后再继续。
 
-### 5. 写设计 artifact
+### 5. 准备 PRD 交接
 
-只有在用户确认整体设计后才写文件。默认路径：
+只有在用户确认整体设计后，才整理给 `$to-prd` 使用的 PRD handoff packet。不要在本 skill 中写本地设计文档、创建 `docs/brainstorming/`、写 `design.md` 或更新 feature workspace。
 
-- 如果项目已有 `docs/features/<feature-slug>/`：写入 `docs/features/<feature-slug>/design.md`。
-- 否则写入 `docs/brainstorming/YYYY-MM-DD-<topic>-design.md`。
-- 如果用户指定路径，优先使用用户路径。
+handoff packet 使用中文主文，保留必要 English fields、API、命令和稳定 ID。按实际复杂度包含：
 
-设计文档使用中文主文，保留必要 English fields、API、命令和稳定 ID。完成后做快速 self-review：
+- Confirmed problem / goal
+- Scope / Non-goals
+- Chosen approach
+- Alternatives rejected and why
+- User workflow / system workflow
+- Key decisions and constraints
+- Risks and open questions
+- Verification seam
+- Recommended PRD focus
+
+完成后做快速 self-review：
 
 - 是否有未收束的开放问题。
 - 是否有相互矛盾的 scope、设计或验收。
@@ -99,43 +107,13 @@ description: Use when brainstorming, exploring an idea before design/spec/implem
 - 是否存在会导致后续计划误解的模糊要求。
 - 是否加入了未被用户目标支撑的功能。
 
-不要自动 commit，除非用户明确要求提交。
+不要自动写文件、commit 或进入实现。
 
-### 6. 后续建议
+### 6. 对接 to-prd
 
-完成设计 artifact 后，让用户先 review。根据用户下一步选择，用 `Natural Handoff` 最多推荐一个 next skill：
+完成 PRD handoff packet 后，让用户先 review。若用户确认要生成正式 PRD、requirements 或 implementation-ready spec，用 `Natural Handoff` 推荐 `$to-prd`，并说明 `$to-prd` 会负责写入本地 Markdown artifact 和 feature workspace。
 
-- `$to-prd`：需要把设计整理成 PRD 或 requirements 文档。
-- `$to-issues`：已有足够清晰的设计，需要拆成本地 issues。
-- `$analyze`：已有 PRD/issues/plan，需要只读检查覆盖率和一致性。
-- `$implement` 或 `$quick-change`：用户明确要进入实现，且已有足够清晰的 scope。
-
-不要在本 skill 内自动进入实现；自然确认只会进入上一条唯一推荐的 next skill。
-
-## Visual Companion
-
-visual companion 是可选工具，只在视觉问题确实比文字更容易判断时使用。不要一开始就询问是否开启。
-
-适合使用浏览器：
-
-- UI mockups、wireframes、布局比较。
-- 架构图、数据流图、关系图。
-- 多个视觉方向的 side-by-side comparison。
-- spacing、层级、视觉密度或交互布局问题。
-
-适合留在终端：
-
-- scope、需求、成功标准和取舍讨论。
-- API、data model、测试策略或非视觉架构选择。
-- 用户能用文字直接回答的澄清问题。
-
-第一次出现真正需要可视化的问题时，单独发送一条询问：
-
-```text
-这一步可能看图比文字更清楚。我可以打开 browser companion，边做 mockups、diagram 或方案对比边让你选择。它会多消耗一些上下文。要打开吗？
-```
-
-用户同意后再读取 [visual-companion.md](visual-companion.md)，并按其中步骤启动 `scripts/start-server.sh`。用户拒绝后继续 text-only，除非用户之后主动提出可视化。
+不要在本 skill 内自动进入 `$to-issues`、`$analyze`、`$implement` 或 `$quick-change`。这些后续步骤应从 `$to-prd` 产出的 PRD/spec 再继续路由，或等待用户另行提出。
 
 ## 完成标准
 
@@ -144,5 +122,6 @@ visual companion 是可选工具，只在视觉问题确实比文字更容易判
 - 已比较至少 2 个方案；除非任务确实只有一个合理方案，并说明原因。
 - 已给出推荐方案及 trade-offs。
 - 设计的关键 section 已经得到用户确认。
-- 如果写了设计 artifact，已报告绝对路径并完成 self-review。
+- 已输出 PRD handoff packet，并说明 `$to-prd` 是正式文档产出入口。
+- 未写本地设计文档、未创建 browser/mockup 辅助资源。
 - 未在设计确认前执行实现动作。
