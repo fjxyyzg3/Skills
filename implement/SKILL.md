@@ -174,6 +174,10 @@ Next：review 通过或残留风险明确后进入 `N9 Verification Gate`。
 
 Stop：review subagent 工具不可用、review packet 无法最小化、或存在未处理的阻塞级 finding。
 
+Fallback：
+- 如果 review subagent 工具不可用，停止声明完成，并向用户给出一个明确选择：安装或启用可用 review agent、等待人工 review、或显式接受记录为 residual risk 的降级 review。
+- 不要把 coordinator 自己的快速复查包装成 `requesting-code-review` 已完成。
+
 ### N8 Fix and re-test
 
 Trigger：`N7 Review Subagent Gate` 或 `N9 Verification Gate` 发现问题。
@@ -231,8 +235,11 @@ Trigger：所有质量门已通过，且没有分支收尾阻塞。
 Action：
 - 用简短完成报告说明完成范围、主要修改、验证命令与结果、跳过验证、残留风险和下一步用户决策。
 - 不把未完成、未验证或被用户接受的残留风险包装成完成。
+- 如果用户接下来需要 commit、push、PR、merge、discard 或分支交付，最多推荐 `$finishing-branch` 作为唯一 next skill。
+- 如果当前任务已经自然结束，明确推荐 `none`，不要为了链路完整性继续推荐 skill。
+- 说明自然确认只进入上一条唯一推荐的 next skill，不会跳过该 skill 自己的安全门。
 
-Next：无。
+Next：`$finishing-branch` 或 `none`。
 
 Stop：无。
 
