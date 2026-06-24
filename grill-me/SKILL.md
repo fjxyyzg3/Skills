@@ -20,3 +20,5 @@ Language Contract: generated documents and chat outputs default to Chinese-first
 - 如果问题可以通过读取代码库、文档或现有上下文回答，先自行探索，不要把可发现的信息问回用户。
 - 当某个分支已被回答或被证据排除，明确收束结论，再进入下一个关键分支。
 - 保持尖锐但务实：挑战薄弱假设，避免为了追问而追问。
+- 本 skill 只明确需求、边界、风险和验收；不要写业务代码、scaffold 项目、改行为或启动实现。
+- 完成后可以用 `Natural Handoff` 最多推荐一个 next skill，例如 `$to-prd`、`$to-issues`、`$quick-change`、`$diagnose`、`$diagnose-ue` 或 `$implement`。

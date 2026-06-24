@@ -1,7 +1,4 @@
 interface:
   display_name: "Session Curator"
-  short_description: "手动调用后同步项目文档与记忆，先确认计划并防止文档腐烂"
+  short_description: "同步项目文档与记忆，先确认修改计划并防止文档腐烂回漂"
   default_prompt: "使用 $session-curator 在本次对话结束后提炼可复用内容，先列修改计划并等我确认后再更新项目文档。"
-
-policy:
-  allow_implicit_invocation: false

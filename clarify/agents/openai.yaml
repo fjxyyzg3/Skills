@@ -1,4 +1,4 @@
 interface:
   display_name: "Clarify"
-  short_description: "用源码证据、调用链、图表和本地报告澄清代码问题流程"
+  short_description: "用源码证据回答代码问题，不推荐后续 workflow"
   default_prompt: "使用 $clarify 澄清我的代码问题，探索代码库，并生成 HTML/Mermaid 解释文档。"

@@ -1,7 +1,4 @@
 interface:
   display_name: "Implement"
-  short_description: "手动调用后按 trigger graph 推进实现、review subagent 和验证"
+  short_description: "按 trigger graph 推进实现、review subagent 和验证"
   default_prompt: "使用 $implement 按 trigger graph 读取 artifacts、确认分支和执行模式，再用 TDD、review subagent、verification 完成实现。"
-
-policy:
-  allow_implicit_invocation: false

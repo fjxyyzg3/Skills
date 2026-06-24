@@ -1,4 +1,4 @@
 interface:
   display_name: "Workflow Router"
-  short_description: "受控选择下一步 workflow skill，并保持显式确认边界"
-  default_prompt: "使用 $workflow-router 判断当前任务应该进入哪个 workflow skill，并向用户提供建议
+  short_description: "受控选择 workflow skill，并用 Natural Handoff 交接"
+  default_prompt: "使用 $workflow-router 判断当前任务应该进入哪个 workflow skill，并用 Natural Handoff 向用户提供建议。"

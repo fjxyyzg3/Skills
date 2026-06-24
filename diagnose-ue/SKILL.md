@@ -1,19 +1,20 @@
 ---
 name: diagnose-ue
-description: Use only when the user explicitly invokes Diagnose UE, diagnose-ue, or $diagnose-ue to diagnose or fix a concrete Unreal Engine / UE symptom; do not infer this skill from ordinary UE crash/assert/ensure, PIE/Standalone/Cooked/Packaged behavior, Blueprint/asset/load/cook, networking, rendering, memory, performance, or platform-only requests.
+description: Use when a concrete Unreal Engine / UE symptom needs disciplined diagnosis, including crash/assert/ensure, PIE/Standalone/Cooked/Packaged differences, Blueprint/asset/load/cook, networking, rendering, memory, performance, or platform-only behavior.
 ---
 
 # Diagnose UE
 
-面向 UE 开发问题的查修纪律。核心不是先猜代码，而是先构造一个可重复、可观察、agent 可运行或可指导用户运行的反馈循环；再用可证伪假设、定向仪表和回归验证收敛问题。
+面向 UE 开发问题的定位纪律。核心不是先猜代码，而是先构造一个可重复、可观察、agent 可运行或可指导用户运行的反馈循环；再用可证伪假设、定向仪表和回归验证收敛问题。
 
 UE 问题通常横跨 C++、Blueprint、Asset、Editor state、Cooked content、平台配置和异步线程。不要只按 Web 应用思路找 request/response；要先确定问题发生在哪个运行形态：Editor、PIE、Standalone、Dedicated Server、Listen Server、Client、Cooked、Packaged、Shipping、目标平台。
 
-## 手动触发边界
+## 进入边界
 
-- 只在用户明确写出 `diagnose-ue`、`Diagnose UE`、`$diagnose-ue` 或“使用 UE 诊断 skill”时加载本 skill。
-- 不要因为用户描述 UE crash、assert、ensure、PIE/Standalone/Cooked/Packaged 差异、Blueprint、asset/load/cook、network、rendering、memory、performance 或平台问题就自动触发。
-- 如果问题看起来适合本流程但用户没有手动调用，只能简短建议“可以使用 `$diagnose-ue`”，不要自行切换到本 skill。
+- 适用于具体 UE 症状：crash、assert、ensure、PIE/Standalone/Cooked/Packaged 差异、Blueprint、asset/load/cook、network、rendering、memory、performance 或平台问题。
+- 可以由用户显式调用，也可以由 `workflow-router` 或上一轮 `Natural Handoff` 推荐后进入。
+- 本 skill 产出运行形态、root cause、证据、修复选项和回归验证建议；不要提交持久业务代码修改。
+- 如果需要落地修复，用 `Natural Handoff` 推荐 `$quick-change` 或 `$implement`。
 
 ## 适用边界
 
@@ -113,9 +114,9 @@ UE 常见假设维度：
 
 不要 “log everything and grep”。性能问题先测 baseline，再改代码；渲染问题先判断 CPU/GPU/render thread/RHI thread；网络问题先分清 server truth、client prediction 和 replicated presentation。
 
-## Phase 5 — 修复与回归验证
+## Phase 5 — 修复方案与回归验证入口
 
-有正确 seam 时，先把最小 repro 固化为 regression test 或自动化验证，再修复。
+有正确 seam 时，先把最小 repro 转成 regression test 或自动化验证建议，再进入修复。
 
 可接受 seam：
 
@@ -127,20 +128,23 @@ UE 常见假设维度：
 
 如果没有正确 seam，记录这是架构或测试性缺口；不要用过浅的 unit test 制造虚假信心。
 
-修复后必须：
+修复入口必须说明：
 
-1. 看到 regression test 或等价验证先失败、后通过。
-2. 重新运行原始未最小化场景。
-3. 对 cooked/packaged-only、network-only、platform-only 问题，在对应运行形态再验证一次。
+1. regression test 或等价验证应该如何先失败、后通过。
+2. 最小修复方向、影响范围和风险。
+3. 是否推荐 `$quick-change` 或 `$implement` 执行修复。
+4. 修复后必须重新运行原始未最小化场景。
+5. 对 cooked/packaged-only、network-only、platform-only 问题，修复后必须在对应运行形态再验证一次。
 
 ## Phase 6 — 清理与复盘
 
 完成前检查：
 
-- [ ] 原始 repro 不再复现。
-- [ ] Regression test/验证循环通过，或已记录没有正确 seam。
+- [ ] 已确认 root cause，或明确说明仍缺少什么 UE 运行形态证据。
+- [ ] 已给出 regression seam、等价验证循环，或已记录没有正确 seam。
+- [ ] 已给出修复入口建议：`$quick-change`、`$implement` 或暂不修复。
 - [ ] 所有 `[DEBUG-UE-...]` log、Blueprint Print String、临时 console command、测试 map 中的 debug-only 对象已清理或移动到明确 debug 位置。
 - [ ] 临时 asset、repro map、trace、minidump 的去留明确；保留时放在项目约定的 debug/artifact 位置。
-- [ ] commit/PR/message 中说明最终正确的 hypothesis、验证方式和覆盖的运行形态。
+- [ ] 诊断报告或后续修复 handoff 中说明最终正确的 hypothesis、验证方式和覆盖的运行形态。
 
 最后追问：什么原本可以防止这个问题？如果答案是缺少测试 seam、生命周期耦合、资产引用规则不清、网络 ownership 模型混乱或 profiling 基线缺失，把具体结论交给架构改进或测试基础设施建设，而不是在修复前泛泛重构。

@@ -1,6 +1,6 @@
 ---
 name: brainstorming
-description: Use when the user explicitly asks to brainstorm, explore an idea before design/spec/implementation, compare product/UX/architecture approaches, or turn a vague feature request into a validated design; ask one question at a time, propose alternatives, and require user approval before writing design artifacts or recommending next workflow skills.
+description: Use when brainstorming, exploring an idea before design/spec/implementation, comparing product/UX/architecture approaches, or turning a vague feature request into a validated design; ask one question at a time, propose alternatives, and require user approval before writing design artifacts or recommending next workflow skills.
 ---
 
 # Brainstorming
@@ -11,12 +11,12 @@ description: Use when the user explicitly asks to brainstorm, explore an idea be
 
 Language Contract: generated documents and chat outputs default to Chinese-first; preserve English for code, commands, API names, contract fields, IDs, proper nouns, and necessary technical terms. 用户或目标项目明确要求英文时可以例外，但必须记录原因。
 
-## 触发边界
+## 进入边界
 
-- 只在用户明确表达要 `brainstorm`、`brainstorming`、头脑风暴、方案探索、设计前澄清、比较多种产品/UX/架构方案，或要求把模糊想法整理成设计时使用。
+- 适用于用户明确表达要 `brainstorm`、`brainstorming`、头脑风暴、方案探索、设计前澄清、比较多种产品/UX/架构方案，或当前任务明显需要把模糊想法整理成设计时。
 - 不要因为普通小改动、明确 bugfix、直接实现请求或已有清晰 issues 就自动阻塞实现。
-- 如果当前任务明显缺少目标、边界或验收标准，但用户没有调用本 skill，只能简短建议可以先使用 `$brainstorming`，不要擅自切换流程。
-- 本 skill 一旦被调用，在用户确认设计前不要写业务代码、scaffold 项目、改行为或调用 implementation skill。
+- 如果当前任务明显缺少目标、边界或验收标准，可以通过 `workflow-router` 或 `Natural Handoff` 推荐 `$brainstorming`，但不要直接开始实现。
+- 本 skill 一旦进入，在用户确认设计前不要写业务代码、scaffold 项目、改行为或调用 implementation skill。
 
 ## Pressure Scenarios
 
@@ -103,14 +103,14 @@ Language Contract: generated documents and chat outputs default to Chinese-first
 
 ### 6. 后续建议
 
-完成设计 artifact 后，让用户先 review。根据用户下一步选择，只能建议显式调用：
+完成设计 artifact 后，让用户先 review。根据用户下一步选择，用 `Natural Handoff` 最多推荐一个 next skill：
 
 - `$to-prd`：需要把设计整理成 PRD 或 requirements 文档。
 - `$to-issues`：已有足够清晰的设计，需要拆成本地 issues。
 - `$analyze`：已有 PRD/issues/plan，需要只读检查覆盖率和一致性。
 - `$implement` 或 `$quick-change`：用户明确要进入实现，且已有足够清晰的 scope。
 
-不要在本 skill 内自动进入实现。
+不要在本 skill 内自动进入实现；自然确认只会进入上一条唯一推荐的 next skill。
 
 ## Visual Companion
 

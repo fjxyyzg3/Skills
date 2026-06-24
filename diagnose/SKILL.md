@@ -1,19 +1,20 @@
 ---
 name: diagnose
-description: Use only when the user explicitly invokes Diagnose, diagnose, or $diagnose to run disciplined root-cause analysis for a bug or performance regression; do not infer this skill from ordinary bug reports, failing tests, crashes, wrong output, flaky behavior, or debugging requests.
+description: Use when a bug, failing test, crash, regression, wrong output, flaky behavior, performance slowdown, or debugging request needs disciplined root-cause analysis with a reproducible feedback loop, hypotheses, instrumentation, fix options, and regression verification guidance.
 ---
 
 # 诊断
 
-面向困难 bug 的工作纪律。只有在理由明确时，才跳过阶段。
+面向困难 bug 的定位纪律。只有在理由明确时，才跳过阶段。
 
 探索代码库时，先使用项目的 domain glossary 建立相关模块的清晰心智模型，并检查你要触碰区域的 ADR。
 
-## 手动触发边界
+## 进入边界
 
-- 只在用户明确写出 `diagnose`、`Diagnose`、`$diagnose` 或“使用诊断 skill”时加载本 skill。
-- 不要因为用户描述 bug、failing test、crash、regression、wrong output、performance slowdown 或要求 debug 就自动触发。
-- 如果问题看起来适合本流程但用户没有手动调用，只能简短建议“可以使用 `$diagnose`”，不要自行切换到本 skill。
+- 适用于 bug、failing test、crash、regression、wrong output、performance slowdown 或需要 debug 的任务。
+- 可以由用户显式调用，也可以由 `workflow-router` 或上一轮 `Natural Handoff` 推荐后进入。
+- 本 skill 产出 root cause、证据、修复选项和回归验证建议；不要提交持久业务代码修改。
+- 如果需要落地修复，用 `Natural Handoff` 推荐 `$quick-change` 或 `$implement`。
 
 ## Language Contract
 
@@ -98,9 +99,9 @@ Language Contract: generated documents and chat outputs default to Chinese-first
 
 **Perf branch.** 对 performance regression 来说，log 通常不是正确工具。应该先建立 baseline measurement（timing harness、`performance.now()`、profiler、query plan），然后 bisect。先测量，再修复。
 
-## Phase 5 — 修复 + 回归测试
+## Phase 5 — 修复方案与回归验证入口
 
-在修复之前先写 regression test，但前提是存在一个**正确的 seam**。
+在进入修复之前先确定 regression seam，但前提是存在一个**正确的 seam**。
 
 正确的 seam 是指：测试能覆盖 call site 中实际发生的**真实 bug pattern**。如果唯一可用的 seam 太浅（bug 需要多个 caller 才能触发，却只写 single-caller test；或 unit test 无法复刻触发 bug 的调用链），在这里写 regression test 只会带来虚假的信心。
 
@@ -108,20 +109,21 @@ Language Contract: generated documents and chat outputs default to Chinese-first
 
 如果存在正确的 seam：
 
-1. 把 minimised repro 转成该 seam 上的 failing test。
-2. 看着它失败。
-3. 应用 fix。
-4. 看着它通过。
-5. 针对原始（未 minimised）场景重新运行 Phase 1 的反馈循环。
+1. 说明如何把 minimised repro 转成该 seam 上的 failing test 或等价 pass/fail 命令。
+2. 记录该测试或命令应该先失败、修复后通过。
+3. 给出最小修复方向、影响范围和风险。
+4. 用 `Natural Handoff` 推荐 `$quick-change` 或 `$implement` 执行修复。
+5. 要求修复完成后重新运行原始（未 minimised）场景和 Phase 1 的反馈循环。
 
 ## Phase 6 — 清理 + 事后复盘
 
 宣布完成前必须做到：
 
-- [ ] 原始 repro 不再复现（重新运行 Phase 1 loop）
-- [ ] Regression test 通过（或已经记录没有 seam）
+- [ ] 已确认 root cause，或明确说明仍缺少什么证据。
+- [ ] 已给出 regression seam、等价验证方式，或已经记录没有正确 seam。
+- [ ] 已给出修复入口建议：`$quick-change`、`$implement` 或暂不修复。
 - [ ] 所有 `[DEBUG-...]` instrumentation 都已移除（`grep` 这个 prefix）
 - [ ] Throwaway prototypes 已删除（或移动到明确标记的 debug location）
-- [ ] 在 commit / PR message 中说明最终被证明正确的 hypothesis，让下一位调试者能学到东西
+- [ ] 在诊断报告或后续修复 handoff 中说明最终被证明正确的 hypothesis，让下一位调试者能学到东西
 
 **然后问：什么原本可以防止这个 bug？** 如果答案涉及 architectural change（没有好的 test seam、callers 缠绕、hidden coupling），就带着具体信息交给 `improve-codebase-architecture`。建议要在 fix 完成**之后**提出，而不是之前；此时你掌握的信息比刚开始更多。

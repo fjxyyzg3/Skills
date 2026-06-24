@@ -1,17 +1,17 @@
 ---
 name: implement
-description: Use only when the user explicitly invokes Implement, implement, or $implement to execute local issues, PRDs, specs, implementation plans, bugfixes, refactors, or conversation-scoped coding work with TDD, review, verification, and branch handoff gates; do not infer this skill from ordinary coding requests.
+description: Use when executing local issues, PRDs, specs, implementation plans, bugfixes, refactors, or conversation-scoped coding work with TDD, branch checks, review, verification, and branch handoff gates.
 ---
 
 # Implement
 
-把显式指定的实现任务推进到可交付状态。这个 skill 按 trigger graph 执行：每一步都有进入条件、动作、下一跳和停止条件，agent 应按当前状态逐步推进，而不是凭直觉跳过 gate。
+把实现任务推进到可交付状态。这个 skill 按 trigger graph 执行：每一步都有进入条件、动作、下一跳和停止条件，agent 应按当前状态逐步推进，而不是凭直觉跳过 gate。
 
-## 手动触发边界
+## 进入边界
 
-- 只在用户明确写出 `implement`、`Implement`、`$implement` 或“使用实现 skill”时加载本 skill。
-- 不要因为用户要求改代码、修 bug、执行 plan、处理 PRD/issues 或做 refactor 就自动触发。
-- 如果当前任务适合本流程但用户没有手动调用，只能简短建议“可以使用 `$implement`”，不要自行切换到本 skill。
+- 适用于已经有可执行 scope、PRD、issues、plan、spec 或 conversation-scoped coding task 的实现任务。
+- 可以由用户显式调用，也可以由 `workflow-router` 或上一轮 `Natural Handoff` 推荐后进入。
+- 自然确认只进入本 skill，不代表同意跳过 branch、scope、mode、review、verification、commit 或 PR 安全门。
 
 ## Language Contract
 
@@ -21,7 +21,7 @@ Language Contract: generated documents and chat outputs default to Chinese-first
 
 ```mermaid
 flowchart TD
-  N0["N0 Explicit Trigger"] --> N1["N1 Branch Gate"]
+  N0["N0 Implementation Trigger"] --> N1["N1 Branch Gate"]
   N1 --> N2["N2 Input Intake"]
   N2 -- "artifacts / analyze result" --> N3{"N3 Analyze Gate"}
   N2 -- "conversation only" --> N4{"N4 Mode Decision"}
@@ -44,9 +44,9 @@ flowchart TD
 
 ## 节点步骤（Graph Nodes）
 
-### N0 Explicit Trigger
+### N0 Implementation Trigger
 
-Trigger：用户明确调用 `implement`、`Implement`、`$implement` 或“使用实现 skill”。
+Trigger：用户明确调用 `implement`、`Implement`、`$implement`、“使用实现 skill”，或上一轮 `Natural Handoff` 唯一推荐本 skill 且用户自然确认。
 
 Action：
 - 复述本次 scope、已知 acceptance criteria 和可验证输出。
@@ -54,7 +54,7 @@ Action：
 
 Next：进入 `N1 Branch Gate`。
 
-Stop：没有显式触发本 skill 时停止，不要自行执行本流程。
+Stop：没有可执行目标、scope 无法收束，或需要先生成 PRD/issues/analysis artifacts。
 
 ### N1 Branch Gate
 

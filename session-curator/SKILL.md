@@ -1,11 +1,11 @@
 ---
 name: session-curator
-description: Use only when the user explicitly invokes Session Curator, session-curator, or $session-curator near the end of a conversation/session to extract durable project knowledge, reconcile docs and memory, prevent documentation rot and bloat, and after presenting a proposed edit plan for confirmation, update README.md, AGENTS.md, CLAUDE.md, docs, CONTEXT/MEMORY, or other project memory artifacts; do not infer this skill automatically.
+description: Use near the end of a conversation/session to extract durable project knowledge, reconcile docs and memory, prevent documentation rot and bloat, and after presenting a proposed edit plan for confirmation, update README.md, AGENTS.md, CLAUDE.md, docs, CONTEXT/MEMORY, or other project memory artifacts.
 ---
 
 # Session Curator
 
-在用户手动调用后，像知识库编辑一样从当前会话中提炼可复用、长期有效、可验证的项目知识，审查文档与记忆是否过期、膨胀或冲突，并在用户确认修改计划后更新项目文档或记忆文档。
+像知识库编辑一样从当前会话中提炼可复用、长期有效、可验证的项目知识，审查文档与记忆是否过期、膨胀或冲突，并在用户确认修改计划后更新项目文档或记忆文档。
 
 ## Language Contract
 
@@ -13,7 +13,7 @@ Language Contract: generated documents and chat outputs default to Chinese-first
 
 ## 核心规则
 
-- 只在用户明确调用时运行；不要因为会话接近结束、完成实现或看到可整理内容就自动触发。
+- 可以由用户显式调用，也可以由 `workflow-router` 或上一轮 `Natural Handoff` 推荐后进入；不要因为会话接近结束、完成实现或看到可整理内容就静默修改文档。
 - 修改任何文件前，必须先列出具体修改计划并等待用户确认。
 - 只沉淀通用部分：稳定约定、重复出现的 workflow、项目结构知识、验证命令、长期决策、术语、用户明确偏好的项目级规则。
 - 不沉淀一次性过程、临时调试细节、过期计划、聊天寒暄、未验证猜测、隐私信息、secrets、tokens、passwords 或完整对话转录。

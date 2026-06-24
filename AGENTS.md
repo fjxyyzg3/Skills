@@ -15,8 +15,11 @@
 - 新增或修改 skill 时，保持结构精简，只加入对 agent 执行任务有直接帮助的内容。
 - 新增或修改 skill 时，明确 pressure scenarios、trigger description、metadata 和验证方式。
 - 仓库级工作流按任务类型直接选择最小必要 skill；PRD、issues、analysis、implementation、review、verification 和 branch finish 应保持可追溯。
-- `brainstorming`、`session-curator`、`diagnose`、`diagnose-ue`、`implement`、`quick-change`、`to-prd` 和 `to-issues` 只由用户手动调用；可建议用户显式使用 `$skill-name`，但不要按任务类型自动触发。
-- 用户显式调用 `$quick-change` 处理小型 bug 和小需求时，必须保留 scope、acceptance、verification，并在风险扩大时升级到完整链路。
+- workflow skill 之间使用 `Natural Handoff`：完成后最多推荐一个 next skill；`继续`、`可以`、`按你说的办`、`go ahead`、`ok` 和 `好的` 只确认上一条回复中唯一推荐的 next skill。
+- 如果上一条给了多个选项，或用户确认时附加新条件、改变方向，必须重新路由；自然确认不能绕过目标 skill 的 branch、scope、verification、review、commit、push 或修改计划确认。
+- `clarify` 只回答问题和解释代码证据，不推荐后续 skill。
+- `grill-me`、`brainstorming`、`diagnose` 和 `diagnose-ue` 不直接写业务代码；需要实现时通过 `Natural Handoff` 推荐 `$quick-change` 或 `$implement`。
+- `$quick-change` 只处理小、清楚、低风险且可快速验证的 bug 和需求，必须保留 scope、acceptance、verification，并在风险扩大时升级到完整链路。
 - 实现前使用 `checking-branch` 展示当前分支名和状态；用户不同意直接修改但提供新分支名时，默认从仓库主分支创建，无法确认主分支时需再确认是否从当前分支创建。
-- 非平凡 feature work 如果已有 PRD/issues/plan artifacts，默认经过 `analyze -> checking-branch -> requesting-code-review -> verification-before-completion`；需要生成 PRD 或 issues 时，只能建议用户显式调用 `$to-prd` 或 `$to-issues`。
+- 非平凡 feature 或 bug fix 如果已有 PRD/issues/plan artifacts，默认经过 `analyze -> checking-branch -> requesting-code-review -> verification-before-completion`；需要生成 PRD 或 issues 时，通过 `Natural Handoff` 推荐 `$to-prd` 或 `$to-issues`。
 - 完成前运行 `python scripts/validate-skills.py`，并修复 frontmatter、metadata、TODO、乱码和名称不一致问题。

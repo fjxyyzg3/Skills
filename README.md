@@ -6,36 +6,41 @@ lihuanyu 个人的 Codex skill 仓库，用于沉淀、维护和迭代可复用 
 
 ```mermaid
 flowchart LR
-  Start["task context"] --> Grill["grill-me"]
-  Start --> Architecture["improve-codebase-architecture"]
-  Start --> Handoff["handoff"]
-  Start --> Analyze["analyze existing artifacts"]
+  Start["task context"] --> Router["workflow-router"]
+  Router --> Clarify["clarify"]
+  Router --> Need["grill-me / brainstorming"]
+  Router --> Diagnose["diagnose / diagnose-ue"]
+  Router --> Quick["quick-change"]
+  Router --> PRD["to-prd"]
+  PRD --> Issues["to-issues"]
+  Issues --> Analyze["analyze existing artifacts"]
   Analyze --> Branch["checking-branch"]
   Branch --> Work["implementation work"]
   Work --> Review["requesting-code-review"]
   Review --> Verify["verification-before-completion"]
   Verify --> Finish["finishing-branch"]
-  Start -. "explicit only" .-> Manual["brainstorming / to-prd / to-issues / quick-change / diagnose / diagnose-ue / implement / session-curator"]
 ```
 
-`brainstorming`、`to-prd`、`to-issues`、`quick-change`、`diagnose`、`diagnose-ue`、`implement` 和 `session-curator` 都是用户手动触发的 skill，不在默认路由或实现链路中自动运行。
+workflow skills 使用 `Natural Handoff` 做自然交接：一个 skill 完成后最多推荐一个 next skill，并用 1-3 句说明结果、推荐下一步和理由。用户回复 `继续`、`可以`、`按你说的办`、`go ahead`、`ok` 或 `好的` 时，只会进入上一条回复中唯一推荐的 next skill；如果上一条给了多个选项，或用户确认时改变条件，必须重新路由。
+
+`Natural Handoff` 只负责 skill 之间的转场，不会绕过目标 skill 的内部安全门。实现类、分支类、提交类或文档写入类 skill 仍然必须处理自己的 scope、branch、verification、review、commit、push 或修改计划确认。
 
 ## Skills
 
 | Skill | 用途 |
 | --- | --- |
-| `clarify` | 源码解释、调用链、图表和报告 |
+| `clarify` | 源码解释、调用链、图表和报告；只回答问题，不推荐后续 skill |
 | `brainstorming` | 设计前澄清目标、比较方案并生成已确认设计 |
 | `grill-me` | 追问方案、约束、风险和验收 |
-| `quick-change` | 手动调用后处理小型 bug、小需求和低风险快速改动 |
-| `to-prd` | 手动调用后将上下文整理成本地 PRD |
-| `to-issues` | 手动调用后将 PRD/plan/spec 拆成本地 issues |
+| `quick-change` | 处理小型 bug、小需求和低风险快速改动 |
+| `to-prd` | 将上下文整理成本地 PRD |
+| `to-issues` | 将 PRD/plan/spec 拆成本地 issues |
 | `analyze` | 只读检查 artifacts 一致性和覆盖率 |
 | `checking-branch` | 展示当前分支状态，确认直接修改或创建新分支 |
 | `tdd` | 按 RED/GREEN/REFACTOR 循环推进测试先行实现 |
-| `implement` | 手动调用后按 TDD 执行实现 |
-| `diagnose` | 手动调用后执行通用 bug / 性能回归诊断 |
-| `diagnose-ue` | 手动调用后执行 Unreal Engine 问题诊断 |
+| `implement` | 按 TDD、review 和 verification 执行实现 |
+| `diagnose` | 执行通用 bug / 性能回归诊断，产出 root cause 和修复入口建议 |
+| `diagnose-ue` | 执行 Unreal Engine 问题诊断，产出 UE 运行形态、root cause 和修复入口建议 |
 | `improve-codebase-architecture` | 架构加深、重构机会和 testability 改进 |
 | `requesting-code-review` | 两阶段实现评审 |
 | `verification-before-completion` | 完成前验证质量门 |
@@ -51,8 +56,10 @@ flowchart LR
 - 用户明确要求英文，或目标项目已有英文 artifact 规范时可以例外，但必须记录原因。
 - 产出型 skill 使用统一 `Language Contract` 标记；核心 section heading 使用中文优先、English 括注。
 - 新增或修改 skill 时，明确 pressure scenarios、trigger description 和 metadata，再运行本地 validator。
-- `brainstorming`、`to-prd`、`to-issues`、`quick-change`、`diagnose`、`diagnose-ue`、`implement` 和 `session-curator` 只能由用户显式调用；可建议用户使用，但不要按任务类型自动触发。
-- 非平凡实现如果已有 PRD/issues/plan artifacts，优先使用 `analyze -> checking-branch -> requesting-code-review -> verification-before-completion`；如需生成 PRD 或 issues，只能建议用户显式调用 `$to-prd` 或 `$to-issues`。
+- workflow skill 完成后通过 `Natural Handoff` 最多推荐一个 next skill；自然确认只绑定上一条唯一推荐，不能跨过目标 skill 的内部安全门。
+- `clarify` 是只读解释路径，完成后自然结束，不推荐后续 skill。
+- `grill-me`、`brainstorming`、`diagnose` 和 `diagnose-ue` 不直接写业务代码；需要进入修复或实现时，通过 `Natural Handoff` 推荐 `$quick-change` 或 `$implement`。
+- 小、清楚、低风险且可快速验证的 feature 或 bug fix 可走 `$quick-change`；跨模块、需求不清、影响 contract、多 slice 或验收复杂的变更走 `$to-prd -> $to-issues -> $analyze -> $implement`。
 
 ## 验证
 

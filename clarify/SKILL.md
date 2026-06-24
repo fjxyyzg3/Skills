@@ -13,6 +13,7 @@ Language Contract: generated documents and chat outputs default to Chinese-first
 
 ## 核心规则
 
+- 只回答用户提出的代码库问题，不推荐后续 workflow skill；解释完成后自然结束。
 - 一次最多问一个澄清问题，并给出你建议采用的默认答案。
 - 如果细节可以从代码、文档、配置、示例、测试、历史记录或生成产物中发现，先检查这些来源，不要直接提问。
 - 明确标注推断。不要把猜测当作有源码支撑的事实。
@@ -67,3 +68,9 @@ Language Contract: generated documents and chat outputs default to Chinese-first
 - 总结关键结论
 - 总结已检查的证据
 - 如仍存在未解决歧义，明确指出
+
+## 收尾规则
+
+- 如果问题已经回答，直接说明本次解释完成。
+- 如果仍有未解决歧义，只列出需要用户补充的事实或可以自行验证的方向。
+- 不使用 `Natural Handoff` 推荐下一步 skill；需要规划、诊断或实现时，等待用户另行提出。
