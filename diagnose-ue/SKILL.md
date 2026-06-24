@@ -35,7 +35,7 @@ UE 问题通常横跨 C++、Blueprint、Asset、Editor state、Cooked content、
 
 ## Language Contract
 
-Language Contract: generated documents and chat outputs default to Chinese-first; preserve English for code, commands, API names, contract fields, IDs, proper nouns, and necessary technical terms. 用户或目标项目明确要求英文时可以例外，但必须记录原因。
+语言契约：生成的文档和聊天输出默认以中文优先；代码、命令、API 名称、契约字段、ID、专有名词以及必要的技术术语保留英文。用户或目标项目明确要求英文时可以例外，但必须记录原因。
 
 ## 压力规则
 

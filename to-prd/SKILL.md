@@ -15,7 +15,7 @@ description: Use when creating a local Chinese-first PRD, feature spec, product 
 
 ## Language Contract
 
-Language Contract: generated documents and chat outputs default to Chinese-first; preserve English for code, commands, API names, contract fields, IDs, proper nouns, and necessary technical terms. 用户或目标项目明确要求英文时可以例外，但必须记录原因。
+语言契约：生成的文档和聊天输出默认以中文优先；代码、命令、API 名称、契约字段、ID、专有名词以及必要的技术术语保留英文。用户或目标项目明确要求英文时可以例外，但必须记录原因。
 
 PRD 正文必须中文优先。`FR-001`、`SC-001`、`Metadata`、`Status`、`Source`、`Feature Slug`、`Verification seam` 等 workflow contract fields 可以保留英文，但其后的描述句必须使用中文主文。不要沿用英文模板句式，例如 `As a ... I want ... so that ...`、`must ...`、`should ...`、`Recommended vertical slice ...`，除非用户明确要求英文 PRD。
 
