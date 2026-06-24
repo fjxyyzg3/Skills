@@ -15,16 +15,17 @@ flowchart LR
   Work --> Review["requesting-code-review"]
   Review --> Verify["verification-before-completion"]
   Verify --> Finish["finishing-branch"]
-  Start -. "explicit only" .-> Manual["to-prd / to-issues / quick-change / diagnose / diagnose-ue / implement / session-curator"]
+  Start -. "explicit only" .-> Manual["brainstorming / to-prd / to-issues / quick-change / diagnose / diagnose-ue / implement / session-curator"]
 ```
 
-`to-prd`、`to-issues`、`quick-change`、`diagnose`、`diagnose-ue`、`implement` 和 `session-curator` 都是用户手动触发的 skill，不在默认路由或实现链路中自动运行。
+`brainstorming`、`to-prd`、`to-issues`、`quick-change`、`diagnose`、`diagnose-ue`、`implement` 和 `session-curator` 都是用户手动触发的 skill，不在默认路由或实现链路中自动运行。
 
 ## Skills
 
 | Skill | 用途 |
 | --- | --- |
 | `clarify` | 源码解释、调用链、图表和报告 |
+| `brainstorming` | 设计前澄清目标、比较方案并生成已确认设计 |
 | `grill-me` | 追问方案、约束、风险和验收 |
 | `quick-change` | 手动调用后处理小型 bug、小需求和低风险快速改动 |
 | `to-prd` | 手动调用后将上下文整理成本地 PRD |
@@ -50,7 +51,7 @@ flowchart LR
 - 用户明确要求英文，或目标项目已有英文 artifact 规范时可以例外，但必须记录原因。
 - 产出型 skill 使用统一 `Language Contract` 标记；核心 section heading 使用中文优先、English 括注。
 - 新增或修改 skill 时，明确 pressure scenarios、trigger description 和 metadata，再运行本地 validator。
-- `to-prd`、`to-issues`、`quick-change`、`diagnose`、`diagnose-ue`、`implement` 和 `session-curator` 只能由用户显式调用；可建议用户使用，但不要按任务类型自动触发。
+- `brainstorming`、`to-prd`、`to-issues`、`quick-change`、`diagnose`、`diagnose-ue`、`implement` 和 `session-curator` 只能由用户显式调用；可建议用户使用，但不要按任务类型自动触发。
 - 非平凡实现如果已有 PRD/issues/plan artifacts，优先使用 `analyze -> checking-branch -> requesting-code-review -> verification-before-completion`；如需生成 PRD 或 issues，只能建议用户显式调用 `$to-prd` 或 `$to-issues`。
 
 ## 验证

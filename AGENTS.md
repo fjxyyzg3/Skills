@@ -15,7 +15,7 @@
 - 新增或修改 skill 时，保持结构精简，只加入对 agent 执行任务有直接帮助的内容。
 - 新增或修改 skill 时，明确 pressure scenarios、trigger description、metadata 和验证方式。
 - 仓库级工作流按任务类型直接选择最小必要 skill；PRD、issues、analysis、implementation、review、verification 和 branch finish 应保持可追溯。
-- `session-curator`、`diagnose`、`diagnose-ue`、`implement`、`quick-change`、`to-prd` 和 `to-issues` 只由用户手动调用；可建议用户显式使用 `$skill-name`，但不要按任务类型自动触发。
+- `brainstorming`、`session-curator`、`diagnose`、`diagnose-ue`、`implement`、`quick-change`、`to-prd` 和 `to-issues` 只由用户手动调用；可建议用户显式使用 `$skill-name`，但不要按任务类型自动触发。
 - 用户显式调用 `$quick-change` 处理小型 bug 和小需求时，必须保留 scope、acceptance、verification，并在风险扩大时升级到完整链路。
 - 实现前使用 `checking-branch` 展示当前分支名和状态；用户不同意直接修改但提供新分支名时，默认从仓库主分支创建，无法确认主分支时需再确认是否从当前分支创建。
 - 非平凡 feature work 如果已有 PRD/issues/plan artifacts，默认经过 `analyze -> checking-branch -> requesting-code-review -> verification-before-completion`；需要生成 PRD 或 issues 时，只能建议用户显式调用 `$to-prd` 或 `$to-issues`。

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Brainstorming"
+  short_description: "设计前澄清目标、比较方案并产出经过用户确认的本地设计文档"
+  default_prompt: "使用 $brainstorming 帮我把模糊想法收敛成设计，比较可选方案，并在确认后写出本地设计文档。"
