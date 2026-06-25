@@ -1,6 +1,7 @@
 ---
 name: diagnose-ue
-description: Use when a concrete Unreal Engine / UE symptom needs disciplined diagnosis, including crash/assert/ensure, PIE/Standalone/Cooked/Packaged differences, Blueprint/asset/load/cook, networking, rendering, memory, performance, or platform-only behavior.
+description: This skill should be used when the user asks to "diagnose a UE crash", "debug PIE vs packaged differences", "triage Blueprint, asset, load, cook, network, rendering, memory, performance, or platform-only UE issues". Use for symptoms needing repro, hypotheses, probes, evidence, and repair handoff.
+version: 0.1.0
 ---
 
 # Diagnose UE
@@ -11,27 +12,20 @@ UE 问题通常横跨 C++、Blueprint、Asset、Editor state、Cooked content、
 
 ## 进入边界
 
-- 适用于具体 UE 症状：crash、assert、ensure、PIE/Standalone/Cooked/Packaged 差异、Blueprint、asset/load/cook、network、rendering、memory、performance 或平台问题。
-- 可以由用户显式调用，也可以由 `workflow-router` 或上一轮 `Natural Handoff` 推荐后进入。
-- 本 skill 产出运行形态、root cause、证据、修复选项和回归验证建议；不要提交持久业务代码修改。
-- 如果需要落地修复，用 `Natural Handoff` 推荐 `$quick-change` 或 `$implement`。
-
-## 适用边界
-
-使用本 skill 的前提是：存在具体 UE 症状，需要定位原因或验证修复。
+使用本 skill 的前提是存在具体 UE 症状，需要定位原因、验证修复，或从运行时 artifact 建立诊断路径。可以由用户显式调用，也可以由 `workflow-router` 或上一轮 `Natural Handoff` 推荐后进入。本 skill 产出运行形态、root cause、证据、修复选项和回归验证建议；不要提交持久业务代码修改。
 
 适用：
 
 - crash、assert、ensure、Editor hang、PIE/Standalone/Cooked/Packaged/Shipping 差异。
-- 错误运行时行为、Blueprint 异常、asset/load/cook 问题。
-- network desync、replication 错误、rendering artifact、memory/performance regression、platform-only failure。
+- Blueprint、asset/load/cook、network、rendering、memory、performance、platform-only failure。
 
 不适用：
 
 - UE API 教学、概念解释、一般架构设计。
-- 新功能设计或普通实现任务。
-- 纯代码 review。
-- RenderDoc `.rdc` 捕获分析，除非目标是回到 UE 工程里建立 repro 和修复验证循环。
+- 新功能设计、普通实现任务、纯代码 review。
+- 纯 RenderDoc `.rdc` 捕获分析，除非目标是回到 UE 工程里建立 repro 和修复验证循环。
+
+如果需要落地修复，用 `Natural Handoff` 推荐 `$quick-change` 或 `$implement`。
 
 ## Language Contract
 
@@ -45,29 +39,21 @@ UE 问题通常横跨 C++、Blueprint、Asset、Editor state、Cooked content、
 - 性能问题必须先固定 baseline、地图、视角、scalability、RHI、分辨率和采样窗口，再改代码。
 - 临时 instrumentation 必须能对应某个 hypothesis 的 prediction；结束前清理或明确保留位置。
 
+## References
+
+- 运行形态依赖 Editor、PIE、Standalone、Cooked、Packaged、Shipping、server/client、platform 或 RHI 时，使用 `references/runtime-modes.md`。
+- 选择 log、callstack、CrashContext、minidump、Unreal Insights、Network Profiler、Cook log 或 `[DEBUG-UE-...]` probe 时，使用 `references/probes-and-artifacts.md`。
+- 将 repro 转成 Automation、Functional Test、Gauntlet、command-line、cook/package、network 或 performance validation 时，使用 `references/regression-seams.md`。
+
 ## Phase 1 — 建立 UE 反馈循环
 
 先得到一个能稳定暴露症状的 pass/fail 信号。优先选择能被命令行、自动化测试或固定操作脚本重复执行的循环。
 
-按以下优先顺序尝试：
+优先尝试最小 map/Actor/Asset、Automation/Functional Test、固定命令行启动、PIE/Standalone 操作脚本、Cook/Package 循环、网络多实例循环、性能 profiling 循环、崩溃捕获循环，最后才使用 HITL 循环。运行形态和 artifact 细节见 `references/runtime-modes.md` 和 `references/probes-and-artifacts.md`。
 
-1. **最小地图 / 最小 Actor / 最小 Asset**：复制或新建只包含触发问题所需对象的 map、BP、DataAsset、AnimBP、Material、Widget 或 GameplayAbility。
-2. **Automation / Functional Test**：能写自动化测试时，优先用 UE Automation Test、Functional Test、Gauntlet 或项目已有测试框架复现。
-3. **固定命令行启动**：用项目已有脚本或 UE 命令行启动指定 map/mode/config，并捕获 log。保留完整 command line、Engine version、platform、build configuration。
-4. **PIE/Standalone 操作脚本**：如果必须在 Editor 中触发，写出最短人工步骤；能用 Editor Utility、Python、console command、exec command 或 automation driver 替代点击时就替代。
-5. **Cook/Package 复现**：如果只在 cooked/packaged/shipping 出现，建立 `BuildCookRun` 或项目打包脚本循环，不要用 PIE 结果替代。
-6. **网络复现**：明确 server/client 数量、角色、travel 方式、packet lag/loss、replication graph、net dormancy、prediction/rollback 条件；优先脚本化多实例启动，不能脚本化时记录手工步骤、实例启动参数和不可脚本化原因。
-7. **性能复现**：固定地图、视角、玩家数量、资产集、scalability、RHI、分辨率、帧数采样窗口；使用 Unreal Insights、stat 命令或项目 profiling harness。
-8. **崩溃复现**：保留 callstack、CrashContext、minidump、Saved/Logs、最后一次成功操作和相关 asset 路径。能稳定崩溃时，循环就是“启动 -> 触发 -> 捕获 callstack”。
-9. **HITL 循环**：最后手段。如果必须人手操作，给用户一组编号步骤，让用户每轮只回传固定信息：log 片段、callstack、截图、Insights trace、复现次数。
+让循环更快、更尖锐、更确定：跳过无关启动，缩小 map 和 asset，固定随机种子、GameMode、启动参数和运行形态；用可断言的 crash function、ensure 文本、错误 asset、错误 replicated value 或帧时间阈值定义 pass/fail。
 
-迭代循环本身：
-
-- 让它更快：跳过无关启动、缩小 map、减少 asset、禁用无关 plugin、固定启动参数。
-- 让它更尖锐：断言具体症状，例如 crash function、ensure 文本、错误 asset、错误 replicated value、帧时间阈值。
-- 让它更确定：固定随机种子、固定地图和 GameMode、清理 DerivedDataCache 影响、隔离 Saved/Config、明确 Editor vs packaged。
-
-没有可信反馈循环时，停下来说明已尝试内容，并向用户请求缺失的最小材料：可复现工程、最小 repro、Saved/Logs、callstack、CrashContext/minidump、Unreal Insights trace、Network Profiler capture、Cook/Package log、目标平台访问，或允许添加临时 instrumentation。
+没有可信反馈循环时，停下来说明已尝试内容，并向用户请求缺失的最小材料。
 
 ## Phase 2 — 复现并定界
 
@@ -99,18 +85,13 @@ UE 常见假设维度：
 - Network：authority/ownership、RPC 条件、replication order、prediction、dormancy、seamless travel。
 - Performance：CPU/GPU/render thread bottleneck、GC spike、asset streaming、shader compilation、tick fan-out、allocation churn。
 
-把排序列表展示给用户；用户不在时，按你的排序继续。
+把排序列表展示给用户；用户不在时，按当前排序继续。
 
 ## Phase 4 — 定向仪表
 
 每个 probe 都要对应 Phase 3 的一个 prediction。一次只改变一个变量。
 
-优先级：
-
-1. **Debugger / breakpoint / watch**：C++ 崩溃、断言、生命周期问题优先用 debugger。
-2. **已有 UE 工具**：Unreal Insights、Session Frontend、stat unit/stat game/stat gpu、MemReport、obj refs、Reference Viewer、Asset Audit、Network Profiler。
-3. **定向 log**：只在能区分假设的边界加 log，使用项目已有 log category；临时 log 必须带唯一前缀，例如 `[DEBUG-UE-a4f2]`。
-4. **Blueprint probe**：只有 C++ debugger、已有 UE 工具或定向 log 无法观察 Blueprint-only 状态时，才添加 Print String、breakpoint、watch pin，并在结束前清理。
+优先使用 Debugger/breakpoint/watch、已有 UE 工具、定向 log、Blueprint probe。probe 和 artifact 选择见 `references/probes-and-artifacts.md`。
 
 不要 “log everything and grep”。性能问题先测 baseline，再改代码；渲染问题先判断 CPU/GPU/render thread/RHI thread；网络问题先分清 server truth、client prediction 和 replicated presentation。
 
@@ -118,13 +99,7 @@ UE 常见假设维度：
 
 有正确 seam 时，先把最小 repro 转成 regression test 或自动化验证建议，再进入修复。
 
-可接受 seam：
-
-- Automation/Functional/Gauntlet test 覆盖真实运行形态。
-- 小型 repro map + command line + 断言 log/exit code。
-- C++ unit/automation test 覆盖真实生命周期或序列化路径。
-- 性能 baseline 测试覆盖同一 map、视角和采样窗口。
-- 打包/cook 问题用 cook/package 验证，而不是只用 PIE。
+可接受 seam 包括 Automation/Functional/Gauntlet test、小型 repro map + command line + 断言 log/exit code、C++ unit/automation test、性能 baseline 测试，以及 cook/package 验证。选择细节见 `references/regression-seams.md`。
 
 如果没有正确 seam，记录这是架构或测试性缺口；不要用过浅的 unit test 制造虚假信心。
 
@@ -146,5 +121,17 @@ UE 常见假设维度：
 - [ ] 所有 `[DEBUG-UE-...]` log、Blueprint Print String、临时 console command、测试 map 中的 debug-only 对象已清理或移动到明确 debug 位置。
 - [ ] 临时 asset、repro map、trace、minidump 的去留明确；保留时放在项目约定的 debug/artifact 位置。
 - [ ] 诊断报告或后续修复 handoff 中说明最终正确的 hypothesis、验证方式和覆盖的运行形态。
+
+## 输出检查
+
+最终诊断输出包含：
+
+- 运行形态和复现条件。
+- 精确症状和关键证据。
+- 已测试 hypotheses、prediction 和结果。
+- root cause 状态：confirmed、likely、blocked。
+- regression seam 或等价验证循环。
+- 清理状态和残留 artifacts。
+- 修复入口：`$quick-change`、`$implement` 或暂不修复。
 
 最后追问：什么原本可以防止这个问题？如果答案是缺少测试 seam、生命周期耦合、资产引用规则不清、网络 ownership 模型混乱或 profiling 基线缺失，把具体结论交给架构改进或测试基础设施建设，而不是在修复前泛泛重构。
