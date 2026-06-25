@@ -21,4 +21,23 @@ description: Use when stress-testing a plan, design, proposal, product idea, arc
 - 当某个分支已被回答或被证据排除，明确收束结论，再进入下一个关键分支。
 - 保持尖锐但务实：挑战薄弱假设，避免为了追问而追问。
 - 本 skill 只明确需求、边界、风险和验收；不要写业务代码、scaffold 项目、改行为或启动实现。
-- 完成后可以用 `Natural Handoff` 最多推荐一个 next skill，例如 `$to-prd`、`$to-issues`、`$quick-change`、`$diagnose`、`$diagnose-ue` 或 `$implement`。
+- 用户同意方案方向只表示可以继续细化，不等于已经 implementation-ready。
+- 仍有关键问题未收束时，继续提出下一个问题；不要用 `Natural Handoff` 推荐 next skill。
+
+## 完成条件
+
+- 关键 upstream constraints 已被回答，或已明确 deferred 且不会改变下一步推荐。
+- 已总结推荐方案、被排除的 alternatives，以及对应取舍。
+- Acceptance criteria 或 failure conditions 已清楚到足够交给下一个 artifact 或 implementation skill。
+- 没有仍未回答、且会实质改变推荐 next skill 的关键问题。
+
+## Natural Handoff
+
+只有满足完成条件后，才可以用 `Natural Handoff` 最多推荐一个 next skill：
+
+- 方案已经达成方向共识，但还没有 formalized spec 时，推荐 `$to-prd`。
+- 已有 PRD/spec，需要拆 execution slices、依赖和验收覆盖时，推荐 `$to-issues`。
+- 已有确认后的 issues/plan，或用户显式要求实现时，才推荐 `$quick-change` 或 `$implement`；小、清楚、低风险且可快速验证时优先 `$quick-change`，否则推荐 `$implement`。
+- 如果讨论已经自然结束且没有合适下一步，推荐 `none` 或直接说明停在这里。
+
+自然确认只能进入上一条回复唯一推荐的 next skill，不能跳过目标 skill 自己的 scope、branch、verification、review、commit、push 或修改计划确认。

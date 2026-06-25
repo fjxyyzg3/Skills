@@ -35,6 +35,18 @@ LANGUAGE_CONTRACT_MARKER = (
     "代码、命令、API 名称、契约字段、ID、专有名词以及必要的技术术语保留英文。"
 )
 LANGUAGE_CONTRACT_EXCEPTION = "用户或目标项目明确要求英文时可以例外，但必须记录原因。"
+GRILL_ME_REQUIRED_TEXT = (
+    "## 完成条件",
+    "关键 upstream constraints",
+    "用户同意方案方向只表示可以继续细化",
+    "仍有关键问题未收束时",
+    "不要用 `Natural Handoff` 推荐 next skill",
+    "## Natural Handoff",
+    "推荐 `$to-prd`",
+    "推荐 `$to-issues`",
+    "推荐 `$quick-change` 或 `$implement`",
+    "推荐 `none`",
+)
 
 
 def read_text(path: Path) -> str:
@@ -168,6 +180,21 @@ def validate_workflow_contract() -> list[str]:
     return errors
 
 
+def validate_grill_me_contract() -> list[str]:
+    errors: list[str] = []
+    grill_me_path = ROOT / "grill-me" / "SKILL.md"
+    try:
+        grill_me_text = read_text(grill_me_path)
+    except ValueError as exc:
+        return [f"{grill_me_path.relative_to(ROOT)}: {exc}"]
+
+    for required in GRILL_ME_REQUIRED_TEXT:
+        if required not in grill_me_text:
+            errors.append(f"{grill_me_path.relative_to(ROOT)}: missing grill-me contract marker {required!r}")
+
+    return errors
+
+
 def main() -> int:
     skill_dirs = sorted(
         path for path in ROOT.iterdir()
@@ -178,6 +205,7 @@ def main() -> int:
     for skill_dir in skill_dirs:
         errors.extend(validate_skill(skill_dir))
     errors.extend(validate_workflow_contract())
+    errors.extend(validate_grill_me_contract())
 
     if errors:
         print("Skill validation failed:")
