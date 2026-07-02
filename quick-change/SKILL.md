@@ -1,6 +1,6 @@
 ---
 name: quick-change
-description: Use for a small bug fix, quick fix, tiny behavior change, copy/configuration tweak, or low-risk implementation task with clear scope, acceptance, and a fast verification seam.
+description: Use for quick changes: small bug fixes, tiny behavior/copy/configuration tweaks, or low-risk implementation tasks with one-sentence acceptance and a fast verification seam.
 ---
 
 # Quick Change
@@ -16,6 +16,25 @@ description: Use for a small bug fix, quick fix, tiny behavior change, copy/conf
 ## Language Contract
 
 语言契约：生成的文档和聊天输出默认以中文优先；代码、命令、API 名称、契约字段、ID、专有名词以及必要的技术术语保留英文。用户或目标项目明确要求英文时可以例外，但必须记录原因。
+
+## Trigger Description
+
+`quick-change` 只处理一个 tight change：scope 可用一句话圈住，acceptance 可被用户直接判断，verification 能在当前环境快速给出 pass/fail 信号。写不出 `Scope / Acceptance / Verification` 三行时，不进入快速链路。
+
+## Pressure Scenarios
+
+1. User says: "顺手把这个也改一下。"
+   - Expected skill trigger: 重新收束为一个 tight change，只保留当前任务直接需要的改动。
+   - Common failure without skill: 把相邻重构、命名整理或额外需求混进 diff。
+   - Behavior this skill must force: 每个改动行都能对应到 contract 的 `Scope` 或 `Acceptance`。
+2. User reports a small bug, but no reliable pass/fail signal appears quickly.
+   - Expected skill trigger: 10-15 分钟内建立最小 repro、targeted failing test 或等价命令。
+   - Common failure without skill: 直接猜修，最后无法证明 bug 被修掉。
+   - Behavior this skill must force: 没有 reliable seam 时停止快速链路，并通过 `Natural Handoff` 推荐 `$diagnose` 或 `$diagnose-ue`。
+3. A tiny edit touches shared contract、core workflow、performance-sensitive path 或底层共享代码。
+   - Expected skill trigger: 先证明现有数据、字段或 seam 不能满足当前语义。
+   - Common failure without skill: 为了快速落地新增重复计算、结构字段或隐藏耦合。
+   - Behavior this skill must force: 影响面变大时升级到 `$analyze` 或 `$implement`，不要把风险藏在 quick change 中。
 
 ## 适用条件
 
@@ -49,19 +68,27 @@ description: Use for a small bug fix, quick fix, tiny behavior change, copy/conf
 ## 工作流程
 
 1. 用 `checking-branch` 确认当前开发分支、Git 状态和 baseline。
-2. 写下 1-3 行任务 contract：
+2. 写下 1-3 行任务 contract；如果任一行写不清，先按升级条件停止：
    - Scope:
    - Acceptance:
    - Verification:
-3. 小 bug 先建立最小 repro、targeted failing test 或等价 pass/fail 命令。
-4. 小需求优先写一个 external behavior test；不适合自动化时记录 manual/static verification。
-5. 做最小实现，只改完成任务所需内容。
-6. 运行 targeted verification；必要时运行邻近测试。
-7. 做轻量 self-review：
+3. 小 bug 先建立最小 repro、targeted failing test 或等价 pass/fail 命令；信号必须先失败或能稳定暴露症状。
+4. 小需求优先写一个 external behavior test；不适合自动化时，先记录 manual/static verification。
+5. 对 performance-sensitive path 或共享底层代码，做最小实现前先列出现有数据来源和不可复用原因；若计划新增重复计算或结构字段，先证明现有字段不能满足语义。
+6. 做最小实现，只改完成 contract 所需内容。
+7. 运行 targeted verification；必要时运行邻近测试。
+8. 做轻量 self-review：
    - 是否只覆盖约定 scope。
    - 是否有未处理 edge case。
    - 是否需要升级到完整 review。
-8. 用简短完成报告说明修改、验证、跳过项和残留风险。
+9. 用简短完成报告说明修改、验证、跳过项和残留风险。
+
+## Natural Handoff
+
+- 完成后如果没有 commit、push、PR 或分支收尾需求，推荐 `none`，自然结束。
+- 如果用户要求分支收尾，最多推荐 `$finishing-branch`，不要在本 skill 内替代它的 gate。
+- 如果触发升级条件，停止当前链路，并最多推荐一个 next skill：`$diagnose`、`$diagnose-ue`、`$grill-me`、`$to-prd`、`$to-issues`、`$analyze` 或 `$implement`。
+- 自然确认只进入上一条唯一推荐的 next skill，不代表跳过该 skill 自己的 branch、scope、verification、review、commit 或 push gate。
 
 ## 输出格式
 
