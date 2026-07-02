@@ -95,6 +95,19 @@ Next：没有未处理 `CRITICAL` finding 后进入 `N4 Mode Decision`。
 
 Stop：`CRITICAL` finding 阻塞实现，且无法在当前任务内修正或需要用户决策。
 
+### H1 Stop or Resolve Critical Findings
+
+Trigger：`N3 Analyze Gate` 发现 `CRITICAL` finding。
+
+Action：
+- 先判断该 finding 是否属于当前实现 scope 内可直接修正的问题。
+- 可修正时，把它转成当前实现的第一个 slice，修复并验证后回到 `N3 Analyze Gate`。
+- 需要用户决策、扩大 scope、重写 PRD/issues 或改变 acceptance criteria 时停止实现，说明阻塞点和推荐决策。
+
+Next：scope 内修正完成后回到 `N3 Analyze Gate`；用户决策后根据新输入重新进入 `N2 Input Intake`。
+
+Stop：`CRITICAL` finding 仍未解决，或用户尚未确认会改变 scope / acceptance criteria 的决策。
+
 ### N4 Mode Decision
 
 Trigger：输入和 analyze gate 已清楚。
@@ -263,7 +276,7 @@ Stop：无。
 - 已覆盖 PRD requirements 或选定 issues 的 acceptance criteria。
 - 已保留每个 slice 或 issue 的 RED/GREEN/REFACTOR 证据，或记录无法自动化测试的替代验证。
 - 已运行相关测试和必要的更宽验证。
-- 已由 review subagent 执行 `requesting-code-review`，并记录最小 review packet 范围、findings、修复结果或用户接受的残留风险。
+- 已由 review subagent 执行 `requesting-code-review`，并记录最小 review packet 范围、findings、修复结果；如果 review subagent 工具不可用，必须记录用户显式接受的 residual risk 降级 review。
 - 已通过 `verification-before-completion`。
 - 已列出未解决风险、跳过测试的原因、以及需要用户后续决定的事项。
 - 没有遗留正在运行的实现或验证进程。
