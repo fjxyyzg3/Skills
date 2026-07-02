@@ -1,6 +1,6 @@
 ---
 name: quick-change
-description: Use for quick changes: small bug fixes, tiny behavior/copy/configuration tweaks, or low-risk implementation tasks with one-sentence acceptance and a fast verification seam.
+description: "Use for quick changes: small bug fixes, tiny behavior/copy/configuration tweaks, or low-risk implementation tasks with one-sentence acceptance and a fast verification seam."
 ---
 
 # Quick Change

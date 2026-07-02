@@ -13,6 +13,7 @@ NAME_RE = re.compile(r"^[a-z0-9-]+$")
 FIELD_RE = re.compile(r"^([A-Za-z0-9_-]+):\s*(.*)$")
 SHORT_DESCRIPTION_RE = re.compile(r'short_description:\s*"([^"]+)"')
 DEFAULT_PROMPT_RE = re.compile(r'^\s*default_prompt:\s*"[^"]+"\s*$', re.MULTILINE)
+PLAIN_SCALAR_WITH_MAPPING_RE = re.compile(r"^[^'\"|>].*:\s+.+")
 BAD_TEXT = ("[TODO", "TODO:", "placeholder", "\ufffd")
 STALE_WORKFLOW_TEXT = (
     "Next Skill Gate",
@@ -66,7 +67,11 @@ def parse_frontmatter(text: str) -> dict[str, str]:
             return fields
         match = FIELD_RE.match(line)
         if match:
-            fields[match.group(1)] = match.group(2).strip()
+            key = match.group(1)
+            value = match.group(2).strip()
+            if PLAIN_SCALAR_WITH_MAPPING_RE.match(value):
+                raise ValueError(f"{key} contains ': ' and must be quoted")
+            fields[key] = value
     raise ValueError("missing closing YAML frontmatter marker")
 
 
