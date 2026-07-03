@@ -27,9 +27,9 @@ description: Use when starting or resuming a workflow skill chain, deciding whic
 | --- | --- |
 | 需要源码解释、调用链、架构图或本地解释报告 | `$clarify` |
 | 需要拷问方案、约束、风险、验收标准 | `$grill-me` |
-| 需要把上下文整理成 PRD/spec | `$to-prd` |
-| 需要把 PRD/spec/plan 拆成本地 issues | `$to-issues` |
-| 已有 PRD/issues/plan，需要只读检查一致性、覆盖率、依赖和并行风险 | `$analyze` |
+| 需要把方向共识整理成叙事型 spec | `$to-spec` |
+| 需要把 spec 拆成任务级实现 plan | `$to-plan` |
+| 已有 spec/plan，需要只读检查一致性、覆盖率和接口契约 | `$analyze` |
 | 即将开始实现，需要确认分支和 baseline | `$checking-branch` |
 | 小型低风险变更 | `$quick-change` |
 | bug 或性能回归需要系统诊断 | `$diagnose` |
@@ -54,7 +54,7 @@ description: Use when starting or resuming a workflow skill chain, deciding whic
 示例：
 
 ```markdown
-这一步已经把需求边界收住了。我建议下一步用 `$to-prd` 把它整理成 PRD，因为后续还需要拆 issues 和做覆盖检查。你回复“继续”或“使用 `$to-prd`”都可以；如果想先调整边界，也可以直接说。
+这一步已经把需求边界收住了。我建议下一步用 `$to-spec` 把它整理成 spec，因为后续还需要拆 plan 和做覆盖检查。你回复“继续”或“使用 `$to-spec`”都可以；如果想先调整边界，也可以直接说。
 ```
 
 如果没有合适 skill，不推荐下一步，直接说明原因并自然结束。
@@ -68,4 +68,4 @@ description: Use when starting or resuming a workflow skill chain, deciding whic
 
 ## Allowed Routing Targets
 
-Allowed: `$analyze`, `$checking-branch`, `$clarify`, `$diagnose`, `$diagnose-ue`, `$finishing-branch`, `$grill-me`, `$handoff`, `$implement`, `$improve-codebase-architecture`, `$quick-change`, `$requesting-code-review`, `$session-curator`, `$tdd`, `$to-issues`, `$to-prd`, `$verification-before-completion`, `none`.
+Allowed: `$analyze`, `$checking-branch`, `$clarify`, `$diagnose`, `$diagnose-ue`, `$finishing-branch`, `$grill-me`, `$handoff`, `$implement`, `$improve-codebase-architecture`, `$quick-change`, `$requesting-code-review`, `$session-curator`, `$tdd`, `$to-plan`, `$to-spec`, `$verification-before-completion`, `none`.

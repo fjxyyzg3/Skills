@@ -5,7 +5,7 @@ description: "Use for quick changes: small bug fixes, tiny behavior/copy/configu
 
 # Quick Change
 
-面向小型 bug 和小型需求的快速链路。它跳过 PRD、issue breakdown 和 `analyze`，但不跳过分支确认、范围收束、最小验证和风险升级。
+面向小型 bug 和小型需求的快速链路。它跳过 spec、plan 拆分和 `analyze`，但不跳过分支确认、范围收束、最小验证和风险升级。
 
 ## 进入边界
 
@@ -45,7 +45,7 @@ description: "Use for quick changes: small bug fixes, tiny behavior/copy/configu
 - 有明显、快速的 verification seam。
 - 不改 schema、migration、public API、权限、安全、计费、数据迁移或核心 workflow。
 - 不需要产品、设计、架构或多角色决策。
-- 不需要并行执行或拆分多个 issues。
+- 不需要拆分成多个 task。
 
 ## 升级条件
 
@@ -61,9 +61,9 @@ description: "Use for quick changes: small bug fixes, tiny behavior/copy/configu
 升级目标：
 
 - 复杂 bug：停止快速链路，并通过 `Natural Handoff` 推荐 `$diagnose` 或 `$diagnose-ue`。
-- 需求边界不清：通过 `Natural Handoff` 推荐 `$grill-me` 或 `$to-prd`。
-- 多 slice 实现：通过 `Natural Handoff` 推荐 `$to-issues` 或 `$analyze`。
-- 中高风险改动：如果已有 artifacts，通过 `Natural Handoff` 推荐 `$analyze` 或 `$implement`；如果没有 artifacts，推荐完整 `$to-prd -> $to-issues -> $analyze -> $implement` 链路。
+- 需求边界不清：通过 `Natural Handoff` 推荐 `$grill-me` 或 `$to-spec`。
+- 多 task 实现：通过 `Natural Handoff` 推荐 `$to-plan` 或 `$analyze`。
+- 中高风险改动：如果已有 artifacts，通过 `Natural Handoff` 推荐 `$analyze` 或 `$implement`；如果没有 artifacts，推荐完整 `$to-spec -> $to-plan -> $analyze -> $implement` 链路。
 
 ## 工作流程
 
@@ -87,7 +87,7 @@ description: "Use for quick changes: small bug fixes, tiny behavior/copy/configu
 
 - 完成后如果没有 commit、push、PR 或分支收尾需求，推荐 `none`，自然结束。
 - 如果用户要求分支收尾，最多推荐 `$finishing-branch`，不要在本 skill 内替代它的 gate。
-- 如果触发升级条件，停止当前链路，并最多推荐一个 next skill：`$diagnose`、`$diagnose-ue`、`$grill-me`、`$to-prd`、`$to-issues`、`$analyze` 或 `$implement`。
+- 如果触发升级条件，停止当前链路，并最多推荐一个 next skill：`$diagnose`、`$diagnose-ue`、`$grill-me`、`$to-spec`、`$to-plan`、`$analyze` 或 `$implement`。
 - 自然确认只进入上一条唯一推荐的 next skill，不代表跳过该 skill 自己的 branch、scope、verification、review、commit 或 push gate。
 
 ## 输出格式

@@ -14,7 +14,7 @@ description: Use before claiming a task is done, after implementation, debugging
 ## 检查项
 
 1. 需求覆盖。
-   - 对照用户要求、PRD、issue、acceptance criteria。
+   - 对照用户要求、spec、plan、acceptance criteria。
    - 每项标记 done / skipped / blocked。
 
 2. 验证证据。
@@ -23,8 +23,8 @@ description: Use before claiming a task is done, after implementation, debugging
    - 对 bugfix，重新运行原始 repro 或最小化 repro。
 
 3. Artifact integrity。
-   - 文档、issues、Mermaid、HTML、agents metadata、generated assets 没有模板残留。
-   - 本地链接、文件路径、编号和 dependency graph 一致。
+   - 文档、spec/plan artifacts、Mermaid、HTML、agents metadata、generated assets 没有模板残留。
+   - 本地链接、文件路径、编号和 task 顺序一致。
 
 4. 临时内容清理。
    - 搜索并处理 debug 前缀，例如 `[DEBUG-...]`、`[DEBUG-UE-...]`。

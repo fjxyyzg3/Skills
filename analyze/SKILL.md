@@ -1,11 +1,11 @@
 ---
 name: analyze
-description: Use when checking local PRD, spec, plan, issue files, task lists, dependency graphs, execution waves, implementation notes, ambiguity, inconsistency, missing coverage, dependency cycles, parallelization risk, or quality-gate violations before implementation.
+description: Use when checking a local spec and plan for ambiguity, inconsistency, requirement coverage gaps, interface contract mismatches between tasks, missing verification commands, or quality-gate violations before implementation.
 ---
 
 # Analyze
 
-对本地 artifacts 做只读一致性分析。目标是在实现前发现需求、拆分、依赖、并行建议和质量门之间的断裂。
+对本地 artifacts 做只读一致性分析。目标是在实现前发现需求、任务拆分、接口契约和质量门之间的断裂。
 
 ## Language Contract
 
@@ -14,7 +14,7 @@ description: Use when checking local PRD, spec, plan, issue files, task lists, d
 ## 核心规则
 
 - 默认只读，不修改文件。
-- 先检查用户指定的文件；没有指定时，按当前 feature 目录、`docs/features/`、`docs/prd/`、`docs/issues/` 的线索查找。
+- 先检查用户指定的文件；没有指定时，按当前 feature 目录和 `docs/features/` 的线索查找。
 - 只把用户指定文件、输入 artifacts 和它们明确引用的文档作为分析来源。
 - 报告具体位置，避免只给泛泛建议。
 - 不要因为 artifacts 不完整而编造缺失内容；缺失本身就是 finding。
@@ -23,36 +23,34 @@ description: Use when checking local PRD, spec, plan, issue files, task lists, d
 
 优先级：
 
-1. 用户指定的 PRD/spec/plan/issues 目录或文件。
-2. 当前 feature manifest：`docs/features/<feature-slug>/manifest.md` 或 `manifest.json`。
-3. `docs/issues/<feature-slug>/00-index.md` 和相邻 issue 文件。
-4. 最近或最明显相关的 `docs/prd/<feature-slug>.md`。
+1. 用户指定的 spec/plan 文件。
+2. 当前 feature manifest：`docs/features/<feature-slug>/manifest.md`。
+3. `docs/features/<feature-slug>/spec.md` 和同目录 `plan.md`。
 
 ## 分析步骤
 
 1. 建立 artifact map。
-   - PRD/spec: goals、requirements、user stories、success criteria、open questions。
-   - Issues/tasks: issue ID、acceptance criteria、testing notes、dependencies、wave、parallelization。
-   - Implementation notes: contracts、schemas、module decisions、verification commands。
-   - Constraints: 输入 artifacts 中明确写出的 MUST/SHOULD 规则。
+   - Spec: 问题陈述、方案与架构、关键决策、`FR-###` requirements、`SC-###` success criteria、测试决策、open questions。
+   - Plan: task 编号与顺序、`Files`、`Consumes/Produces`、`Covers`、acceptance criteria、验证命令。
+   - Constraints: 输入 artifacts 中明确写出的 MUST/SHOULD 规则和全局约束。
 
 2. 建立 traceability map。
-   - 每个 requirement 是否至少被一个 issue/task 覆盖。
-   - 每个 issue 是否指向 requirement、story、bug 或明确 conversation requirement。
-   - 每个 acceptance criterion 是否有 testing notes 或 verification seam。
+   - 每条 `FR-###` 是否至少被一个 plan task 的 `Covers` 覆盖。
+   - 每个 task 是否指向 `FR-###` 或明确 conversation requirement。
+   - 每个 acceptance criterion 是否有对应验证命令或 verification seam。
 
 3. 运行 finding passes。
    - Ambiguity: 模糊形容词、缺少 actor/object/outcome、不可测试验收。
-   - Inconsistency: 术语漂移、相互冲突的 scope、不同文件对同一 contract 描述不一致。
-   - Coverage gap: requirement 没有 issue、issue 没有验收、测试 seam 缺失。
-   - Dependency issue: cycle、hard dependency 漏写、wave 顺序错误。
-   - Parallelization risk: 标记 `parallel-safe` 但共享 contract/schema/core module。
+   - Inconsistency: 术语漂移、相互冲突的 scope、spec 与 plan 对同一 contract 描述不一致。
+   - Coverage gap: requirement 没有 task 覆盖、task 没有验收标准、验证命令缺失。
+   - Contract mismatch: 后置 task 的 `Consumes` 与前置 task 的 `Produces` 名称、签名或类型对不上；task 引用了任何 task 都不产出的接口。
+   - Feasibility: `Files` 路径与仓库事实明显不符、验证命令引用不存在的脚本或目标。
    - Constraint violation: 违反输入 artifacts 中的明确 MUST 约定或缺少强制质量门。
 
 4. 分配严重度。
-   - `CRITICAL`: 明确 MUST 约束冲突、核心 requirement 无覆盖、dependency cycle 阻塞执行。
-   - `HIGH`: 不可测试验收、冲突需求、错误并行建议、高风险质量门缺失。
-   - `MEDIUM`: 术语漂移、非核心 requirement 漏测、依赖理由不足。
+   - `CRITICAL`: 明确 MUST 约束冲突、核心 requirement 无覆盖、contract mismatch 使后续 task 无法开始。
+   - `HIGH`: 不可测试验收、冲突需求、验证命令缺失或不可执行、高风险质量门缺失。
+   - `MEDIUM`: 术语漂移、非核心 requirement 漏测、task 切分粒度存疑。
    - `LOW`: 可读性、格式、轻微重复。
 
 ## 输出格式
@@ -69,10 +67,10 @@ description: Use when checking local PRD, spec, plan, issue files, task lists, d
 | Requirement | Covered by | Verification seam | Notes |
 | --- | --- | --- | --- |
 
-## 依赖和并行 (Dependency And Parallelization)
+## 接口契约核对 (Contract Consistency)
 
-- Cycles: None / ...
-- Unsafe parallel claims: ...
+- Consumes/Produces mismatches: None / ...
+- 引用不存在接口的 task: None / ...
 
 ## 约束对齐 (Constraint Alignment)
 

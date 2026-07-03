@@ -30,6 +30,8 @@ STALE_WORKFLOW_TEXT = (
     "User confirmation required",
     "Stop rule",
     "allow_implicit_invocation: false",
+    "to-prd",
+    "to-issues",
 )
 LANGUAGE_CONTRACT_MARKER = (
     "语言契约：生成的文档和聊天输出默认以中文优先；"
@@ -43,8 +45,8 @@ GRILL_ME_REQUIRED_TEXT = (
     "仍有关键问题未收束时",
     "不要用 `Natural Handoff` 推荐 next skill",
     "## Natural Handoff",
-    "推荐 `$to-prd`",
-    "推荐 `$to-issues`",
+    "推荐 `$to-spec`",
+    "推荐 `$to-plan`",
     "推荐 `$quick-change` 或 `$implement`",
     "推荐 `none`",
 )
