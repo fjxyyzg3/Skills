@@ -17,12 +17,32 @@ description: Use when converting a local spec, design doc, or conversation conte
 
 语言契约：生成的文档和聊天输出默认以中文优先；代码、命令、API 名称、契约字段、ID、专有名词以及必要的技术术语保留英文。用户或目标项目明确要求英文时可以例外，但必须记录原因。
 
+## Trigger Description
+
+`to-plan` 的 trigger 是把已经成形的需求来源转成本地 plan 文档：必须写入 `plan.md` 或用户指定路径，并让每个 task 绑定来源、真实文件路径、接口契约和验证命令。它不重新定义需求，也不先等待用户确认拆分；只有缺少可信 source 或关键路径事实无法确认时，才问一个阻塞问题。
+
+## Pressure Scenarios
+
+1. User has only conversation context, not a saved spec.
+   - Expected skill trigger: 从当前上下文提取 `Conversation requirement`，记录 assumptions，并直接写入 plan。
+   - Common failure without skill: 停在“请先确认 task 列表”，导致 artifact 没有落地。
+   - Behavior this skill must force: 只要 source 足够形成 plan，就产出文档；不把确认拆分当作默认 gate。
+2. Spec describes behavior but file paths or existing interfaces are uncertain.
+   - Expected skill trigger: 读取相关代码和文档，确认真实路径、现有接口和测试 seam。
+   - Common failure without skill: 编造路径、用泛化文件名，或把 implement 阶段的问题提前写成代码。
+   - Behavior this skill must force: plan 只写可验证的真实落点；无法确认的内容进入 assumptions、risks 或阻塞问题。
+3. Requirements span several unrelated subsystems.
+   - Expected skill trigger: 标记 workspace 拆分建议，避免把独立 feature 混成一个串行 plan。
+   - Common failure without skill: 用一个 plan 混排多条无关 execution chain，导致 `Consumes/Produces` 失真。
+   - Behavior this skill must force: 仍写出当前 plan 的明确边界，并把跨 workspace 内容列为 out-of-scope 或 follow-up。
+
 ## 输出约定
 
 - 只生成本地 Markdown 文档，不创建远端 issue 或 ticket。
 - 文档正文默认中文为主；核心 section heading 使用中文优先、English 括注。
 - 保留 `Task`、`Files`、`Consumes`、`Produces`、`Covers` 等 workflow contract fields 和 `FR-###` 稳定 ID。
 - plan 是单个 Markdown 文件：如果源 spec 位于 `docs/features/<feature-slug>/spec.md`，默认写入同目录 `plan.md`；用户指定路径时写入该路径。
+- 默认直接写入 plan 文档，不先展示 task 列表等待用户确认；不确定但不阻塞的信息写入 `Assumptions`。
 - task 按执行顺序编号，编号即串行执行顺序。
 - 如果存在 feature manifest，更新 Plan 状态和路径。
 
@@ -64,9 +84,13 @@ description: Use when converting a local spec, design doc, or conversation conte
 - `Consumes`: 本 task 依赖的前置 task 产出，名称和类型必须与对应 `Produces` 逐字一致。
 - 契约只写到签名和稳定字段层；实现方式留给 `implement`。
 
-### 5. 先给用户确认拆分
+### 5. 记录假设和边界
 
-除非用户明确要求直接写文件，否则先展示拟定 task 列表（编号、标题、Covers、主要 Files），用户确认后再写入。若用户要求直接产出，在 plan 的假设章节标记未确认 assumptions。
+写入前整理 assumptions、risks 和 out-of-scope：
+
+- 不等待用户确认 task 拆分，默认直接生成 plan 文档。
+- 只有缺少可信 source、目标 feature 无法识别，或关键路径事实缺失到无法形成真实 task 时，才问一个阻塞问题。
+- 其他不确定项写入 plan 的 `Assumptions`、`Global Constraints`、`Coverage Self-Check` 或后续风险说明。
 
 ### 6. 写入 plan
 
@@ -124,7 +148,7 @@ description: Use when converting a local spec, design doc, or conversation conte
 
 - 每个 task 都有 `Files`（精确路径）、`Consumes`、`Produces`、`Covers`、验收标准和验证命令。
 - plan 中没有实现代码或测试代码；契约只到签名层。
-- plan 中没有依赖图、执行波次、`Wave`/`Parallelization`/`AFK`/`HITL` 类字段、并行标记或 subagent 分工指引；顺序由 task 编号表达。
+- plan 中没有依赖图、执行波次、`Wave`/`Parallelization`/`HITL` 类字段、并行标记或 subagent 分工指引；顺序由 task 编号表达。
 - 相邻 task 的 `Consumes`/`Produces` 名称与类型逐字一致。
 - Coverage 自查表覆盖 spec 全部 `FR-###`，或明确说明未覆盖原因。
 - 没有要求调用远端 tracker 或外部 skill。
