@@ -1,6 +1,6 @@
 ---
 name: diagnose-ue
-description: This skill should be used when the user asks to "diagnose a UE crash", "debug PIE vs packaged differences", "triage Blueprint, asset, load, cook, network, rendering, memory, performance, or platform-only UE issues". Use for symptoms needing repro, hypotheses, probes, evidence, and repair handoff.
+description: Diagnose UE issues when a concrete Unreal Engine symptom needs a reproducible feedback loop, including crash, assert, PIE/Packaged drift, Blueprint, asset/load/cook, network, rendering, memory, performance, or platform-only failure. Produce runtime mode, falsifiable hypotheses, probes, evidence, regression seam, and one repair handoff.
 version: 0.1.0
 ---
 
@@ -25,13 +25,13 @@ UE 问题通常横跨 C++、Blueprint、Asset、Editor state、Cooked content、
 - 新功能设计、普通实现任务、纯代码 review。
 - 纯 RenderDoc `.rdc` 捕获分析，除非目标是回到 UE 工程里建立 repro 和修复验证循环。
 
-如果需要落地修复，用 `Natural Handoff` 推荐 `$quick-change` 或 `$implement`。
+如果需要落地修复，用 `Natural Handoff` 推荐 `$quick-change`、`$implement` 或 `none` 中的一个。
 
 ## Language Contract
 
 语言契约：生成的文档和聊天输出默认以中文优先；代码、命令、API 名称、契约字段、ID、专有名词以及必要的技术术语保留英文。用户或目标项目明确要求英文时可以例外，但必须记录原因。
 
-## 压力规则
+## Pressure Scenarios（压力场景）
 
 - 用户要求“直接修”时，仍必须先确认运行形态、精确症状和最短反馈循环；未复现或未定界前不要改代码。
 - 只有 log、callstack、截图或 trace、没有工程访问时，不要声称已复现；标记为 artifact-based diagnosis，并列出需要用户补充的最小材料。
@@ -41,9 +41,9 @@ UE 问题通常横跨 C++、Blueprint、Asset、Editor state、Cooked content、
 
 ## References
 
-- 运行形态依赖 Editor、PIE、Standalone、Cooked、Packaged、Shipping、server/client、platform 或 RHI 时，使用 `references/runtime-modes.md`。
-- 选择 log、callstack、CrashContext、minidump、Unreal Insights、Network Profiler、Cook log 或 `[DEBUG-UE-...]` probe 时，使用 `references/probes-and-artifacts.md`。
-- 将 repro 转成 Automation、Functional Test、Gauntlet、command-line、cook/package、network 或 performance validation 时，使用 `references/regression-seams.md`。
+- 运行形态依赖 Editor、PIE、Standalone、Cooked、Packaged、Shipping、server/client、platform 或 RHI 时，必须读取 `references/runtime-modes.md`。
+- 选择 log、callstack、CrashContext、minidump、Unreal Insights、Network Profiler、Cook log 或 `[DEBUG-UE-...]` probe 时，必须读取 `references/probes-and-artifacts.md`。
+- 将 repro 转成 Automation、Functional Test、Gauntlet、command-line、cook/package、network 或 performance validation 时，必须读取 `references/regression-seams.md`。
 
 ## Phase 1 — 建立 UE 反馈循环
 
@@ -107,9 +107,19 @@ UE 常见假设维度：
 
 1. regression test 或等价验证应该如何先失败、后通过。
 2. 最小修复方向、影响范围和风险。
-3. 是否推荐 `$quick-change` 或 `$implement` 执行修复。
+3. 最终推荐 `$quick-change`、`$implement` 或 `none` 中的一个；不要同时给两个修复入口。
 4. 修复后必须重新运行原始未最小化场景。
 5. 对 cooked/packaged-only、network-only、platform-only 问题，修复后必须在对应运行形态再验证一次。
+
+## Natural Handoff
+
+诊断 loop 完成后，只能给出一个 next skill：
+
+- 小、清楚、低风险且可快速验证的修复，推荐 `$quick-change`。
+- 跨模块、测试/实现步骤较多、影响 contract 或风险不清的修复，推荐 `$implement`。
+- 证据不足、暂无正确修复入口，或用户只需要诊断报告，推荐 `none`。
+
+Natural Handoff 必须带上 root cause 状态、regression seam、最小修复方向、风险和仍缺材料；用户自然确认只进入这一个 next skill，不能绕过目标 skill 的 branch、scope、verification 或修改确认。
 
 ## Phase 6 — 清理与复盘
 
@@ -117,7 +127,7 @@ UE 常见假设维度：
 
 - [ ] 已确认 root cause，或明确说明仍缺少什么 UE 运行形态证据。
 - [ ] 已给出 regression seam、等价验证循环，或已记录没有正确 seam。
-- [ ] 已给出修复入口建议：`$quick-change`、`$implement` 或暂不修复。
+- [ ] 已给出唯一修复入口：`$quick-change`、`$implement` 或 `none`。
 - [ ] 所有 `[DEBUG-UE-...]` log、Blueprint Print String、临时 console command、测试 map 中的 debug-only 对象已清理或移动到明确 debug 位置。
 - [ ] 临时 asset、repro map、trace、minidump 的去留明确；保留时放在项目约定的 debug/artifact 位置。
 - [ ] 诊断报告或后续修复 handoff 中说明最终正确的 hypothesis、验证方式和覆盖的运行形态。
@@ -132,6 +142,6 @@ UE 常见假设维度：
 - root cause 状态：confirmed、likely、blocked。
 - regression seam 或等价验证循环。
 - 清理状态和残留 artifacts。
-- 修复入口：`$quick-change`、`$implement` 或暂不修复。
+- 唯一修复入口：`$quick-change`、`$implement` 或 `none`。
 
 最后追问：什么原本可以防止这个问题？如果答案是缺少测试 seam、生命周期耦合、资产引用规则不清、网络 ownership 模型混乱或 profiling 基线缺失，把具体结论交给架构改进或测试基础设施建设，而不是在修复前泛泛重构。
