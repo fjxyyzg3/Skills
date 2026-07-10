@@ -50,6 +50,103 @@ GRILL_ME_REQUIRED_TEXT = (
     "推荐 `$quick-change` 或 `$implement`",
     "推荐 `none`",
 )
+ADAPTIVE_PLANNING_REQUIRED_TEXT = {
+    "to-plan/SKILL.md": (
+        "Planning Authorization",
+        "Fast Path",
+        "Full Path",
+        "Artifact-fixable",
+        "Decision-required",
+        "Planning Quality Status",
+    ),
+    "to-plan/references/adaptive-planning-contract.md": (
+        "PlanningAuthorization",
+        "RiskDecision",
+        "PlanningArtifactSet",
+        "FindingClass",
+        "PlanningQualityResult",
+        "CheckedPlanHandoff",
+    ),
+    "to-plan/examples/adaptive-planning-scenarios.md": (
+        "AP-FAST",
+        "AP-FULL",
+        "AP-AUTOFIX",
+        "AP-DECISION",
+        "AP-DIRECT-SPEC",
+        "AP-DIRECT-ANALYZE",
+        "AP-AUTH-BOUNDARY",
+        "Input shape",
+        "Expected mode",
+        "Expected artifacts",
+        "Allowed interruption",
+        "Forbidden actions",
+        "Pass signal",
+    ),
+    "brainstorming/SKILL.md": (
+        "## Trigger Description",
+        "## Pressure Scenarios",
+        "## Natural Handoff",
+        "PlanningHandoffPacket v1",
+        "implementation-plan",
+        "spec-only",
+        "stop-here",
+        "$to-plan",
+        "$to-spec",
+    ),
+    "implement/SKILL.md": (
+        "## Trigger Description",
+        "## Pressure Scenarios",
+        "CheckedPlanHandoff",
+        "Planning Quality Status: Pass",
+        "external artifacts",
+        "N1 Branch Gate",
+        "N5 Review Subagent Gate",
+        "N7 Verification Gate",
+    ),
+    "workflow-router/SKILL.md": (
+        "## Trigger Description",
+        "## Pressure Scenarios",
+        "已确认设计",
+        "正式 spec",
+        "已有或外部 artifacts",
+        "checked plan",
+    ),
+    "to-spec/SKILL.md": (
+        "## Trigger Description",
+        "## Pressure Scenarios",
+        "## Natural Handoff",
+        "独立 formal-spec",
+    ),
+    "analyze/SKILL.md": (
+        "## Trigger Description",
+        "## Pressure Scenarios",
+        "## Natural Handoff",
+        "独立只读审计",
+    ),
+    "README.md": (
+        "Planning Authorization",
+        "Fast Path",
+        "Full Path",
+        "checked plan",
+        "独立 `$to-spec`",
+        "独立 `$analyze`",
+    ),
+    "AGENTS.md": (
+        "Planning Authorization",
+        "Fast Path",
+        "Full Path",
+        "Planning Quality Status: Pass",
+    ),
+}
+ADAPTIVE_PLANNING_STALE_TEXT = (
+    "$to-spec -> $to-plan -> $analyze",
+    "`to-spec` → `to-plan` → `analyze`",
+    'Spec["to-spec"] --> Plan["to-plan"]',
+    'Plan["to-plan"] --> Analyze',
+    "prepare a spec handoff for $to-spec",
+    "准备 to-spec 交接内容",
+    "因为后续还需要拆 plan",
+)
 
 
 def read_text(path: Path) -> str:
@@ -202,6 +299,48 @@ def validate_grill_me_contract() -> list[str]:
     return errors
 
 
+def validate_adaptive_planning_contract() -> list[str]:
+    errors: list[str] = []
+
+    for display_path, required_markers in ADAPTIVE_PLANNING_REQUIRED_TEXT.items():
+        path = (ROOT / display_path).resolve()
+        try:
+            text = read_text(path)
+        except (OSError, ValueError) as exc:
+            errors.append(f"{display_path}: {exc}")
+            continue
+
+        for marker in required_markers:
+            if marker not in text:
+                errors.append(f"{display_path}: missing adaptive planning marker {marker!r}")
+
+    active_paths = (
+        "to-plan/SKILL.md",
+        "brainstorming/SKILL.md",
+        "brainstorming/agents/openai.yaml",
+        "to-spec/SKILL.md",
+        "analyze/SKILL.md",
+        "implement/SKILL.md",
+        "quick-change/SKILL.md",
+        "workflow-router/SKILL.md",
+        "README.md",
+        "AGENTS.md",
+    )
+    for display_path in active_paths:
+        path = (ROOT / display_path).resolve()
+        try:
+            text = read_text(path)
+        except (OSError, ValueError) as exc:
+            errors.append(f"{display_path}: {exc}")
+            continue
+        lowered = text.lower()
+        for stale in ADAPTIVE_PLANNING_STALE_TEXT:
+            if stale.lower() in lowered:
+                errors.append(f"{display_path}: contains stale adaptive planning text {stale!r}")
+
+    return errors
+
+
 def main() -> int:
     skill_dirs = sorted(
         path for path in ROOT.iterdir()
@@ -213,6 +352,7 @@ def main() -> int:
         errors.extend(validate_skill(skill_dir))
     errors.extend(validate_workflow_contract())
     errors.extend(validate_grill_me_contract())
+    errors.extend(validate_adaptive_planning_contract())
 
     if errors:
         print("Skill validation failed:")

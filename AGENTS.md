@@ -17,9 +17,14 @@
 - 仓库级工作流按任务类型直接选择最小必要 skill；spec、plan、analysis、implementation、review、verification 和 branch finish 应保持可追溯。
 - workflow skill 之间使用 `Natural Handoff`：完成后最多推荐一个 next skill；`继续`、`可以`、`按你说的办`、`go ahead`、`ok` 和 `好的` 只确认上一条回复中唯一推荐的 next skill。
 - 如果上一条给了多个选项，或用户确认时附加新条件、改变方向，必须重新路由；自然确认不能绕过目标 skill 的 branch、scope、verification、review、commit、push 或修改计划确认。
+- 设计确认后需要 implementation plan 时，`brainstorming` 唯一推荐 `$to-plan`；自然确认或显式调用创建一次 Planning Authorization，只批准本地 planning artifacts 和机械修复。
+- `$to-plan` 按风险选择 Fast Path 或 Full Path：Fast 只写自包含 `plan.md`，Full 在同一次 Planning Run 内写共享 `FR-###` 的 `spec.md + plan.md`，两者都不默认生成 `analysis.md`。
+- 独立 `$to-spec` 只处理 formal spec / decision artifact；独立 `$analyze` 只读审查已有、外部、失效或未检查 artifacts，不把两者恢复成固定 planning 中间阶段。
 - `clarify` 只回答问题和解释代码证据，不推荐后续 skill。
-- `grill-me`、`brainstorming`、`diagnose` 和 `diagnose-ue` 不直接写业务代码；需要实现时通过 `Natural Handoff` 推荐 `$quick-change` 或 `$implement`。
+- `brainstorming` 不直接写业务代码，并按已确认 outcome 路由到 `$to-plan`、`$to-spec` 或 `none`。
+- `grill-me`、`diagnose` 和 `diagnose-ue` 不直接写业务代码；需要后续工作时按当前 scope、风险与 artifact state 唯一推荐 planning、quick change 或 implementation skill。
 - `$quick-change` 只处理小、清楚、低风险且可快速验证的 bug 和需求，必须保留 scope、acceptance、verification，并在风险扩大时升级到完整链路。
 - 实现前使用 `checking-branch` 展示当前分支名和状态；用户不同意直接修改但提供新分支名时，默认从仓库主分支创建，无法确认主分支时需再确认是否从当前分支创建。
-- 非平凡 feature 或 bug fix 如果已有 spec/plan artifacts，默认经过 `analyze -> checking-branch -> requesting-code-review -> verification-before-completion`；需要生成 spec 或 plan 时，通过 `Natural Handoff` 推荐 `$to-spec` 或 `$to-plan`。
+- `Planning Quality Status: Pass` 的 checked plan 可直接进入 `implement` 的 `checking-branch` gate；缺少该状态、存在未处理 finding 或来自 external artifacts 时先运行独立 `$analyze`。
+- 非平凡 feature 或 bug fix 仍必须保留 `checking-branch -> requesting-code-review -> verification-before-completion`；adaptive planning 不授权实现、branch、commit、push、PR、merge、discard 或远端操作。
 - 完成前运行 `python scripts/validate-skills.py`，并修复 frontmatter、metadata、TODO、乱码和名称不一致问题。

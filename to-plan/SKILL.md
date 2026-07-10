@@ -1,17 +1,18 @@
 ---
 name: to-plan
-description: Use when converting a local spec, design doc, or conversation context into a sequential task-level implementation plan with exact file paths, interface contracts, requirement coverage, acceptance criteria, and verification commands, before starting implementation.
+description: Use when turning a confirmed design, existing spec, design doc, or conversation context into a checked implementation plan; automatically choose Fast or Full planning, write the required local artifacts, close artifact-fixable gaps, and preserve implementation safety gates.
 ---
 
 # To Plan
 
-将 spec（或当前上下文）拆成任务级实现 plan。plan 回答"改哪些文件、接口契约是什么、每步怎么验证"；plan 决定分解，`implement` 决定代码——plan 中不预写实现代码。
+产出经过一致性检查、可直接交给实现阶段的 checked plan。根据风险选择 Fast Path 或 Full Path，在一次 Planning Run 内完成所需 artifacts、机械修复和 quality gate；不要把风险分类、spec 生成和 artifact analysis 拆成默认的多次 handoff。
 
 ## 进入边界
 
-- 适用于已有 spec、design doc 或方向明确的 conversation context，需要拆成可执行 plan 的任务。
-- 可以由用户显式调用，也可以由 `workflow-router` 或上一轮 `Natural Handoff` 推荐后进入。
-- 不要把 plan 写成无来源的任务清单；每个 task 必须能通过 `Covers` 追溯到 requirement 或 conversation requirement。
+- 适用于已确认设计、已有 spec/design doc 或方向明确的 conversation context，需要形成 implementation plan 的任务。
+- 可以由用户显式调用，也可以由 `workflow-router` 或上一轮 `Natural Handoff` 唯一推荐后进入。
+- 用户只要求正式 spec 或 decision artifact 时使用 `$to-spec`；只要求审查已有/外部 artifacts 时使用 `$analyze`。
+- 小、清楚、低风险且可快速验证的单点改动继续使用 `$quick-change`。
 
 ## Language Contract
 
@@ -19,138 +20,92 @@ description: Use when converting a local spec, design doc, or conversation conte
 
 ## Trigger Description
 
-`to-plan` 的 trigger 是把已经成形的需求来源转成本地 plan 文档：必须写入 `plan.md` 或用户指定路径，并让每个 task 绑定来源、真实文件路径、接口契约和验证命令。它不重新定义需求，也不先等待用户确认拆分；只有缺少可信 source 或关键路径事实无法确认时，才问一个阻塞问题。
+`to-plan` 的 trigger 是把已成形的需求来源转成本地 checked plan。每次进入都创建一个 Planning Run：自动选择 Fast Path 或 Full Path，写入对应 artifacts，闭环 Artifact-fixable findings，并输出 `Planning Quality Status`。只有可信 source、风险分类或需求决策确实不足时，才一次问一个阻塞问题。
 
 ## Pressure Scenarios
 
-1. User has only conversation context, not a saved spec.
-   - Expected skill trigger: 从当前上下文提取 `Conversation requirement`，记录 assumptions，并直接写入 plan。
-   - Common failure without skill: 停在“请先确认 task 列表”，导致 artifact 没有落地。
-   - Behavior this skill must force: 只要 source 足够形成 plan，就产出文档；不把确认拆分当作默认 gate。
-2. Spec describes behavior but file paths or existing interfaces are uncertain.
-   - Expected skill trigger: 读取相关代码和文档，确认真实路径、现有接口和测试 seam。
-   - Common failure without skill: 编造路径、用泛化文件名，或把 implement 阶段的问题提前写成代码。
-   - Behavior this skill must force: plan 只写可验证的真实落点；无法确认的内容进入 assumptions、risks 或阻塞问题。
-3. Requirements span several unrelated subsystems.
-   - Expected skill trigger: 标记 workspace 拆分建议，避免把独立 feature 混成一个串行 plan。
-   - Common failure without skill: 用一个 plan 混排多条无关 execution chain，导致 `Consumes/Produces` 失真。
-   - Behavior this skill must force: 仍写出当前 plan 的明确边界，并把跨 workspace 内容列为 out-of-scope 或 follow-up。
+1. User confirms a design and replies “继续” to the unique `$to-plan` recommendation.
+   - Expected skill trigger: 把该确认解释为一次 Planning Authorization，连续完成风险分类、artifact 写入和 quality gate。
+   - Common failure without skill: 再要求用户分别确认 `$to-spec`、`$to-plan` 和 `$analyze`。
+   - Behavior this skill must force: checked plan 完成前不产生中间 skill handoff。
+2. A seemingly small request changes a public contract, schema, migration, security boundary, or core workflow.
+   - Expected skill trigger: 命中任一高风险证据即选择 Full Path，并说明依据。
+   - Common failure without skill: 只按文件数量判断为 Fast Path，丢失长期决策记录。
+   - Behavior this skill must force: 在同一 Planning Run 内生成共享 `FR-###` 的 `spec.md` 与 `plan.md`。
+3. The generated plan has a missing coverage row or a source-verifiable path typo.
+   - Expected skill trigger: 分类为 Artifact-fixable，自动修复并重新检查。
+   - Common failure without skill: 把机械问题逐项交给用户确认，或直接把未检查 plan 交给实现。
+   - Behavior this skill must force: 只有改变 scope、acceptance、compatibility 或 architecture 的问题才暂停为 Decision-required。
+4. The user asks planning to also edit code, create a branch, or push changes.
+   - Expected skill trigger: 完成本地 planning artifacts 后停在实现之前。
+   - Common failure without skill: 把一次 planning 确认扩张成 implementation 或 Git 授权。
+   - Behavior this skill must force: 通过新的 `Natural Handoff` 最多推荐 `$implement`，保留其全部安全门。
 
-## 输出约定
+## Planning Authorization
 
-- 只生成本地 Markdown 文档，不创建远端 issue 或 ticket。
-- 文档正文默认中文为主；核心 section heading 使用中文优先、English 括注。
-- 保留 `Task`、`Files`、`Consumes`、`Produces`、`Covers` 等 workflow contract fields 和 `FR-###` 稳定 ID。
-- plan 是单个 Markdown 文件：如果源 spec 位于 `docs/features/<feature-slug>/spec.md`，默认写入同目录 `plan.md`；用户指定路径时写入该路径。
-- 默认直接写入 plan 文档，不先展示 task 列表等待用户确认；不确定但不阻塞的信息写入 `Assumptions`。
-- task 按执行顺序编号，编号即串行执行顺序。
-- 如果存在 feature manifest，更新 Plan 状态和路径。
+用户显式调用 `$to-plan`，或自然确认上一条唯一推荐的 `$to-plan`，即授权一次 Planning Run。该授权允许读取与已确认设计直接相关的上下文、写入本地 planning artifacts、修复 Artifact-fixable findings 并复检。
+
+该授权的停止边界是 checked plan：业务代码和测试修改、branch 操作、commit、push、PR、merge、discard 与远端操作仍需各自 workflow 的明确授权。遇到 Decision-required finding 时暂停并只问一个最高优先级问题；用户回答后恢复同一 Planning Run，无需重新授权。
+
+## 必读 Contract
+
+- 每次 Planning Run 都必须读取 [`references/adaptive-planning-contract.md`](references/adaptive-planning-contract.md)，按其中的风险矩阵、artifact schemas、finding taxonomy 和 quality gate 执行。
+- 验证行为、修改 adaptive contract 或判断边界案例时，读取 [`examples/adaptive-planning-scenarios.md`](examples/adaptive-planning-scenarios.md)，逐项核对对应 scenario 的 pass signal。
 
 ## Process
 
-### 1. 收集上下文
+### 1. 收集可信 source
 
-优先读取用户给出的 spec。没有明确路径时，从当前上下文和 `docs/features/` 中寻找最相关 artifact。
+优先读取用户指定的 spec、design doc 或 brainstorming handoff。没有明确路径时，从当前 conversation context 和 `docs/features/` 中寻找最相关 artifact；读取与拆分直接相关的项目规则、代码、测试和接口说明，确认真实路径与 verification seam。
 
-同时读取与拆分直接相关的项目决策文档：
+如果缺少可信 source、目标 feature 无法识别，或一个关键事实会改变需求方向，暂停并只问一个阻塞问题。其余不确定项写入 `Assumptions` 或 `Residual Risks`。
 
-- 用户指定的来源文档。
-- spec 引用的 ADRs、domain docs、接口说明或架构说明。
-- 将要改动的代码区域，确认文件路径和现有接口是真实的，不要凭空编造路径。
+### 2. 选择 Planning Mode
 
-如果 spec 覆盖多个互相独立的子系统，建议拆成多个 feature workspace 分别出 plan，而不是在一个 plan 里混排。
+按 contract 的确定性风险矩阵分类：
 
-### 2. 确定文件落点
+- 已有 spec 时选择 Full Path，并复用其稳定 `FR-###`。
+- 只有 conversation context 时，Fast 条件必须全部成立；任一 Full trigger 命中即选择 Full Path。
+- 只在证据互相冲突或无法可靠分类时暂停询问。
 
-拆 task 之前，先映射本次改动会创建或修改哪些文件、每个文件的职责是什么。分解决策在这一步锁定：
+首次状态更新用一句话报告 `Planning Mode: Fast | Full` 和至少一个可审计依据。
 
-- 单元边界清晰、职责单一；文件路径必须精确到真实路径，不写"某个合适的位置"。
-- 在既有 codebase 中遵循已有组织模式，不顺手重组无关结构。
+### 3. 写入 artifacts
 
-### 3. 拆成 task
+- Fast Path：只写一个自包含 `plan.md`；不要新建 `spec.md`、`analysis.md` 或 `manifest.md`。
+- Full Path：在同一 Planning Run 内写 `spec.md` 与 `plan.md`，两者使用完全相同的 `FR-###`；不要生成 `analysis.md`。
+- feature workspace 已有 `manifest.md` 时更新状态和路径；不存在时不要仅为本流程创建。
 
-拆分规则：
+plan 的 task 按执行顺序编号。每个 task 必须有精确 `Files`、`Consumes`、`Produces`、`Covers`、验收标准和 verification command；契约只写到稳定字段或签名层，不预写实现代码。
 
-- 每个 task 是一个可独立验证的交付单元：完成后可以单独 demo、verify 或 test。
-- task 大小以"值得一次独立验证"为准：把 setup、配置、文档等步骤折叠进需要它们的 task，只在验证边界处切分。
-- task 之间的顺序就是执行顺序；有顺序约束的内容通过编号表达，不引入额外的依赖标注机制。
-- 每个 task 声明 `Covers`：`FR-001`、`FR-001, FR-003` 或 `Conversation requirement: ...`。
+### 4. 运行内建 Planning Quality Gate
 
-### 4. 写清接口契约
+检查全部 requirement coverage、task completeness、相邻 `Consumes/Produces`、真实路径与既有 interface、verification commands、non-goals 和 global constraints。
 
-相邻 task 之间通过 `Consumes/Produces` 传递契约：
+- Artifact-fixable：在当前 Planning Run 内修复 artifact 并从头复检，直到通过或重新分类。
+- Decision-required：暂停，报告影响并只问一个最高优先级问题；收到回答后更新 artifacts 并复检。
 
-- `Produces`: 本 task 产出、后续 task 会依赖的精确接口——函数/类/命令/字段名、参数和返回类型、文件产物路径。
-- `Consumes`: 本 task 依赖的前置 task 产出，名称和类型必须与对应 `Produces` 逐字一致。
-- 契约只写到签名和稳定字段层；实现方式留给 `implement`。
+只有所有检查通过，才能写入 `Planning Quality Status: Pass`。存在未决问题时使用 `Planning Quality Status: Decision required`，不要把 plan 标为 implementation-ready。
 
-### 5. 记录假设和边界
+### 5. 最终汇报
 
-写入前整理 assumptions、risks 和 out-of-scope：
+quality gate 通过后只做一次最终汇报，包含：
 
-- 不等待用户确认 task 拆分，默认直接生成 plan 文档。
-- 只有缺少可信 source、目标 feature 无法识别，或关键路径事实缺失到无法形成真实 task 时，才问一个阻塞问题。
-- 其他不确定项写入 plan 的 `Assumptions`、`Global Constraints`、`Coverage Self-Check` 或后续风险说明。
+- Planning Mode 与风险依据。
+- artifact 路径。
+- `FR-### -> Task -> Verification` coverage 摘要。
+- auto-fix 摘要、assumptions 和 residual risks。
+- `Planning Quality Status`。
 
-### 6. 写入 plan
+## Natural Handoff
 
-使用下面模板：
+checked plan 达到 implementation-ready 且没有阻塞问题时，最多推荐 `$implement` 作为唯一 next skill。说明用户的自然确认只进入 `$implement`，不会绕过它的 branch、scope、review、verification、commit 或 push gate。用户只要求 planning artifacts 时推荐 `none`。
 
-````markdown
-# <Feature Name> Plan
+## 完成标准
 
-## 元数据 (Metadata)
-
-- **Source**: <spec path / conversation context>
-- **Generated at**: <YYYY-MM-DD>
-- **Status**: Draft
-
-## 假设 (Assumptions)
-
-- None
-
-## 全局约束 (Global Constraints)
-
-- 从 spec 各章节（非目标、关键决策、测试决策等）提炼的项目级硬约束（版本下限、命名规则、语言契约等），每条一行。
-
-## Task 列表 (Tasks)
-
-### Task 1: <标题>
-
-- **Files**:
-  - Create: `exact/path/to/new-file`
-  - Modify: `exact/path/to/existing-file`
-  - Test: `exact/path/to/test-file`
-- **Consumes**: None
-- **Produces**: <后续 task 依赖的精确接口或产物>
-- **Covers**: `FR-001`
-
-**验收标准 (Acceptance Criteria)**:
-
-- [ ] 用中文描述可独立验证的行为。
-
-**验证命令 (Verification)**:
-
-- `<command>`，预期 <结果>。
-
-## Coverage 自查 (Coverage Self-Check)
-
-| Requirement | Tasks | Notes |
-| --- | --- | --- |
-| FR-001 | Task 1 | ... |
-
-未覆盖的 `FR-###` 必须注明原因。
-````
-
-### 7. 验证输出
-
-写入后检查：
-
-- 每个 task 都有 `Files`（精确路径）、`Consumes`、`Produces`、`Covers`、验收标准和验证命令。
-- plan 中没有实现代码或测试代码；契约只到签名层。
-- plan 中没有依赖图、执行波次、`Wave`/`Parallelization`/`HITL` 类字段、并行标记或 subagent 分工指引；顺序由 task 编号表达。
-- 相邻 task 的 `Consumes`/`Produces` 名称与类型逐字一致。
-- Coverage 自查表覆盖 spec 全部 `FR-###`，或明确说明未覆盖原因。
-- 没有要求调用远端 tracker 或外部 skill。
-
-最后报告 plan 路径、task 数量和 coverage 情况；如果建议实现前做只读一致性检查，用 `Natural Handoff` 推荐 `$analyze` 作为唯一 next skill，用户可以回复 `继续` 或显式写 `$analyze`；用户也可以直接显式调用 `$implement`。
+- 已报告确定的 Planning Mode 和可审计风险依据。
+- artifacts 数量与 mode 一致，Full Path 的 spec/plan 共享相同 `FR-###`。
+- 每条 requirement 都映射到 task 和 verification seam；每个 task 的必需字段完整。
+- 所有 Artifact-fixable findings 已闭环，Decision-required findings 已解决或明确停住。
+- 最终 artifact 包含 `Planning Quality Status`，且最终汇报只出现一次。
+- Planning Run 没有越过本地 planning artifact 的授权边界。

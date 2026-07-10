@@ -1,6 +1,6 @@
 ---
 name: implement
-description: Use when executing a local plan, spec, bugfix, refactor, or conversation-scoped coding task with TDD, branch checks, serial task execution, review, verification, and branch handoff gates.
+description: Use when executing a checked plan, local spec/plan, bugfix, refactor, or conversation-scoped coding task with TDD, branch checks, serial task execution, conditional artifact analysis, review, verification, and branch handoff gates.
 ---
 
 # Implement
@@ -17,13 +17,33 @@ description: Use when executing a local plan, spec, bugfix, refactor, or convers
 
 语言契约：生成的文档和聊天输出默认以中文优先；代码、命令、API 名称、契约字段、ID、专有名词以及必要的技术术语保留英文。用户或目标项目明确要求英文时可以例外，但必须记录原因。
 
+## Trigger Description
+
+`implement` 的 trigger 是已有可执行 scope，需要完成代码/测试或其他本地实现。它优先消费可信 checked plan；未检查、失效或 external artifacts 才进入条件式 `$analyze`，随后仍按 branch、TDD、review 和 verification gates 串行推进。
+
+## Pressure Scenarios
+
+1. A checked plan includes `Planning Quality Status: Pass`.
+   - Expected skill trigger: 读取 `CheckedPlanHandoff` 与 tasks，不重复运行独立 analysis。
+   - Common failure without skill: 固定重跑 `$analyze`，增加无价值阶段。
+   - Behavior this skill must force: 直接进入 branch 后的 serial task execution。
+2. An external plan contains a copied `Pass` marker but missing paths or coverage.
+   - Expected skill trigger: 把它视为未检查 artifacts，进入只读 `$analyze` gate。
+   - Common failure without skill: 只匹配字符串并跳过质量检查。
+   - Behavior this skill must force: quality evidence 必须与文件事实一致。
+3. The user naturally confirms `$implement` after planning.
+   - Expected skill trigger: 先执行 `checking-branch`。
+   - Common failure without skill: 把 planning 授权扩张成 branch、code 或 Git 授权。
+   - Behavior this skill must force: 保留全部 implementation safety gates。
+
 ## 执行图（Trigger Graph）
 
 ```mermaid
 flowchart TD
   N0["N0 Implementation Trigger"] --> N1["N1 Branch Gate"]
   N1 --> N2["N2 Input Intake"]
-  N2 -- "artifacts / analyze result" --> N3{"N3 Analyze Gate"}
+  N2 -- "checked plan / quality pass" --> N4["N4 Serial Task Execution"]
+  N2 -- "unchecked or external artifacts" --> N3{"N3 Analyze Gate"}
   N2 -- "conversation only" --> N4["N4 Serial Task Execution"]
   N3 -- "CRITICAL exists" --> H1["Stop or resolve critical findings"]
   H1 -- "scope 内修正完成" --> N3
@@ -73,19 +93,24 @@ Trigger：分支 gate 已通过。
 
 Action：
 - 如果用户指定 plan 文件（默认 `docs/features/<feature-slug>/plan.md`），读取全部 task，提取每个 task 的 `Files`、`Consumes/Produces`、`Covers`、验收标准和验证命令；task 编号即执行顺序。
+- 如果输入包含 `CheckedPlanHandoff`，同时读取并核对 `Planning Mode`、`ArtifactPaths`、`Coverage`、`Planning Quality Status`、`AutoFixSummary`、`Assumptions` 和 `ResidualRisks`。这些字段是 planning 质量证据，不是 branch 或实现授权。
 - 如果用户指定 spec 而没有 plan，读取完整 artifact，轻量检查相关代码、测试和 supporting docs；scope 超过一次可控实现时，建议用户显式调用 `$to-plan`，用户要求直接做时自行整理成少量顺序 task。
 - 如果只有 conversation context，整理目标、约束、验收和可观察行为，形成少量可执行 task。
 
-Next：有 artifacts 或已有 analyze 结果时进入 `N3 Analyze Gate`；没有 artifacts 时直接进入 `N4 Serial Task Execution`。
+Next：
+- 本地 checked plan 明确包含 `Planning Quality Status: Pass`，且 artifact 路径、coverage 和 residual risks 可读取时，直接进入 `N4 Serial Task Execution`。
+- 缺少 quality status、状态为 `Decision required`、存在未处理 finding、quality evidence 与文件事实不一致，或输入属于未检查的 external artifacts 时，进入 `N3 Analyze Gate`。
+- 没有 artifacts 时直接进入 `N4 Serial Task Execution`。
 
 Stop：输入目标与验收都无法确定，且一个阻塞问题仍不能消除歧义。
 
 ### N3 Analyze Gate
 
-Trigger：存在 spec、plan 或已提供的 `analyze` 结果。
+Trigger：存在未检查/失效的 spec、plan、external artifacts，或已提供的 `analyze` 结果；有效 checked plan 不重复进入本节点。
 
 Action：
-- 优先运行或读取 `analyze` 结果。
+- 对缺少 `Planning Quality Status: Pass`、状态失败、包含未处理 finding 或来自 external artifacts 的输入，优先运行或读取独立只读 `$analyze` 结果。
+- 不把 marker 字符串本身当作可信证明：如果 checked plan 引用路径不存在、coverage 缺失、artifacts 在 quality gate 后发生实质修改，按未检查输入处理。
 - `CRITICAL` finding 未解决前不要开始实现。
 - 非阻塞 finding 转成 implementation note、risk 或 follow-up，并在最终报告中保留。
 
@@ -220,7 +245,7 @@ Stop：无。
 完成前确认：
 
 - 已通过或明确降级 `checking-branch`。
-- 已处理 artifacts 中的 `CRITICAL` analyze findings。
+- 已核对 checked plan 的 `Planning Quality Status: Pass`，或对未检查/外部 artifacts 运行独立 `$analyze` 并处理 `CRITICAL` findings。
 - 已覆盖 spec `FR-###` 或 plan task 的 acceptance criteria；只有 conversation scope 时覆盖整理出的验收清单。
 - 已保留每个 task 的 RED/GREEN/REFACTOR 证据，或记录无法自动化测试的替代验证。
 - 已运行每个 task 的验证命令和必要的更宽验证。

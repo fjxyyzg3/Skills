@@ -1,15 +1,41 @@
 ---
 name: analyze
-description: Use when checking a local spec and plan for ambiguity, inconsistency, requirement coverage gaps, interface contract mismatches between tasks, missing verification commands, or quality-gate violations before implementation.
+description: Use when a user requests a read-only audit of existing or external spec/plan artifacts, or when implementation intake finds artifacts unchecked or stale; detect ambiguity, coverage gaps, contract mismatches, missing verification, and quality-gate violations.
 ---
 
 # Analyze
 
 对本地 artifacts 做只读一致性分析。目标是在实现前发现需求、任务拆分、接口契约和质量门之间的断裂。
 
+## 进入边界
+
+- 这是已有或外部 artifacts 的独立只读审计入口；用户显式要求 analysis、audit、coverage 或 contract review 时使用。
+- implementation intake 发现 artifacts 缺少可信 quality status、已经失效或来自外部时，也可把本 skill 作为条件式质量门。
+- checked plan 已包含 `Planning Quality Status: Pass` 时，不把本 skill 作为默认 planning chain 的重复阶段；只有用户要求复审或实现入口发现 artifact 未检查/已失效时再运行。
+- 本 skill 报告 findings，不自动修复输入 artifacts、不生成 plan，也不进入实现。
+
 ## Language Contract
 
 语言契约：生成的文档和聊天输出默认以中文优先；代码、命令、API 名称、契约字段、ID、专有名词以及必要的技术术语保留英文。用户或目标项目明确要求英文时可以例外，但必须记录原因。
+
+## Trigger Description
+
+`analyze` 的 trigger 是对已有、外部、失效或未检查 spec/plan artifacts 做独立只读审计。它输出带 location 与 severity 的 findings；有效 checked plan 不因默认链路重复触发本 skill。
+
+## Pressure Scenarios
+
+1. An external plan claims it is ready but has no trustworthy quality evidence.
+   - Expected skill trigger: 只读检查 coverage、contracts、paths 和 verification commands。
+   - Common failure without skill: 仅相信 `Pass` 字样，或直接进入实现。
+   - Behavior this skill must force: 用 artifact 与仓库事实建立可追溯 findings。
+2. A local checked plan already has `Planning Quality Status: Pass` and has not changed.
+   - Expected skill trigger: 除非用户要求复审，否则不作为默认 planning 阶段重复运行。
+   - Common failure without skill: 重做 producer 已完成的机械检查并增加一次 handoff。
+   - Behavior this skill must force: 保持条件式 audit 边界。
+3. The audit finds a source-verifiable typo in an input artifact.
+   - Expected skill trigger: 报告 finding 与修复建议，保持输入文件不变。
+   - Common failure without skill: 把 `$to-plan` 的 Artifact-fixable 权限带入独立 audit。
+   - Behavior this skill must force: read-only contract 优先。
 
 ## 核心规则
 
@@ -24,8 +50,9 @@ description: Use when checking a local spec and plan for ambiguity, inconsistenc
 优先级：
 
 1. 用户指定的 spec/plan 文件。
-2. 当前 feature manifest：`docs/features/<feature-slug>/manifest.md`。
-3. `docs/features/<feature-slug>/spec.md` 和同目录 `plan.md`。
+2. 用户提供的外部 artifact 路径或明确 artifact 集合。
+3. 当前 feature manifest：`docs/features/<feature-slug>/manifest.md`。
+4. `docs/features/<feature-slug>/spec.md` 和同目录 `plan.md`。
 
 ## 分析步骤
 
@@ -87,3 +114,11 @@ description: Use when checking a local spec and plan for ambiguity, inconsistenc
 - 所有阻塞实现的问题都按严重度排序。
 - 给出是否可以进入 `implement` 的明确建议。
 - 没有写入或修改 artifacts，除非用户后续明确要求修复。
+- 没有把本次独立 audit 宣称为 adaptive planning 的默认必经阶段。
+
+## Natural Handoff
+
+- audit 通过且用户明确要实现时，最多推荐 `$implement`；其 branch、scope、review 和 verification gate 保持有效。
+- artifacts 需要重新生成 checked plan 时，最多推荐 `$to-plan`。
+- 用户只要求审计结果时推荐 `none`。
+- 本 skill 不在 handoff 前修改输入 artifacts 或进入实现。

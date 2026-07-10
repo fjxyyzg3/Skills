@@ -34,7 +34,7 @@ description: "Use for quick changes: small bug fixes, tiny behavior/copy/configu
 3. A tiny edit touches shared contract、core workflow、performance-sensitive path 或底层共享代码。
    - Expected skill trigger: 先证明现有数据、字段或 seam 不能满足当前语义。
    - Common failure without skill: 为了快速落地新增重复计算、结构字段或隐藏耦合。
-   - Behavior this skill must force: 影响面变大时升级到 `$analyze` 或 `$implement`，不要把风险藏在 quick change 中。
+   - Behavior this skill must force: 按输入状态升级到 `$brainstorming`、`$to-plan`、`$analyze` 或 `$implement`，不要把风险藏在 quick change 中。
 
 ## 适用条件
 
@@ -61,9 +61,10 @@ description: "Use for quick changes: small bug fixes, tiny behavior/copy/configu
 升级目标：
 
 - 复杂 bug：停止快速链路，并通过 `Natural Handoff` 推荐 `$diagnose` 或 `$diagnose-ue`。
-- 需求边界不清：通过 `Natural Handoff` 推荐 `$grill-me` 或 `$to-spec`。
-- 多 task 实现：通过 `Natural Handoff` 推荐 `$to-plan` 或 `$analyze`。
-- 中高风险改动：如果已有 artifacts，通过 `Natural Handoff` 推荐 `$analyze` 或 `$implement`；如果没有 artifacts，推荐完整 `$to-spec -> $to-plan -> $analyze -> $implement` 链路。
+- 需求边界不清：通过 `Natural Handoff` 推荐 `$grill-me` 或 `$brainstorming`；一次只能根据当前问题唯一推荐一个。
+- 需求已明确但升级为多 task 或中高风险：通过 `Natural Handoff` 推荐 `$to-plan`，由它按风险生成 checked plan。
+- 已有未检查 artifacts：通过 `Natural Handoff` 推荐 `$analyze` 做独立只读审计。
+- 已有 `Planning Quality Status: Pass` 的 checked plan：通过 `Natural Handoff` 推荐 `$implement`，保留其 branch、review 和 verification gate。
 
 ## 工作流程
 
@@ -87,7 +88,7 @@ description: "Use for quick changes: small bug fixes, tiny behavior/copy/configu
 
 - 完成后如果没有 commit、push、PR 或分支收尾需求，推荐 `none`，自然结束。
 - 如果用户要求分支收尾，最多推荐 `$finishing-branch`，不要在本 skill 内替代它的 gate。
-- 如果触发升级条件，停止当前链路，并最多推荐一个 next skill：`$diagnose`、`$diagnose-ue`、`$grill-me`、`$to-spec`、`$to-plan`、`$analyze` 或 `$implement`。
+- 如果触发升级条件，停止当前链路，并按输入状态最多推荐一个 next skill：`$diagnose`、`$diagnose-ue`、`$grill-me`、`$brainstorming`、`$to-plan`、`$analyze` 或 `$implement`。
 - 自然确认只进入上一条唯一推荐的 next skill，不代表跳过该 skill 自己的 branch、scope、verification、review、commit 或 push gate。
 
 ## 输出格式

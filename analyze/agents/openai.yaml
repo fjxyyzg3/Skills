@@ -1,4 +1,4 @@
 interface:
   display_name: "Analyze"
-  short_description: "检查本地 spec 和 plan 的一致性、覆盖率和契约风险"
-  default_prompt: "使用 $analyze 对本地 spec 和 plan 做只读一致性、覆盖率与接口契约分析。"
+  short_description: "独立只读审查已有或外部 artifacts 的覆盖率与契约风险"
+  default_prompt: "使用 $analyze 对已有或外部 spec/plan artifacts 做独立只读一致性、覆盖率与接口契约审查。"

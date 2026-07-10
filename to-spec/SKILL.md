@@ -1,6 +1,6 @@
 ---
 name: to-spec
-description: Use when formalizing a design direction, brainstorming handoff, planning discussion, or conversation context into a local narrative spec (design doc) with stable requirement IDs, architecture decisions, tradeoffs, and verification seams before writing an implementation plan.
+description: Use when the user explicitly needs a standalone formal spec or decision artifact from a confirmed design, brainstorming handoff, planning discussion, or conversation context, with stable requirement IDs, architecture decisions, tradeoffs, and verification seams.
 ---
 
 # To Spec
@@ -9,15 +9,36 @@ description: Use when formalizing a design direction, brainstorming handoff, pla
 
 ## 进入边界
 
+- 这是独立 formal-spec 入口：适用于用户明确要 spec、design doc、requirements 或长期 decision artifact，而不要求同一次运行生成 implementation plan。
 - 适用于需要把 conversation context、brainstorming handoff、planning discussion 或本地文件整理成 spec/design doc 的任务。
 - 可以由用户显式调用，也可以由 `workflow-router` 或上一轮 `Natural Handoff` 推荐后进入。
 - 不要把 spec 写成逐文件实施计划；实现细节只记录稳定 contract、schema、API、interaction 或 architecture decision。
+- 如果用户要的是 checked implementation plan，应使用 `$to-plan`；其 Full Path 会在同一次 Planning Run 内生成需要的 spec 与 plan。
 
 ## Language Contract
 
 语言契约：生成的文档和聊天输出默认以中文优先；代码、命令、API 名称、契约字段、ID、专有名词以及必要的技术术语保留英文。用户或目标项目明确要求英文时可以例外，但必须记录原因。
 
 spec 正文必须中文优先。`FR-001`、`SC-001`、`Metadata`、`Status`、`Source`、`Feature Slug`、`Verification seam` 等 workflow contract fields 可以保留英文，但其后的描述句必须使用中文主文。不要沿用英文模板句式，除非用户明确要求英文 spec。
+
+## Trigger Description
+
+`to-spec` 的 trigger 是用户明确需要独立 formal spec、requirements 或长期 decision artifact。它把已确认方向写成本地叙事文档；如果用户要的是 checked implementation plan，直接路由到 `$to-plan`。
+
+## Pressure Scenarios
+
+1. User says: “只要正式 spec，暂时不要 implementation plan。”
+   - Expected skill trigger: 独立写 spec 与既有 feature manifest，并在完成后停止或推荐 `none`。
+   - Common failure without skill: 因 adaptive planning 存在而强制创建 plan。
+   - Behavior this skill must force: 保持 spec-only artifact boundary。
+2. A brainstorming handoff is confirmed, but the requested outcome is a checked plan.
+   - Expected skill trigger: 不进入本 skill，改由 `$to-plan` 自动判断 Fast/Full。
+   - Common failure without skill: 恢复多一次 `$to-spec -> $to-plan` 中间确认。
+   - Behavior this skill must force: formal spec 与 planning outcome owner 的职责不重叠。
+3. The spec source mentions files and tasks in detail.
+   - Expected skill trigger: 只固化稳定 contract、architecture decision 与 verification seam。
+   - Common failure without skill: 把 spec 写成逐文件 implementation plan。
+   - Behavior this skill must force: 文件级拆分留给 `$to-plan`。
 
 ## 输出约定
 
@@ -129,13 +150,13 @@ spec 的前半部分是叙事：问题是什么、选了什么方案、为什么
 
 - Spec: `spec.md`
 - Plan: `plan.md` (pending)
-- Analysis: `analysis.md` (pending)
+- Analysis: not requested（独立 `$analyze` 按需执行）
 
 ## 状态 (Status)
 
 - Spec: Draft
 - Plan: Not started
-- Analysis: Not started
+- Analysis: Not requested
 - Implementation: Not started
 ```
 
@@ -150,4 +171,10 @@ spec 的前半部分是叙事：问题是什么、选了什么方案、为什么
 - 没有逐文件实施计划；实现细节只到稳定 contract/schema/API/architecture decision 层。
 - 没有要求运行外部 setup skill 或创建远端 issue。
 
-最后向用户报告 spec 路径、manifest 路径、核心 assumptions；如果需要拆实现计划，用 `Natural Handoff` 推荐 `$to-plan` 作为唯一 next skill，用户可以回复 `继续` 或显式写 `$to-plan`。
+最后向用户报告 spec 路径、manifest 路径和核心 assumptions。
+
+## Natural Handoff
+
+- 用户随后需要 implementation plan 时，最多推荐 `$to-plan`；自然确认会创建新的 Planning Authorization，不代表已经进入实现。
+- 用户只需要 formal spec 时推荐 `none`。
+- 不在本 skill 内自动生成 plan、运行 `$analyze` 或进入实现。

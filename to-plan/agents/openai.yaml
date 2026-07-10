@@ -1,4 +1,4 @@
 interface:
   display_name: "To Plan"
-  short_description: "把 spec 拆成带接口契约和验证命令的任务级 plan"
-  default_prompt: "使用 $to-plan 将 spec 拆成任务级实现 plan，并写入 feature workspace。"
+  short_description: "按风险生成 Fast/Full artifacts 并交付 checked plan"
+  default_prompt: "使用 $to-plan 按风险选择 Fast 或 Full planning，并生成经过质量检查的 implementation plan。"

@@ -11,6 +11,25 @@ description: Use when starting or resuming a workflow skill chain, deciding whic
 
 语言契约：生成的文档和聊天输出默认以中文优先；代码、命令、API 名称、契约字段、ID、专有名词以及必要的技术术语保留英文。用户或目标项目明确要求英文时可以例外，但必须记录原因。
 
+## Trigger Description
+
+`workflow-router` 的 trigger 是用户需要选择/恢复 workflow，或自然确认上一条唯一推荐。它只选择当前最小必要 skill 并完成转场，不执行目标 skill 的动作。
+
+## Pressure Scenarios
+
+1. User replies “继续” after the prior response uniquely names one next skill.
+   - Expected skill trigger: 进入该 skill，但保留其内部 gate。
+   - Common failure without skill: 重新询问已唯一确定的路由，或直接跨过安全门。
+   - Behavior this skill must force: Natural Handoff 只完成一次明确转场。
+2. The previous response offered several choices, or the user adds a new condition.
+   - Expected skill trigger: 重新判断当前最小必要 skill。
+   - Common failure without skill: 把自然确认绑定到任意一个旧选项。
+   - Behavior this skill must force: 模糊输入不产生隐式执行授权。
+3. A confirmed design could become a plan, formal spec, or artifact audit.
+   - Expected skill trigger: 需要 checked plan 到 `$to-plan`，spec-only 到 `$to-spec`，已有/外部 artifact audit 到 `$analyze`。
+   - Common failure without skill: 固定串联三个 skills。
+   - Behavior this skill must force: 按 outcome 唯一路由。
+
 ## Controlled Chain Protocol
 
 - 先判断当前请求是解释、规划、artifact 分析、分支准备、实现、诊断、review、verification、收尾还是会话整理。
@@ -19,6 +38,7 @@ description: Use when starting or resuming a workflow skill chain, deciding whic
 - 如果上一条回复只推荐了一个 next skill，用户回复 `继续`、`可以`、`按你说的办`、`go ahead`、`ok` 或 `好的`，视为确认进入该 skill。
 - 如果上一条回复给了多个选项，或用户确认时附加新条件、改变方向，必须重新路由；不要把自然确认绑定到模糊选择。
 - `Natural Handoff` 只负责 skill 之间的转场，不会批准写文件、改分支、运行实现命令、commit、push 或跳过目标 skill 内部安全门。
+- 已确认设计进入 `$to-plan` 后，Planning Authorization 由 `$to-plan` 内部处理；router 不替它选择 Fast/Full、不跨 skill 自动生成 artifacts，也不把 checked plan 当作实现授权。
 - 本 skill 自身不写文件、不改分支、不运行实现命令、不调用远端服务；路由完成后停在自然交接。
 
 ## Routing Map
@@ -27,9 +47,9 @@ description: Use when starting or resuming a workflow skill chain, deciding whic
 | --- | --- |
 | 需要源码解释、调用链、架构图或本地解释报告 | `$clarify` |
 | 需要拷问方案、约束、风险、验收标准 | `$grill-me` |
-| 需要把方向共识整理成叙事型 spec | `$to-spec` |
-| 需要把 spec 拆成任务级实现 plan | `$to-plan` |
-| 已有 spec/plan，需要只读检查一致性、覆盖率和接口契约 | `$analyze` |
+| 已确认设计或已有 spec，需要生成 checked plan | `$to-plan` |
+| 只需要正式 spec、requirements 或 decision artifact | `$to-spec` |
+| 需要审查已有或外部 artifacts 的一致性、覆盖率和接口契约 | `$analyze` |
 | 即将开始实现，需要确认分支和 baseline | `$checking-branch` |
 | 小型低风险变更 | `$quick-change` |
 | bug 或性能回归需要系统诊断 | `$diagnose` |
@@ -54,7 +74,7 @@ description: Use when starting or resuming a workflow skill chain, deciding whic
 示例：
 
 ```markdown
-这一步已经把需求边界收住了。我建议下一步用 `$to-spec` 把它整理成 spec，因为后续还需要拆 plan 和做覆盖检查。你回复“继续”或“使用 `$to-spec`”都可以；如果想先调整边界，也可以直接说。
+整体设计已经确认，而且目标是 implementation plan。我建议下一步用 `$to-plan`，由它按风险选择 Fast/Full 并交付 checked plan。你回复“继续”或“使用 `$to-plan`”都可以；如果只想保留正式 spec，也可以直接说明。
 ```
 
 如果没有合适 skill，不推荐下一步，直接说明原因并自然结束。
