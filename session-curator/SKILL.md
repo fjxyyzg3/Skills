@@ -1,6 +1,6 @@
 ---
 name: session-curator
-description: Use near session end or when the user asks to curate durable project knowledge, reconcile docs and memory, reduce documentation rot/bloat, or update README.md, AGENTS.md, CLAUDE.md, docs, CONTEXT/MEMORY, or project memory after a confirmed edit plan.
+description: "当会话接近结束，或用户要求整理持久项目知识、协调文档与记忆、减少文档腐烂/膨胀，或在确认具体修改计划后更新 README.md、AGENTS.md、CLAUDE.md、docs、CONTEXT/MEMORY 或项目 memory 时使用；保留英文触发短语 near session end、curate durable project knowledge、reconcile docs and memory 和 documentation rot/bloat。"
 version: 0.1.0
 ---
 
@@ -24,24 +24,20 @@ version: 0.1.0
 - 只需要回答问题、解释代码或总结当前结果时，不写持久文档。
 - 用户没有确认修改计划时，不进入文件编辑阶段。
 
-## Language Contract
+## 压力场景（Pressure Scenarios）
 
-语言契约：生成的文档和聊天输出默认以中文优先；代码、命令、API 名称、契约字段、ID、专有名词以及必要的技术术语保留英文。用户或目标项目明确要求英文时可以例外，但必须记录原因。
-
-## Pressure Scenarios
-
-1. User says: "把这次会话里值得长期保留的东西整理一下。"
-   - Expected skill trigger: 先区分可沉淀内容和一次性过程，再给修改计划。
-   - Common failure without skill: 把完整聊天摘要、临时调试过程或过期计划写进项目文档。
-   - Behavior this skill must force: 只保留长期有效、可复用、可验证的信息。
-2. User says: "这个规则以后都要记住，写到 AGENTS 或 memory。"
-   - Expected skill trigger: 先判断受众层级和已有落点，再计划最小 diff。
-   - Common failure without skill: 同一事实同时塞进 README、AGENTS 和 memory，制造重复来源。
-   - Behavior this skill must force: 选择单一权威落点；能更新旧条目就不追加新条目。
-3. User says: "文档有点乱，帮我收一收。"
-   - Expected skill trigger: 做尺寸和腐烂体检，优先精简、合并或删除过期内容。
-   - Common failure without skill: 继续追加新 section，让文档更臃肿。
-   - Behavior this skill must force: 减优于加；无法证明长期价值时报告无需修改。
+1. 用户说：“把这次会话里值得长期保留的东西整理一下。”
+   - 预期 skill 触发：先区分可沉淀内容和一次性过程，再给修改计划。
+   - 未使用本 skill 时的常见失败：把完整聊天摘要、临时调试过程或过期计划写进项目文档。
+   - 本 skill 必须强制的行为：只保留长期有效、可复用、可验证的信息。
+2. 用户说：“这个规则以后都要记住，写到 AGENTS 或 memory。”
+   - 预期 skill 触发：先判断受众层级和已有落点，再计划最小 diff。
+   - 未使用本 skill 时的常见失败：同一事实同时塞进 README、AGENTS 和 memory，制造重复来源。
+   - 本 skill 必须强制的行为：选择单一权威落点；能更新旧条目就不追加新条目。
+3. 用户说：“文档有点乱，帮我收一收。”
+   - 预期 skill 触发：做尺寸和腐烂体检，优先精简、合并或删除过期内容。
+   - 未使用本 skill 时的常见失败：继续追加新 section，让文档更臃肿。
+   - 本 skill 必须强制的行为：减优于加；无法证明长期价值时报告无需修改。
 
 ## 核心规则
 
@@ -53,7 +49,7 @@ version: 0.1.0
 - 减优于加，合并优于追加，删除过期内容优于保留历史包袱。
 - 如果没有值得沉淀的通用内容，明确报告“无需修改”，不要为了产出而改文档。
 
-## References
+## 参考资料
 
 - 选择文档受众、候选文件和跨文档影响时，使用 `references/document-targets.md`。
 - 过滤沉淀内容、检查文档腐烂、控制膨胀和敏感信息时，使用 `references/curation-quality.md`。
@@ -95,10 +91,10 @@ version: 0.1.0
    - 按 `references/curation-quality.md` 做最终自检。
    - 汇总实际修改、验证命令、跳过项和残留风险。
 
-## 修改计划格式 (Curation Plan)
+## 修改计划格式
 
 ```markdown
-## 会话整理计划 (Session Curation Plan)
+## 会话整理计划
 
 - Scope:
 - Candidate docs checked:
@@ -109,7 +105,7 @@ version: 0.1.0
 | --- | --- | --- | --- | --- | --- | --- |
 | C1 | ... | agent rules / docs / memory | ... | add/update/remove | ... | ... |
 
-## 不沉淀内容 (Skipped)
+## 不沉淀内容
 
 - ...
 
@@ -119,7 +115,7 @@ version: 0.1.0
 ## 完成报告格式
 
 ```markdown
-## 会话整理结果 (Session Curation Result)
+## 会话整理结果
 
 - Approved scope:
 - Changed:

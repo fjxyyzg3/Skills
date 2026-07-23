@@ -1,36 +1,32 @@
 ---
 name: checking-branch
-description: "Use as the internal branch gate after $implement selects an executable path, or when the user explicitly asks to inspect, prepare, create, or switch a Git branch; show status, confirm direct modification or a named branch, derive a safe base, and run baseline checks."
+description: "作为 $implement 选择可执行路径后的内部 branch gate，或用户明确要求检查、准备、创建或切换 Git 分支时使用；先展示状态，确认直接修改或指定分支，推导安全 base 并运行 baseline 检查；保留英文触发短语 inspect, prepare, create, or switch a Git branch。"
 ---
 
 # Checking Branch
 
-作为 implementation workflow 的内部 branch gate，或响应用户明确的 branch-only 请求。先展示当前分支和 Git 状态，再让用户选择直接修改或提供新分支名。
+作为实现工作流的内部 branch gate，或响应用户明确的 branch-only 请求。先展示当前分支和 Git 状态，再让用户选择直接修改或提供新分支名。
 
-## Language Contract
+## 触发说明（Trigger Description）
 
-语言契约：生成的文档和聊天输出默认以中文优先；代码、命令、API 名称、契约字段、ID、专有名词以及必要的技术术语保留英文。用户或目标项目明确要求英文时可以例外，但必须记录原因。
-
-## Trigger Description
-
-- 普通 implementation request 先进入 `$implement`；本 skill 不与唯一 implementation entry 竞争。
-- `$implement` 完成只读 path dispatch、确认 Path 可执行后，把本 skill 作为内部 `N1 Branch Gate` 使用。
+- 普通实现请求先进入 `$implement`；本 skill 不与唯一实现入口竞争。
+- `$implement` 完成只读路径分派、确认 Path 可执行后，把本 skill 作为内部 `N1 Branch Gate` 使用。
 - 用户明确只要求检查状态、准备分支、创建分支或切换分支时，可以直接进入本 skill。
 
-## Pressure Scenarios
+## 压力场景（Pressure Scenarios）
 
-1. User says: “实现这个已收束需求。”
-   - Expected trigger: `$implement`，不是独立 `$checking-branch`。
-   - Forbidden action: 在 path/scope dispatch 前先创建或切换分支。
-   - Pass signal: 只有目标 workflow 调用本 skill 后才执行 branch gate。
-2. `$implement` has selected Quick or Standard and invokes the branch gate.
-   - Expected trigger: 展示 status、existing changes 与 baseline，并等待 direct/new-branch decision。
-   - Forbidden action: 把 path decision 当成分支修改授权。
-   - Pass signal: 用户明确同意直接修改，或提供的新分支已安全创建/切换。
-3. User says: “只帮我从默认分支创建 `feat/x`，暂时不要实现。”
-   - Expected trigger: 直接执行 branch-only workflow。
-   - Forbidden action: 顺带开始业务实现。
-   - Pass signal: branch/base/baseline 被报告，随后自然结束。
+1. 用户说：“实现这个已收束需求。”
+   - 预期触发：`$implement`，不是独立 `$checking-branch`。
+   - 禁止动作：在路径/范围分派前先创建或切换分支。
+   - 通过信号：只有目标工作流调用本 skill 后才执行 branch gate。
+2. `$implement` 已选择 Quick 或 Standard，并调用 branch gate。
+   - 预期触发：展示状态、已有改动与 baseline，并等待直接修改/新分支选择。
+   - 禁止动作：把路径选择当成分支修改授权。
+   - 通过信号：用户明确同意直接修改，或提供的新分支已安全创建/切换。
+3. 用户说：“只帮我从默认分支创建 `feat/x`，暂时不要实现。”
+   - 预期触发：直接执行 branch-only 工作流。
+   - 禁止动作：顺带开始业务实现。
+   - 通过信号：branch/base/baseline 被报告，随后自然结束。
 
 ## 核心规则
 
@@ -117,7 +113,7 @@ Pre-existing changes: <none or list>
 - 用户已有改动没有被覆盖或误纳入本任务。
 - 实现阶段可以安全继续。
 
-## Natural Handoff
+## 自然交接（Natural Handoff）
 
-- 作为内部 gate 调用时，把 branch decision 和 baseline 结果返回给调用中的 `$implement`；这不是新的跨 skill handoff。
+- 作为内部 gate 调用时，把分支选择和 baseline 结果返回给调用中的 `$implement`；这不是新的跨 skill 交接。
 - 用户只要求 branch 操作时，完成后推荐 `none`，不自动开始实现。

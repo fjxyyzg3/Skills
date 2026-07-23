@@ -1,19 +1,15 @@
 ---
 name: clarify
-description: Use when answering codebase questions, finding where behavior lives, tracing callers/callees or data flow, explaining architecture, locating source evidence, generating Mermaid diagrams, or producing source-grounded local explanation reports.
+description: "当用户需要回答代码库问题、定位行为实现、追踪 caller/callee 或数据流、解释架构、查找源码证据、生成 Mermaid 图，或产出基于源码的本地解释报告时使用；保留英文触发短语 codebase question、trace callers/callees 和 source-grounded explanation。"
 ---
 
 # Clarify
 
 把代码库问题转化为有来源支撑的解释。只澄清无法自行发现的信息；充分检查相关源码以避免猜测；在有帮助时，用代码位置、代码解释、图表和文档回答。
 
-## Language Contract
-
-语言契约：生成的文档和聊天输出默认以中文优先；代码、命令、API 名称、契约字段、ID、专有名词以及必要的技术术语保留英文。用户或目标项目明确要求英文时可以例外，但必须记录原因。
-
 ## 核心规则
 
-- 只回答用户提出的代码库问题，不推荐后续 workflow skill；解释完成后自然结束。
+- 只回答用户提出的代码库问题，不推荐后续工作流 skill；解释完成后自然结束。
 - 一次最多问一个澄清问题，并给出你建议采用的默认答案。
 - 如果细节可以从代码、文档、配置、示例、测试、历史记录或生成产物中发现，先检查这些来源，不要直接提问。
 - 明确标注推断。不要把猜测当作有源码支撑的事实。
@@ -28,7 +24,7 @@ description: Use when answering codebase questions, finding where behavior lives
 
 2. 探索代码库。
    - 当项目文档能帮助回答问题时，检查解释架构、领域语言、设置方式或功能行为的文档。
-   - 使用当前环境可用的源码导航工具：symbol search、text search、caller/callee lookup、dependency graph、测试、日志和聚焦文件读取。
+   - 使用当前环境可用的源码导航工具：符号搜索、文本搜索、caller/callee 查询、依赖图、测试、日志和聚焦文件读取。
    - 从用户提供的名称、错误文本、功能术语、API 名称、class、function、配置 key、route、command、测试和文档开始。
    - 沿 caller、callee、注册点、配置、测试、生成代码和相邻实现继续追踪，直到解释具备足够证据。
    - 维护证据地图，记录 `file:line`、symbol、在流程中的角色和可信度。
@@ -44,13 +40,13 @@ description: Use when answering codebase questions, finding where behavior lives
    - 对非平凡的架构或流程问题加入 Mermaid 图。
    - 根据问题选择 `flowchart`、`sequenceDiagram` 或 `classDiagram`。
    - 保持节点标签简短；包含标点的标签要加引号；避免用过密的图替代解释。
-   - 用架构图表达 ownership/module 关系，用流程图表达执行路径。
+   - 用架构图表达归属/module 关系，用流程图表达执行路径。
 
 5. 在用户要求或答案较大时生成文档。
    - 创建 HTML 文档前，先阅读 `references/report-structure.md`。
    - 编写独立报告时，以 `assets/clarify-report-template.html` 作为起点。
    - 如果用户指定路径，将报告保存到该路径；否则根据主题和项目结构选择清晰的本地路径。
-   - 充分检查生成的 HTML，避免破损 markup。如果无法检查 Mermaid 的可视化渲染，要明确说明。
+   - 充分检查生成的 HTML，避免破损的标记结构。如果无法检查 Mermaid 的可视化渲染，要明确说明。
 
 ## 输出形态
 

@@ -1,15 +1,11 @@
 ---
 name: grill-me
-description: Use when stress-testing a plan, design, proposal, product idea, architecture decision, or implementation approach; when challenging assumptions, decision trees, boundaries, failure modes, risks, tradeoffs, or acceptance criteria; or when user says grill me, 拷问我, 盘问我, 挑战我的方案.
+description: "当需要压力测试计划、设计、提案、产品想法、架构决策或实现路径，挑战假设、决策树、边界、失败模式、风险、取舍或验收标准，或用户说 grill me、拷问我、盘问我、挑战我的方案时使用；保留英文触发短语 stress-testing、grill me 和 challenging assumptions。"
 ---
 
 # Grill Me
 
 围绕用户的计划或设计进行高强度追问，直到双方对目标、约束、决策、风险和取舍形成共同理解。
-
-## Language Contract
-
-语言契约：生成的文档和聊天输出默认以中文优先；代码、命令、API 名称、契约字段、ID、专有名词以及必要的技术术语保留英文。用户或目标项目明确要求英文时可以例外，但必须记录原因。
 
 ## 工作方式
 
@@ -22,7 +18,7 @@ description: Use when stress-testing a plan, design, proposal, product idea, arc
 - 保持尖锐但务实：挑战薄弱假设，避免为了追问而追问。
 - 本 skill 只明确需求、边界、风险和验收；不要写业务代码、scaffold 项目、改行为或启动实现。
 - 用户同意方案方向只表示可以继续细化，不等于已经 implementation-ready。
-- 仍有关键问题未收束时，继续提出下一个问题；不要用 `Natural Handoff` 推荐 next skill。
+- 仍有关键问题未收束时，继续提出下一个问题；不得使用 `Natural Handoff` 推荐后续 skill。
 
 ## 完成条件
 
@@ -31,7 +27,7 @@ description: Use when stress-testing a plan, design, proposal, product idea, arc
 - Acceptance criteria 或 failure conditions 已清楚到足够交给下一个 artifact 或 implementation skill。
 - 没有仍未回答、且会实质改变推荐 next skill 的关键问题。
 
-## Natural Handoff
+## 自然交接（Natural Handoff）
 
 只有满足完成条件后，才可以用 `Natural Handoff` 最多推荐一个 next skill：
 

@@ -1,15 +1,11 @@
 ---
 name: finishing-branch
-description: Use after implementation or debugging work is complete on a local branch, when preparing handoff, summarizing git status, deciding merge/PR/commit/keep/discard options, cleaning branch artifacts, or reporting final verification and residual risks.
+description: "当本地分支上的实现或调试工作已经完成，需要准备交接、汇总 Git 状态、决定 merge/PR/commit/keep/discard 选项、清理分支临时产物，或报告最终验证和残留风险时使用；保留英文触发短语 implementation or debugging work is complete 和 merge/PR/commit/keep/discard options。"
 ---
 
 # Finishing Branch
 
 完成开发分支时整理交付状态。它不自动 merge、push、discard；只在用户明确要求时执行这些改变远端或历史的动作。
-
-## Language Contract
-
-语言契约：生成的文档和聊天输出默认以中文优先；代码、命令、API 名称、契约字段、ID、专有名词以及必要的技术术语保留英文。用户或目标项目明确要求英文时可以例外，但必须记录原因。
 
 ## 前置条件
 
@@ -47,7 +43,7 @@ git diff --stat
 ## 输出格式
 
 ```markdown
-## 分支收尾报告 (Branch Finish Report)
+## 分支收尾报告
 
 - Branch: <name>
 - Status: clean / dirty

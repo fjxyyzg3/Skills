@@ -1,17 +1,13 @@
 ---
 name: brainstorming
-description: Use when brainstorming, exploring an idea before design/spec/implementation, comparing product/UX/architecture approaches, or turning a vague request into a validated design; ask one question at a time, propose alternatives, and after approval route to a checked plan, a formal spec, or no artifact work.
+description: "当需要在设计、spec 或 implementation 前开展头脑风暴、探索想法、比较产品/UX/架构方案，或把模糊请求收束成经过验证的设计时使用；每轮仅问一个问题，提出备选方案，并在确认后路由到 checked plan、formal spec 或不产出 artifact；保留英文触发短语 brainstorming、comparing product/UX/architecture approaches 和 turning a vague request into a validated design。"
 ---
 
 # Brainstorming
 
 把模糊想法推进成可验证的设计。目标不是替用户直接决定，而是在实现前澄清目的、约束、成功标准和关键取舍。
 
-## Language Contract
-
-语言契约：生成的文档和聊天输出默认以中文优先；代码、命令、API 名称、契约字段、ID、专有名词以及必要的技术术语保留英文。用户或目标项目明确要求英文时可以例外，但必须记录原因。
-
-## Trigger Description
+## 触发说明（Trigger Description）
 
 `brainstorming` 的 trigger 是需求仍需要方案探索或设计取舍：一次只问一个问题，比较 2-3 个方案并取得整体设计确认。确认后根据用户真正需要的 outcome，唯一推荐 `$to-plan`、`$to-spec` 或 `none`。
 
@@ -22,20 +18,20 @@ description: Use when brainstorming, exploring an idea before design/spec/implem
 - 如果当前任务明显缺少目标、边界或验收标准，可以由 context trigger 或上一轮唯一 `Natural Handoff` 进入 `$brainstorming`，但不要直接开始实现。
 - 本 skill 一旦进入，在用户确认设计前不要写业务代码、scaffold 项目、改行为或调用 implementation skill。
 
-## Pressure Scenarios
+## 压力场景（Pressure Scenarios）
 
-1. User says: "帮我 brainstorm 一下这个功能怎么做。"
-   - Expected skill trigger: 先探索当前项目和用户目标，再逐步收敛到设计。
-   - Common failure without skill: 直接给单一路线，隐藏关键假设。
-   - Behavior this skill must force: 至少提出 2-3 个方案、取舍和推荐理由。
-2. User says: "我有个产品想法，但还没想清楚。"
-   - Expected skill trigger: 一次只问一个澄清问题，先定义用户、场景、约束和成功标准。
-   - Common failure without skill: 提前写 PRD 或实现计划，后续大幅返工。
-   - Behavior this skill must force: 在每个关键 section 后取得用户确认。
-3. User says: "这个 UI/架构方向有几种可能，帮我比较。"
-   - Expected skill trigger: 比较方案时给出具体结构、状态、用户路径和风险。
-   - Common failure without skill: 用抽象描述代替具体结构，用户难以判断。
-   - Behavior this skill must force: 用具体结构、状态和取舍说明方案，避免用抽象描述替代可判断的设计。
+1. 用户说：“帮我 brainstorm 一下这个功能怎么做。”
+   - 预期 skill 触发：先探索当前项目和用户目标，再逐步收敛到设计。
+   - 未使用本 skill 时的常见失败：直接给单一路线，隐藏关键假设。
+   - 本 skill 必须强制的行为：至少提出 2-3 个方案、取舍和推荐理由。
+2. 用户说：“我有个产品想法，但还没想清楚。”
+   - 预期 skill 触发：一次只问一个澄清问题，先定义用户、场景、约束和成功标准。
+   - 未使用本 skill 时的常见失败：提前写 PRD 或实现计划，后续大幅返工。
+   - 本 skill 必须强制的行为：在每个关键 section 后取得用户确认。
+3. 用户说：“这个 UI/架构方向有几种可能，帮我比较。”
+   - 预期 skill 触发：比较方案时给出具体结构、状态、用户路径和风险。
+   - 未使用本 skill 时的常见失败：用抽象描述代替具体结构，用户难以判断。
+   - 本 skill 必须强制的行为：用具体结构、状态和取舍说明方案，避免用抽象描述替代可判断的设计。
 
 ## 核心规则
 
@@ -53,7 +49,7 @@ description: Use when brainstorming, exploring an idea before design/spec/implem
 
 ## 工作流程
 
-### 1. 探索 context
+### 1. 探索上下文
 
 - 读取用户指定的 artifacts。
 - 没有指定文件时，快速查看项目结构、README/AGENTS/CONTEXT、相关 docs 和最近提交。
@@ -69,31 +65,31 @@ description: Use when brainstorming, exploring an idea before design/spec/implem
 
 为 2-3 个方案分别说明：
 
-- Shape: 方案结构或用户体验形态。
-- Benefits: 解决什么问题。
-- Costs/Risks: 复杂度、迁移、测试、维护和用户体验风险。
-- Verification: 如何验证它真的满足目标。
-- Recommendation: 推荐哪个方案，以及为什么。
+- 形态：方案结构或用户体验形态。
+- 收益：解决什么问题。
+- 成本/风险：复杂度、迁移、测试、维护和用户体验风险。
+- 验证：如何验证它真的满足目标。
+- 推荐：推荐哪个方案，以及为什么。
 
 ### 4. 呈现设计
 
 按实际复杂度选择 section，不需要机械填满所有项。常见 section：
 
-- Scope / Non-goals
-- User workflow
-- Architecture / components
-- Data flow / state
-- Error handling / edge cases
-- Testing / verification
-- Rollout / migration
+- 范围/非目标
+- 用户工作流
+- 架构/组件
+- 数据流/状态
+- 错误处理/边界场景
+- 测试/验证
+- 发布/迁移
 
 关键 section 后明确问用户是否认可。如果用户提出修正，更新设计后再继续。
 
-### 5. 准备 outcome 交接
+### 5. 准备结果交接
 
 只有在用户确认整体设计后，才整理下游所需的 handoff packet。不要在本 skill 中写本地设计文档、创建 `docs/brainstorming/`、写 `design.md` 或更新 feature workspace。
 
-需要 implementation plan 时，输出 `PlanningHandoffPacket v1`。使用中文主文，保留必要 English fields、API、命令和稳定 ID，并包含：
+需要 implementation plan 时，输出 `PlanningHandoffPacket v1`，并包含：
 
 - Confirmed problem / goal
 - Scope / Non-goals
@@ -106,7 +102,7 @@ description: Use when brainstorming, exploring an idea before design/spec/implem
 
 用户只需要正式 spec / decision artifact 时，可以复用这些已确认内容作为 formal-spec handoff，并补充 `Recommended spec focus`。用户只需要 brainstorming 结果时，不准备 artifact handoff。
 
-完成后做快速 self-review：
+完成后做快速自检：
 
 - 是否有未收束的开放问题。
 - 是否有相互矛盾的 scope、设计或验收。
@@ -116,7 +112,7 @@ description: Use when brainstorming, exploring an idea before design/spec/implem
 
 不要自动写文件、commit 或进入实现。
 
-## Natural Handoff
+## 自然交接（Natural Handoff）
 
 - `implementation-plan`：用户需要 implementation-ready plan 时，最多推荐 `$to-plan`。自然确认会由 `$to-plan` 解释为一次 Planning Authorization，由它按风险选择 Fast/Full 并写入 checked plan。
 - `spec-only`：用户只需要正式 spec、requirements 或 decision artifact 时，最多推荐 `$to-spec`。

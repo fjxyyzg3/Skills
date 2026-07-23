@@ -1,6 +1,6 @@
 ---
 name: analyze
-description: Use when a user requests a read-only audit of existing or external spec/plan artifacts, or when implementation intake finds artifacts unchecked or stale; detect ambiguity, coverage gaps, contract mismatches, missing verification, and quality-gate violations.
+description: "当用户要求对既有或外部 spec/plan 产物执行只读审计，或 implementation intake 发现产物未检查或已失效时使用；识别歧义、覆盖缺口、contract mismatch、缺失验证和质量门违规；保留英文触发短语 read-only audit of existing or external spec/plan artifacts。"
 ---
 
 # Analyze
@@ -14,28 +14,24 @@ description: Use when a user requests a read-only audit of existing or external 
 - checked plan 已包含 `Planning Quality Status: Pass` 时，不把本 skill 作为默认 planning chain 的重复阶段；只有用户要求复审或实现入口发现 artifact 未检查/已失效时再运行。
 - 本 skill 报告 findings，不自动修复输入 artifacts、不生成 plan，也不进入实现。
 
-## Language Contract
-
-语言契约：生成的文档和聊天输出默认以中文优先；代码、命令、API 名称、契约字段、ID、专有名词以及必要的技术术语保留英文。用户或目标项目明确要求英文时可以例外，但必须记录原因。
-
-## Trigger Description
+## 触发说明（Trigger Description）
 
 `analyze` 的 trigger 是对已有、外部、失效或未检查 spec/plan artifacts 做独立只读审计。它输出带 location 与 severity 的 findings；有效 checked plan 不因默认链路重复触发本 skill。
 
-## Pressure Scenarios
+## 压力场景（Pressure Scenarios）
 
-1. An external plan claims it is ready but has no trustworthy quality evidence.
-   - Expected skill trigger: 只读检查 coverage、contracts、paths 和 verification commands。
-   - Common failure without skill: 仅相信 `Pass` 字样，或直接进入实现。
-   - Behavior this skill must force: 用 artifact 与仓库事实建立可追溯 findings。
-2. A local checked plan already has `Planning Quality Status: Pass` and has not changed.
-   - Expected skill trigger: 除非用户要求复审，否则不作为默认 planning 阶段重复运行。
-   - Common failure without skill: 重做 producer 已完成的机械检查并增加一次 handoff。
-   - Behavior this skill must force: 保持条件式 audit 边界。
-3. The audit finds a source-verifiable typo in an input artifact.
-   - Expected skill trigger: 报告 finding 与修复建议，保持输入文件不变。
-   - Common failure without skill: 把 `$to-plan` 的 Artifact-fixable 权限带入独立 audit。
-   - Behavior this skill must force: read-only contract 优先。
+1. 外部 plan 声称已经就绪，但没有可信质量证据。
+   - 预期触发：只读检查 coverage、contracts、paths 和 verification commands。
+   - 未使用本 skill 时的常见失败：仅相信 `Pass` 字样，或直接进入实现。
+   - 本 skill 必须强制的行为：用 artifact 与仓库事实建立可追溯 findings。
+2. 本地 checked plan 已有 `Planning Quality Status: Pass` 且未发生变化。
+   - 预期触发：除非用户要求复审，否则不作为默认 planning 阶段重复运行。
+   - 未使用本 skill 时的常见失败：重做 producer 已完成的机械检查并增加一次 handoff。
+   - 本 skill 必须强制的行为：保持条件式 audit 边界。
+3. 审计发现输入 artifact 中有可由源码核实的拼写错误。
+   - 预期触发：报告 finding 与修复建议，保持输入文件不变。
+   - 未使用本 skill 时的常见失败：把 `$to-plan` 的 Artifact-fixable 权限带入独立 audit。
+   - 本 skill 必须强制的行为：read-only contract 优先。
 
 ## 核心规则
 
@@ -83,27 +79,27 @@ description: Use when a user requests a read-only audit of existing or external 
 ## 输出格式
 
 ```markdown
-## 产物分析报告 (Artifact Analysis Report)
+## 产物分析报告
 
 | ID | Severity | Category | Location | Finding | Recommendation |
 | --- | --- | --- | --- | --- | --- |
 | A1 | HIGH | Coverage | docs/... | ... | ... |
 
-## 覆盖摘要 (Coverage Summary)
+## 覆盖摘要
 
 | Requirement | Covered by | Verification seam | Notes |
 | --- | --- | --- | --- |
 
-## 接口契约核对 (Contract Consistency)
+## 接口契约核对
 
 - Consumes/Produces mismatches: None / ...
 - 引用不存在接口的 task: None / ...
 
-## 约束对齐 (Constraint Alignment)
+## 约束对齐
 
 - Pass / Findings...
 
-## 下一步 (Next Actions)
+## 下一步
 
 1. ...
 ```
@@ -116,7 +112,7 @@ description: Use when a user requests a read-only audit of existing or external 
 - 没有写入或修改 artifacts，除非用户后续明确要求修复。
 - 没有把本次独立 audit 宣称为 adaptive planning 的默认必经阶段。
 
-## Natural Handoff
+## 自然交接（Natural Handoff）
 
 - audit 通过且用户明确要实现时，最多推荐 `$implement`；其 branch、scope、review 和 verification gate 保持有效。
 - artifacts 需要重新生成 checked plan 时，最多推荐 `$to-plan`。

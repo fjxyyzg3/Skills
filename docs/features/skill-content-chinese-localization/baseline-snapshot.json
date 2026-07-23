@@ -1,0 +1,531 @@
+{
+  "Version": "LocalizationBaselineSnapshot v1",
+  "TargetHead": "45d99a89b9e299249174341e7c5302fe0e38e40c",
+  "SkillInventory": [
+    {
+      "Name": "analyze",
+      "H1": "Analyze",
+      "Description": "Use when a user requests a read-only audit of existing or external spec/plan artifacts, or when implementation intake finds artifacts unchecked or stale; detect ambiguity, coverage gaps, contract mismatches, missing verification, and quality-gate violations.",
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\analyze\\SKILL.md",
+      "Sha256": "93e9e9e39cfe91fcc831885ccbaa44e8d9db0dcbcceda82988ad5f64479e575f"
+    },
+    {
+      "Name": "brainstorming",
+      "H1": "Brainstorming",
+      "Description": "Use when brainstorming, exploring an idea before design/spec/implementation, comparing product/UX/architecture approaches, or turning a vague request into a validated design; ask one question at a time, propose alternatives, and after approval route to a checked plan, a formal spec, or no artifact work.",
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\brainstorming\\SKILL.md",
+      "Sha256": "4411fb9c431bd65e640024b392edfe72cda6e4007837ccd09f239341357d6a04"
+    },
+    {
+      "Name": "checking-branch",
+      "H1": "Checking Branch",
+      "Description": "Use as the internal branch gate after $implement selects an executable path, or when the user explicitly asks to inspect, prepare, create, or switch a Git branch; show status, confirm direct modification or a named branch, derive a safe base, and run baseline checks.",
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\checking-branch\\SKILL.md",
+      "Sha256": "26452a0c24695fbd2a4b0ddbdcd5fbbf3658e7ce9cc82a905f7257721038680a"
+    },
+    {
+      "Name": "clarify",
+      "H1": "Clarify",
+      "Description": "Use when answering codebase questions, finding where behavior lives, tracing callers/callees or data flow, explaining architecture, locating source evidence, generating Mermaid diagrams, or producing source-grounded local explanation reports.",
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\clarify\\SKILL.md",
+      "Sha256": "956add2c48ba77948f1f37ea896aa38e43263fe34d8f8adc148dc6b5e5912641"
+    },
+    {
+      "Name": "diagnose",
+      "H1": "诊断",
+      "Description": "Use when a concrete Generic or Unreal Engine bug, crash, regression, wrong output, flaky behavior, or performance slowdown needs disciplined diagnosis through Active Repro or Artifact-based Triage, falsifiable hypotheses, targeted probes, and a regression seam.",
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\diagnose\\SKILL.md",
+      "Sha256": "a4c4137fe6d49994192afe18472fcd9228b72e25f2cb481d0f80cd6604a0b23a"
+    },
+    {
+      "Name": "finishing-branch",
+      "H1": "Finishing Branch",
+      "Description": "Use after implementation or debugging work is complete on a local branch, when preparing handoff, summarizing git status, deciding merge/PR/commit/keep/discard options, cleaning branch artifacts, or reporting final verification and residual risks.",
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\finishing-branch\\SKILL.md",
+      "Sha256": "73a17e916e0070a7bf9915f4b35fb7671bf3d4b72bd449369ba53a518e23c29e"
+    },
+    {
+      "Name": "grill-me",
+      "H1": "Grill Me",
+      "Description": "Use when stress-testing a plan, design, proposal, product idea, architecture decision, or implementation approach; when challenging assumptions, decision trees, boundaries, failure modes, risks, tradeoffs, or acceptance criteria; or when user says grill me, 拷问我, 盘问我, 挑战我的方案.",
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\grill-me\\SKILL.md",
+      "Sha256": "8b26a62cc89c5672e32472e7d53da5a59ed72c57d15c60dcb30576a849c78d1d"
+    },
+    {
+      "Name": "handoff",
+      "H1": "Handoff",
+      "Description": "Use when compacting the current conversation into a handoff document for another agent or session to continue, especially before context reset, session transfer, or pausing work with important unresolved context.",
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\handoff\\SKILL.md",
+      "Sha256": "176c37df5713faab150248f9502cfa28b2aaca0cc537d89a46828099e23c5850"
+    },
+    {
+      "Name": "implement",
+      "H1": "Implement",
+      "Description": "Use when executing any local implementation task, from a low-risk tight change to a checked multi-task plan; dispatch to Quick, Standard, or Blocked before branch or writes, then preserve the required scope, review, verification, and finish gates.",
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\implement\\SKILL.md",
+      "Sha256": "606d4d464d56941af994e2bcb50ed1ac83841508a5364788f3237483327eaf5d"
+    },
+    {
+      "Name": "improve-codebase-architecture",
+      "H1": "Improve Codebase Architecture",
+      "Description": "Use when the user wants to improve codebase architecture, find deepening opportunities, consolidate shallow or tightly-coupled modules, improve testability, or make code easier for agents to navigate.",
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\improve-codebase-architecture\\SKILL.md",
+      "Sha256": "7db47620d2f21360474ab078be107ad57a9be9dbd3552a5f0f74f037abf9fadf"
+    },
+    {
+      "Name": "requesting-code-review",
+      "H1": "Requesting Code Review",
+      "Description": "Use when reviewing local implementation changes, PR diffs, completed issues, generated code, test additions, or subagent output for spec compliance, acceptance criteria coverage, code quality, regression risk, missing tests, or maintainability before declaring implementation complete.",
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\requesting-code-review\\SKILL.md",
+      "Sha256": "3e4d77a39eacc5cf86d07936c97afeb420d58556aa9d5127c379f31acad0bdae"
+    },
+    {
+      "Name": "session-curator",
+      "H1": "Session Curator",
+      "Description": "Use near session end or when the user asks to curate durable project knowledge, reconcile docs and memory, reduce documentation rot/bloat, or update README.md, AGENTS.md, CLAUDE.md, docs, CONTEXT/MEMORY, or project memory after a confirmed edit plan.",
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\session-curator\\SKILL.md",
+      "Sha256": "eff38636d05469548c259231ba0e5c18ca6e74f118c2f322e07a0764b608fa61"
+    },
+    {
+      "Name": "tdd",
+      "H1": "TDD",
+      "Description": "Test-driven development with RED/GREEN/REFACTOR loop. Use when the user explicitly asks for TDD, test-first development, red-green-refactor, writing failing tests before implementation, integration tests for a feature or bugfix, or wants implementation guided by behavior-focused tests.",
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\tdd\\SKILL.md",
+      "Sha256": "a31189d89781cba82badc54db20ca5a41f887e64202a748fc4d6e4ff4d109a40"
+    },
+    {
+      "Name": "to-plan",
+      "H1": "To Plan",
+      "Description": "Use when turning a confirmed design, existing spec, design doc, or conversation context into a checked implementation plan; automatically choose Fast or Full planning, write the required local artifacts, close artifact-fixable gaps, and preserve implementation safety gates.",
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\to-plan\\SKILL.md",
+      "Sha256": "3e51d081f9b77755277bf6dd40dfefd693ff4ee28027fa986d05f7bc0a98555f"
+    },
+    {
+      "Name": "to-spec",
+      "H1": "To Spec",
+      "Description": "Use when the user explicitly needs a standalone formal spec or decision artifact from a confirmed design, brainstorming handoff, planning discussion, or conversation context, with stable requirement IDs, architecture decisions, tradeoffs, and verification seams.",
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\to-spec\\SKILL.md",
+      "Sha256": "a246faec7297275468a526ee939c217bbae51eaf1fc586c611ca1bec72782125"
+    },
+    {
+      "Name": "verification-before-completion",
+      "H1": "Verification Before Completion",
+      "Description": "Use before claiming a task is done, after implementation, debugging, documentation generation, skill edits, multi-agent work, or review fixes, to verify tests, acceptance criteria, artifact integrity, temporary files, branch status, skipped validation, and unresolved risks.",
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\verification-before-completion\\SKILL.md",
+      "Sha256": "ff99ef91d283fe867af34385250bb9419d752074223ebefb567639a90f0c25fa"
+    }
+  ],
+  "NoChangeEntries": [
+    {
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\analyze\\agents\\openai.yaml",
+      "Exists": true,
+      "Sha256": "ee5d9381fa43f2358599ee9c189a7aad7417c0604477f90396d1aecfa8f16ab2"
+    },
+    {
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\brainstorming\\agents\\openai.yaml",
+      "Exists": true,
+      "Sha256": "1dbec29106ef604bb80034464de3b9fd57a5af99df1c431ead921778b53185e1"
+    },
+    {
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\brainstorming\\examples\\brainstorming-session.md",
+      "Exists": true,
+      "Sha256": "3b92607fa4af1e2caa233ae6ea87d4aeab1f4aca0dbd7f87cf8407dd7de29f61"
+    },
+    {
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\checking-branch\\agents\\openai.yaml",
+      "Exists": true,
+      "Sha256": "31c9b4813ff5f7bae61bfcafd452978c176946e907982d5af7742adcc62c0982"
+    },
+    {
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\clarify\\agents\\openai.yaml",
+      "Exists": true,
+      "Sha256": "a5fd0fe8de871cb6a284d725b1a3ebcc31ca7d265ceb66a9bbd5294970404347"
+    },
+    {
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\clarify\\assets\\clarify-report-template.html",
+      "Exists": true,
+      "Sha256": "50f2b31ae83d506011da6847c10c334d51054a687a3638457eb95cf03b002faa"
+    },
+    {
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\clarify\\references\\report-structure.md",
+      "Exists": true,
+      "Sha256": "f425862c5830cda335fcf9126a212f928b43235f9854ba6d0b295ccfcb5d7620"
+    },
+    {
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\diagnose\\agents\\openai.yaml",
+      "Exists": true,
+      "Sha256": "68210e8a57bfcb0b04cadad0e05e8b5b36fb34cae45b9a42760898bf1776f355"
+    },
+    {
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\diagnose\\references\\ue\\probes-and-artifacts.md",
+      "Exists": true,
+      "Sha256": "18b423c51962bda5b77d4ef0f571c8fe46798573d1b97bc963002b88add824cc"
+    },
+    {
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\diagnose\\references\\ue\\regression-seams.md",
+      "Exists": true,
+      "Sha256": "d05fc93aff19201647fb16857519c0fa48429ede71a51b1a768a01b05bb8a0aa"
+    },
+    {
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\diagnose\\references\\ue\\runtime-modes.md",
+      "Exists": true,
+      "Sha256": "6524605da5a165e622561d16eb7e2ab95f4dbfb3bd90773d1b3c1e58a2ec4d2c"
+    },
+    {
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\diagnose\\scripts\\hitl-loop.template.sh",
+      "Exists": true,
+      "Sha256": "a14e4d722c2324c130d331e87267bc9f9b03bbaf32c3b8e08310b039ea5e5863"
+    },
+    {
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\docs\\features\\adaptive-planning-workflow\\manifest.md",
+      "Exists": true,
+      "Sha256": "69de1866b3ccb658041151f637e880628537b7d277347e7e783421396c0f7c31"
+    },
+    {
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\docs\\features\\adaptive-planning-workflow\\plan.md",
+      "Exists": true,
+      "Sha256": "5d5e92d966b0dfc9a065ed8a979f821d34907aa33f24354f0933281838411ecd"
+    },
+    {
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\docs\\features\\adaptive-planning-workflow\\spec.md",
+      "Exists": true,
+      "Sha256": "a548e0b5836871c4879cab5fb6f3b91e261e937f98d84aeec433b67ebbefc3b6"
+    },
+    {
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\docs\\features\\natural-handoff-workflow\\issues\\00-index.md",
+      "Exists": true,
+      "Sha256": "bacd56184c57a1077fc2db8a3219cc7c991be01fd8c7a99494c6e6f820862dbd"
+    },
+    {
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\docs\\features\\natural-handoff-workflow\\issues\\01-natural-handoff-routing-contract.md",
+      "Exists": true,
+      "Sha256": "12abde396eec619916652cbd1429027b2c4746c2ad5f62137436bfaeeb21655f"
+    },
+    {
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\docs\\features\\natural-handoff-workflow\\issues\\02-clarify-readonly-boundary.md",
+      "Exists": true,
+      "Sha256": "93450b1e59ad9bc43978275e659a046ab2e55cf4bc3c20c68032722bef2c1244"
+    },
+    {
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\docs\\features\\natural-handoff-workflow\\issues\\03-planning-diagnosis-implementation-boundaries.md",
+      "Exists": true,
+      "Sha256": "d86e25b8ebe1cb9b83835f42f1b34f3d89d102d43490fd9fd24a9e81905e38e2"
+    },
+    {
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\docs\\features\\natural-handoff-workflow\\issues\\04-validator-and-stale-rule-checks.md",
+      "Exists": true,
+      "Sha256": "e17fada84e295a3fc4a0430521609856e8f7411dc1611b0f4bf01f72c33443d8"
+    },
+    {
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\docs\\features\\natural-handoff-workflow\\manifest.md",
+      "Exists": true,
+      "Sha256": "feb5148156c5f1464a323181c953d45433913037a6d3661d8cf05d511896982e"
+    },
+    {
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\docs\\features\\natural-handoff-workflow\\prd.md",
+      "Exists": true,
+      "Sha256": "42f900a0d1bc86e8c2964bf66a69ff21ff50c0c527d451982f53d562e22b3601"
+    },
+    {
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\docs\\features\\skill-content-chinese-localization\\plan.md",
+      "Exists": true,
+      "Sha256": "7b808409da47651f07e17c41c5d239051923eab5857c76fea25aaff1a156e702"
+    },
+    {
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\docs\\features\\skill-content-chinese-localization\\spec.md",
+      "Exists": true,
+      "Sha256": "b46a613e556eea33c255493a2bab40b56a3f367e0c76f513ef24d12d7ffc3496"
+    },
+    {
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\docs\\features\\spec-plan-workflow\\issues\\00-index.md",
+      "Exists": true,
+      "Sha256": "90e99bff8ea7d2a7e9247da10662e2a621dd83c6a1050b7e5f9c35071b3b5aa7"
+    },
+    {
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\docs\\features\\spec-plan-workflow\\issues\\01-create-to-spec-skill.md",
+      "Exists": true,
+      "Sha256": "e0e54346ac0a0435f8a4a65d0999698ba0152105ca738e094a2016a91b4828e3"
+    },
+    {
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\docs\\features\\spec-plan-workflow\\issues\\02-create-to-plan-skill.md",
+      "Exists": true,
+      "Sha256": "27d6ef8d3a6771f9514cc2725a460f09b58b35ed22f1a1c0db4254483ead90ee"
+    },
+    {
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\docs\\features\\spec-plan-workflow\\issues\\03-rewrite-implement-decision-tree.md",
+      "Exists": true,
+      "Sha256": "2d329f1da84f53fd9eda7549412377350d5166205ddc17f14b8ef6209473fbb2"
+    },
+    {
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\docs\\features\\spec-plan-workflow\\issues\\04-rework-analyze-coverage.md",
+      "Exists": true,
+      "Sha256": "ff4935ae1469778f112105cfc48ebd70234fdd612b27761da7370d9819484109"
+    },
+    {
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\docs\\features\\spec-plan-workflow\\issues\\05-atomic-swap-remove-old-skills.md",
+      "Exists": true,
+      "Sha256": "9c85d594876f5b1e53e15af506a2372b4a86909e6272612a4088ffdb76f3528a"
+    },
+    {
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\docs\\features\\spec-plan-workflow\\issues\\06-update-parent-claude-md.md",
+      "Exists": true,
+      "Sha256": "9ca94ccce601f2343acf03863eb459537c7b5fbf7aea690c7640c06fcf8843e8"
+    },
+    {
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\docs\\features\\spec-plan-workflow\\manifest.md",
+      "Exists": true,
+      "Sha256": "2058e6d7874ec520ba9303b44a96c15373eecd4e507412ecf51477ad52b7fbdf"
+    },
+    {
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\docs\\features\\spec-plan-workflow\\prd.md",
+      "Exists": true,
+      "Sha256": "dc3505b8db4d6e88ea8ef4f92b223497156567ad28cc5384056586cf7b1a428a"
+    },
+    {
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\docs\\features\\workflow-skill-consolidation\\plan.md",
+      "Exists": true,
+      "Sha256": "d6da78e08742e89c40909f0ce79c3a9da7d843abac835aff40d3499bb29a16c7"
+    },
+    {
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\docs\\features\\workflow-skill-consolidation\\spec.md",
+      "Exists": true,
+      "Sha256": "0214648f3a516f5bdd25ab3204c1725a87fc91afe23dcaa538beecf2450f9a76"
+    },
+    {
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\finishing-branch\\agents\\openai.yaml",
+      "Exists": true,
+      "Sha256": "0f65863234c5ffe3cbb7ce32b4964cbe88274f31c2f8a2fe62649fcd37814422"
+    },
+    {
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\grill-me\\agents\\openai.yaml",
+      "Exists": true,
+      "Sha256": "1ea18c9164c0bfa91d1d602a54d2da6930b3e6947c861363bfd5c5c063979f8e"
+    },
+    {
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\handoff\\agents\\openai.yaml",
+      "Exists": true,
+      "Sha256": "2eb1e05c16ea36c256d29073c36a9d0812c7327b3aec058725318db2390ec479"
+    },
+    {
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\implement\\agents\\openai.yaml",
+      "Exists": true,
+      "Sha256": "7b7d96208ba5424052954a4957eea719097cc911f1204fc4d9b5a75b14574d21"
+    },
+    {
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\implement\\references\\quick-path.md",
+      "Exists": true,
+      "Sha256": "c99fc7e2ece72e1c3b9b3c38f779653aa7c560ade30902b23457ad58efcf074c"
+    },
+    {
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\improve-codebase-architecture\\agents\\openai.yaml",
+      "Exists": true,
+      "Sha256": "e34991d9bc43ed209be75034ffdcb7d1b84f1c2df58255983a0e1f54778258f8"
+    },
+    {
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\improve-codebase-architecture\\references\\deepening.md",
+      "Exists": true,
+      "Sha256": "22425f4b60f3759617ec8c07f97534c8a5f75b1b414462ce22fa6596171446df"
+    },
+    {
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\improve-codebase-architecture\\references\\html-report.md",
+      "Exists": true,
+      "Sha256": "72a364dd44acf73ce45ecc86ed67513c4db5e4a69d49841bd00703bdddf3b283"
+    },
+    {
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\improve-codebase-architecture\\references\\interface-design.md",
+      "Exists": true,
+      "Sha256": "045a2e695d480100cc634d472c37d03d3ecb6e3d37f1d488bedec78fba3b0072"
+    },
+    {
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\improve-codebase-architecture\\references\\language.md",
+      "Exists": true,
+      "Sha256": "2b0f680c8cff9f6e3f9eaba01c5f3155e1c1d1c204864b53aea05f1d42c5e138"
+    },
+    {
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\requesting-code-review\\agents\\openai.yaml",
+      "Exists": true,
+      "Sha256": "006298af0942ad625809180371838c8ee24dcabf31925aa2981bfefd70dbea99"
+    },
+    {
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\session-curator\\agents\\openai.yaml",
+      "Exists": true,
+      "Sha256": "0b680493bff3b3f0d5b663fdef2234dc479f04e85c95d10514b3ff742f003cbb"
+    },
+    {
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\session-curator\\references\\curation-quality.md",
+      "Exists": true,
+      "Sha256": "25163c97257636ed33728c3c67be5eee74db40434f4967672737ef48978ec823"
+    },
+    {
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\session-curator\\references\\document-targets.md",
+      "Exists": true,
+      "Sha256": "ab346de3910f69c14b2aff0365aecea8066d65a29942be2e98d794fbe7e6200b"
+    },
+    {
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\tdd\\agents\\openai.yaml",
+      "Exists": true,
+      "Sha256": "bc09db9f73dda13b8965465943d4a576bbe2927eaf2cac15252d2b8b47a3c95b"
+    },
+    {
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\tdd\\references\\deep-modules.md",
+      "Exists": true,
+      "Sha256": "f129d7fc835bd61fa16cb9e402b7a52b4903ace300e129bd35dd599d665c5cc0"
+    },
+    {
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\tdd\\references\\interface-design.md",
+      "Exists": true,
+      "Sha256": "8193c7d388ab400c1e3e16d932a89ebeaa9b374327851dc3736b310ea92138a4"
+    },
+    {
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\tdd\\references\\mocking.md",
+      "Exists": true,
+      "Sha256": "eef6804d7ebe75c8ef7eee9f4ed8b3cf28f7b27ad18fc7e1439ee4df9d7a96d7"
+    },
+    {
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\tdd\\references\\refactoring.md",
+      "Exists": true,
+      "Sha256": "af116ff866a654ff4dd92fcf8de4e7ef02d6f44c9d080bc930d0c8e4c3b2e783"
+    },
+    {
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\tdd\\references\\tests.md",
+      "Exists": true,
+      "Sha256": "0fca7aefe965c8e8891b85e646c75ce41cf1c2452c3eb491d8a5fccb11b360c3"
+    },
+    {
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\to-plan\\agents\\openai.yaml",
+      "Exists": true,
+      "Sha256": "2bcbd3bf3951b7919b741b481378c1d5473ef43350ee7d1281efb4622e03661c"
+    },
+    {
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\to-plan\\examples\\adaptive-planning-scenarios.md",
+      "Exists": true,
+      "Sha256": "777a5fa2bf1d4641b85c487c8b45ff0f9183b66a22e0e222cc45713e8b81c98f"
+    },
+    {
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\to-plan\\references\\adaptive-planning-contract.md",
+      "Exists": true,
+      "Sha256": "8edae6a02022f65d61c233f91c142d497c0a4807fe676bf78590b15dc36cc2e0"
+    },
+    {
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\to-spec\\agents\\openai.yaml",
+      "Exists": true,
+      "Sha256": "66b774ea1cf42cf73350bffdd9deb82ebf8bcd53bdd69655dc318852aa02f320"
+    },
+    {
+      "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills\\verification-before-completion\\agents\\openai.yaml",
+      "Exists": true,
+      "Sha256": "1d9668c57f377dc46e998a8d2d931a5f749fd96a24d0cf96b4b748edcad85796"
+    }
+  ],
+  "GlobalCopyEntries": [
+    {
+      "Path": "C:\\Users\\Administrator\\.agents\\skills\\analyze\\SKILL.md",
+      "Exists": true,
+      "Sha256": "16d2b5304ce62fa672ae163ea3f1f8c8de21d337db305a3c0d4b2d5a099e12fc"
+    },
+    {
+      "Path": "C:\\Users\\Administrator\\.agents\\skills\\brainstorming\\SKILL.md",
+      "Exists": true,
+      "Sha256": "836e0559a314491298f956e0d2034aa0702ebac11db6451b378ff8b6ef324650"
+    },
+    {
+      "Path": "C:\\Users\\Administrator\\.agents\\skills\\checking-branch\\SKILL.md",
+      "Exists": true,
+      "Sha256": "e0f73398f74002122e77cbe97812df8bd84b15736c580597229dd140d659a5f6"
+    },
+    {
+      "Path": "C:\\Users\\Administrator\\.agents\\skills\\clarify\\SKILL.md",
+      "Exists": true,
+      "Sha256": "ca0e7f99055d9121a43ed686054045b7fdcf5b5551662cf9e38484a8a55ba972"
+    },
+    {
+      "Path": "C:\\Users\\Administrator\\.agents\\skills\\diagnose\\SKILL.md",
+      "Exists": true,
+      "Sha256": "bc48ffdb48013d0f2010a3c47ed3df60eff4e297feb30927b6dbbefa13f36b89"
+    },
+    {
+      "Path": "C:\\Users\\Administrator\\.agents\\skills\\finishing-branch\\SKILL.md",
+      "Exists": true,
+      "Sha256": "73a17e916e0070a7bf9915f4b35fb7671bf3d4b72bd449369ba53a518e23c29e"
+    },
+    {
+      "Path": "C:\\Users\\Administrator\\.agents\\skills\\grill-me\\SKILL.md",
+      "Exists": true,
+      "Sha256": "a02049c000242418f74ba39084e1ee41de2dd07ac33591dee8e3f6efc0635b18"
+    },
+    {
+      "Path": "C:\\Users\\Administrator\\.agents\\skills\\handoff\\SKILL.md",
+      "Exists": true,
+      "Sha256": "176c37df5713faab150248f9502cfa28b2aaca0cc537d89a46828099e23c5850"
+    },
+    {
+      "Path": "C:\\Users\\Administrator\\.agents\\skills\\implement\\SKILL.md",
+      "Exists": true,
+      "Sha256": "629f81475cd2c6a4313f1e538417a6609f1c7655f5539b30c469da1b6e58e61e"
+    },
+    {
+      "Path": "C:\\Users\\Administrator\\.agents\\skills\\improve-codebase-architecture\\SKILL.md",
+      "Exists": true,
+      "Sha256": "7db47620d2f21360474ab078be107ad57a9be9dbd3552a5f0f74f037abf9fadf"
+    },
+    {
+      "Path": "C:\\Users\\Administrator\\.agents\\skills\\requesting-code-review\\SKILL.md",
+      "Exists": true,
+      "Sha256": "3e4d77a39eacc5cf86d07936c97afeb420d58556aa9d5127c379f31acad0bdae"
+    },
+    {
+      "Path": "C:\\Users\\Administrator\\.agents\\skills\\session-curator\\SKILL.md",
+      "Exists": true,
+      "Sha256": "3e2ca65ef1384ddf756f7bc03aff82b1590f71ada99f6a2d21f354d51a3b5973"
+    },
+    {
+      "Path": "C:\\Users\\Administrator\\.agents\\skills\\tdd\\SKILL.md",
+      "Exists": true,
+      "Sha256": "a31189d89781cba82badc54db20ca5a41f887e64202a748fc4d6e4ff4d109a40"
+    },
+    {
+      "Path": "C:\\Users\\Administrator\\.agents\\skills\\to-plan\\SKILL.md",
+      "Exists": true,
+      "Sha256": "595615f8f7639d40a1e1f7a8a313cb7d678f2fac634c95e0db4f781e30ff7b7e"
+    },
+    {
+      "Path": "C:\\Users\\Administrator\\.agents\\skills\\to-spec\\SKILL.md",
+      "Exists": true,
+      "Sha256": "8f7cbd0b3c5d1ad6780879bf3ba23b3aeb9272c761d90a78fb90d2f7cca17fa6"
+    },
+    {
+      "Path": "C:\\Users\\Administrator\\.agents\\skills\\verification-before-completion\\SKILL.md",
+      "Exists": true,
+      "Sha256": "ff99ef91d283fe867af34385250bb9419d752074223ebefb567639a90f0c25fa"
+    }
+  ],
+  "ParentStatus": {
+    "Path": "C:\\WorkSpace\\skill-development",
+    "Branch": "master",
+    "Head": "3ef2b448241b8f0a24287dc246c3c919021f56c3",
+    "Porcelain": [
+      "M submodules/fjxyyzg3-Skills"
+    ]
+  },
+  "SubmoduleStatus": {
+    "Path": "C:\\WorkSpace\\skill-development\\submodules\\fjxyyzg3-Skills",
+    "Branch": "main",
+    "Head": "45d99a89b9e299249174341e7c5302fe0e38e40c",
+    "Porcelain": [
+      "?? docs/features/skill-content-chinese-localization/manifest.md",
+      "?? docs/features/skill-content-chinese-localization/plan.md",
+      "?? docs/features/skill-content-chinese-localization/spec.md"
+    ],
+    "Recursive": [
+      "45d99a89b9e299249174341e7c5302fe0e38e40c submodules/fjxyyzg3-Skills (heads/main)",
+      " 59ffa918df3b621439fd58a6646dc9f73998b682 submodules/github-spec-kit (v0.1.10-643-g59ffa91)",
+      " 6eeb81b5fcfeeb5bd531dd47ab2f9f2bbea27461 submodules/mattpocock-skills (v1.0.1-2-g6eeb81b)",
+      " 896224c4b1879920ab573417e68fd51d2ccc9072 submodules/obra-superpowers (v6.0.3)"
+    ]
+  },
+  "ToolVersions": {
+    "Python": "Python 3.14.6",
+    "SkillsCLI": "1.5.18",
+    "CodexCLI": "codex-cli 0.144.6"
+  }
+}
