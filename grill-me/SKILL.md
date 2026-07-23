@@ -37,7 +37,7 @@ description: Use when stress-testing a plan, design, proposal, product idea, arc
 
 - 方案已经达成方向共识，但还没有 formalized spec 时，推荐 `$to-spec`。
 - 已有 spec，需要拆任务级实现计划和验收覆盖时，推荐 `$to-plan`。
-- 已有确认后的 plan，或用户显式要求实现时，才推荐 `$quick-change` 或 `$implement`；小、清楚、低风险且可快速验证时优先 `$quick-change`，否则推荐 `$implement`。
+- 已有确认后的 plan，或用户显式要求实现时，才推荐 `$implement`；Quick/Standard/Blocked 由目标 skill 根据风险和 verification seam 判断。
 - 如果讨论已经自然结束且没有合适下一步，推荐 `none` 或直接说明停在这里。
 
 自然确认只能进入上一条回复唯一推荐的 next skill，不能跳过目标 skill 自己的 scope、branch、verification、review、commit、push 或修改计划确认。

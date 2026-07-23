@@ -19,7 +19,7 @@ description: Use when brainstorming, exploring an idea before design/spec/implem
 
 - 适用于用户明确表达要 `brainstorm`、`brainstorming`、头脑风暴、方案探索、设计前澄清、比较多种产品/UX/架构方案，或当前任务明显需要把模糊想法整理成设计时。
 - 不要因为普通小改动、明确 bugfix、直接实现请求或已有清晰 issues 就自动阻塞实现。
-- 如果当前任务明显缺少目标、边界或验收标准，可以通过 `workflow-router` 或 `Natural Handoff` 推荐 `$brainstorming`，但不要直接开始实现。
+- 如果当前任务明显缺少目标、边界或验收标准，可以由 context trigger 或上一轮唯一 `Natural Handoff` 进入 `$brainstorming`，但不要直接开始实现。
 - 本 skill 一旦进入，在用户确认设计前不要写业务代码、scaffold 项目、改行为或调用 implementation skill。
 
 ## Pressure Scenarios
@@ -122,7 +122,7 @@ description: Use when brainstorming, exploring an idea before design/spec/implem
 - `spec-only`：用户只需要正式 spec、requirements 或 decision artifact 时，最多推荐 `$to-spec`。
 - `stop-here`：用户只需要 brainstorming 结果、方案比较或暂不进入文档产出时，推荐 `none`。
 - handoff 只完成 skill 转场，不批准业务代码、测试或 Git/remote 操作；目标 skill 的 scope、artifact、branch、review 和 verification gate 继续有效。
-- 不要在本 skill 内自动执行 `$to-plan`、`$to-spec`、`$analyze`、`$implement` 或 `$quick-change`。
+- 不要在本 skill 内自动执行 `$to-plan`、`$to-spec`、`$analyze` 或 `$implement`。
 
 ## 完成标准
 

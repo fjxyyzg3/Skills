@@ -1,4 +1,4 @@
 interface:
   display_name: "Diagnose"
-  short_description: "用反馈循环、假设和仪表定位 bug 与性能回归根因"
-  default_prompt: "使用 $diagnose 诊断这个 bug 或性能回归，先建立可重复反馈循环，再提出假设、加仪表、定位根因并给出修复入口。"
+  short_description: "统一诊断通用与 UE 症状，按证据模式产出根因、probe 和回归入口"
+  default_prompt: "使用 $diagnose 诊断这个通用或 UE 问题，先选择 Generic/UE Profile 与 Active Repro/Artifact-based Triage，再用假设、probe 和 regression seam 收敛。"

@@ -10,9 +10,9 @@ description: Use when turning a confirmed design, existing spec, design doc, or 
 ## 进入边界
 
 - 适用于已确认设计、已有 spec/design doc 或方向明确的 conversation context，需要形成 implementation plan 的任务。
-- 可以由用户显式调用，也可以由 `workflow-router` 或上一轮 `Natural Handoff` 唯一推荐后进入。
+- 可以由用户显式调用，也可以由当前 context trigger 或上一轮 `Natural Handoff` 唯一推荐后进入。
 - 用户只要求正式 spec 或 decision artifact 时使用 `$to-spec`；只要求审查已有/外部 artifacts 时使用 `$analyze`。
-- 小、清楚、低风险且可快速验证的单点改动继续使用 `$quick-change`。
+- 已可直接实施的任务使用 `$implement`，由它在写入前选择 Quick/Standard/Blocked；不需要先生成 plan。
 
 ## Language Contract
 

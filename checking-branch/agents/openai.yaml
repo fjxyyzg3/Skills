@@ -1,4 +1,4 @@
 interface:
   display_name: "Checking Branch"
-  short_description: "展示当前分支状态，并确认直接修改或按新分支名创建分支"
-  default_prompt: "使用 $checking-branch 在开始实现前展示当前分支状态，并确认直接修改或按新分支名创建分支。"
+  short_description: "作为内部 branch gate，或按明确请求检查、创建和切换 Git 分支"
+  default_prompt: "使用 $checking-branch 执行已触发 workflow 的内部 branch gate，或处理明确的 branch-only 请求。"

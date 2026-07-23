@@ -1,4 +1,4 @@
 interface:
   display_name: "Implement"
-  short_description: "消费 checked plan，并按 branch、TDD、review 和验证推进实现"
-  default_prompt: "使用 $implement 消费 checked plan 或已收束输入，确认分支后按 TDD、review subagent 和 verification 完成实现。"
+  short_description: "分流 Quick/Standard/Blocked，保留 branch、review 和 verification gates"
+  default_prompt: "使用 $implement 处理这个实现任务，先只读分流 Quick/Standard/Blocked，再保留 branch、review 和 verification gates。"

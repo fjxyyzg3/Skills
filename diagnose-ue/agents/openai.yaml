@@ -1,4 +1,0 @@
-interface:
-  display_name: "Diagnose UE"
-  short_description: "诊断具体 UE 症状并给出根因、证据、验证和修复入口"
-  default_prompt: "使用 $diagnose-ue 诊断已有具体症状的 UE 问题，例如崩溃、断言、蓝图异常、渲染伪影、网络不同步、性能回退或打包差异；先建立可重复反馈循环，再提出假设、加仪表、定位根因并给出修复入口。"

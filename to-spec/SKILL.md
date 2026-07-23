@@ -11,7 +11,7 @@ description: Use when the user explicitly needs a standalone formal spec or deci
 
 - 这是独立 formal-spec 入口：适用于用户明确要 spec、design doc、requirements 或长期 decision artifact，而不要求同一次运行生成 implementation plan。
 - 适用于需要把 conversation context、brainstorming handoff、planning discussion 或本地文件整理成 spec/design doc 的任务。
-- 可以由用户显式调用，也可以由 `workflow-router` 或上一轮 `Natural Handoff` 推荐后进入。
+- 可以由用户显式调用，也可以由当前 context trigger 或上一轮唯一 `Natural Handoff` 推荐后进入。
 - 不要把 spec 写成逐文件实施计划；实现细节只记录稳定 contract、schema、API、interaction 或 architecture decision。
 - 如果用户要的是 checked implementation plan，应使用 `$to-plan`；其 Full Path 会在同一次 Planning Run 内生成需要的 spec 与 plan。
 

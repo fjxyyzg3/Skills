@@ -21,7 +21,7 @@
 - 在理解 context 前直接给单一路线。
 - 一次提出多个开放问题，让用户无法判断先回答哪个。
 - 用户尚未确认设计时，直接创建 spec、plan、mockup 或实现代码。
-- 把 `$to-spec`、`$to-plan`、`$analyze`、`$implement` 或 `$quick-change` 串起来自动执行。
+- 把 `$to-spec`、`$to-plan`、`$analyze` 或 `$implement` 串起来自动执行。
 - 同时推荐多个 next skills，让自然确认失去唯一指向。
 - 只给抽象优缺点，不提供可判断的结构、状态、用户路径或 verification seam。
 

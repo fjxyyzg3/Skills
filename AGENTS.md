@@ -22,9 +22,9 @@
 - 独立 `$to-spec` 只处理 formal spec / decision artifact；独立 `$analyze` 只读审查已有、外部、失效或未检查 artifacts，不把两者恢复成固定 planning 中间阶段。
 - `clarify` 只回答问题和解释代码证据，不推荐后续 skill。
 - `brainstorming` 不直接写业务代码，并按已确认 outcome 路由到 `$to-plan`、`$to-spec` 或 `none`。
-- `grill-me`、`diagnose` 和 `diagnose-ue` 不直接写业务代码；需要后续工作时按当前 scope、风险与 artifact state 唯一推荐 planning、quick change 或 implementation skill。
-- `$quick-change` 只处理小、清楚、低风险且可快速验证的 bug 和需求，必须保留 scope、acceptance、verification，并在风险扩大时升级到完整链路。
-- 实现前使用 `checking-branch` 展示当前分支名和状态；用户不同意直接修改但提供新分支名时，默认从仓库主分支创建，无法确认主分支时需再确认是否从当前分支创建。
-- `Planning Quality Status: Pass` 的 checked plan 可直接进入 `implement` 的 `checking-branch` gate；缺少该状态、存在未处理 finding 或来自 external artifacts 时先运行独立 `$analyze`。
+- `grill-me` 和 `diagnose` 不直接写业务代码；repair-ready diagnosis 唯一推荐 `$implement`，由它内部选择 Quick/Standard/Blocked。
+- `$implement` 是唯一 implementation entry；写入前选择 Quick/Standard/Blocked，Quick 必须保留 scope、acceptance、verification，风险扩大但授权边界不变时在同一 skill 内升级 Standard。
+- `$implement` 在写入前使用 `checking-branch` 展示当前分支名和状态；用户不同意直接修改但提供新分支名时，默认从仓库主分支创建，无法确认主分支时需再确认是否从当前分支创建。
+- `Planning Quality Status: Pass` 的 checked plan 可直接进入 `$implement` 的内部 branch gate；缺少该状态、存在未处理 finding 或来自 external artifacts 时仍先进入 `$implement` Standard，再由内部 N3 Analyze Gate 使用只读 `$analyze`，不在 implementation entry 前另行路由。
 - 非平凡 feature 或 bug fix 仍必须保留 `checking-branch -> requesting-code-review -> verification-before-completion`；adaptive planning 不授权实现、branch、commit、push、PR、merge、discard 或远端操作。
 - 完成前运行 `python scripts/validate-skills.py`，并修复 frontmatter、metadata、TODO、乱码和名称不一致问题。
