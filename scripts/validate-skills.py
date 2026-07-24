@@ -238,6 +238,152 @@ CONSOLIDATION_REQUIRED_TEXT = {
         "Natural Handoff",
     ),
 }
+WIKI_STATUS_VALUES = (
+    "not-applicable",
+    "no-change",
+    "candidate",
+    "resolved",
+    "blocked",
+)
+WIKI_SCENARIO_IDS = (
+    "WIKI-NO-ROOT-CANDIDATE",
+    "WIKI-EXISTING-NO-CHANGE",
+    "WIKI-UNIQUE-UPDATE",
+    "WIKI-NEW-TOPIC-INDEX",
+    "WIKI-AMBIGUOUS-MATCH",
+    "WIKI-DIRTY-OVERLAP",
+    "WIKI-OWNER-AMBIGUITY",
+    "WIKI-CROSS-OWNER",
+    "WIKI-SUMMARY-SPLIT-TRANSFER",
+    "WIKI-SUMMARY-SPLIT-UPDATE",
+    "WIKI-EXPLICIT-FULL-TRANSFER",
+    "WIKI-LEGACY-NO-MIGRATION",
+    "WIKI-NONDEFAULT-LAYOUT",
+    "WIKI-NONDEFAULT-LAYOUT-UPDATE",
+    "WIKI-RECONFIRM-NEW-TARGET",
+    "WIKI-NON-WIKI-CURATION",
+    "WIKI-SCOPE-LIMIT",
+)
+WIKI_SCENARIO_FIELDS = (
+    "Input:",
+    "Expected `Wiki Check`:",
+    "Forbidden Action:",
+    "Pass Signal:",
+    "Cleanup:",
+)
+WIKI_PROFILE_REQUIRED_TEXT = {
+    "session-curator/SKILL.md": (
+        "Wiki Check",
+        "not-applicable",
+        "no-change",
+        "candidate",
+        "resolved",
+        "blocked",
+        "references/wiki-profile.md",
+        "target",
+        "operation",
+        "source",
+        "transfer mode",
+        "file/section",
+        "stage、commit、push",
+    ),
+    "session-curator/agents/openai.yaml": (
+        "Wiki Check",
+        "不要自动创建 wiki",
+        "Git 交付",
+    ),
+    "session-curator/references/wiki-profile.md": (
+        "Wiki Check 状态",
+        "TargetOwnerRoot",
+        "TransferMode",
+        "ExactFileSection",
+        "lowercase kebab-case",
+        "既有非默认布局",
+        "index.md",
+        "source-manifest.json",
+        "-2",
+        "-new",
+        "-final",
+        "full",
+    ),
+    "session-curator/references/document-targets.md": (
+        "Wiki authority",
+        "TargetOwnerRoot",
+        "docs owner",
+        "blocking question",
+    ),
+    "session-curator/references/curation-quality.md": (
+        "Wiki 质量门",
+        "Wiki Check",
+        "source-manifest.json",
+        "-2",
+        "full",
+    ),
+    "README.md": (
+        "session-curator",
+        "Wiki Check",
+        "wiki",
+    ),
+}
+WIKI_FEATURE_ARTIFACT_REQUIRED_TEXT = {
+    "docs/features/session-curator-wiki-profile/spec.md": (
+        "FR-001",
+        "FR-024",
+        "SC-001",
+        "SC-011",
+        "**Effective Status**:",
+        "required fresh-session verification",
+    ),
+    "docs/features/session-curator-wiki-profile/plan.md": (
+        "Task 1",
+        "Task 4",
+        "Planning Quality Status: Pass",
+        "SessionCuratorWikiProfileFreshSessionEvidence v1",
+        "NextSkill",
+    ),
+    "docs/features/session-curator-wiki-profile/manifest.md": (
+        "Contract Effect:",
+        "Implementation:",
+        "Excludes:",
+        "artifact-placement/",
+    ),
+    "docs/features/session-curator-wiki-profile/verification-matrix.md": (
+        "CandidateSkillSource",
+        "CandidateDigest",
+        "InstalledDigest",
+        "LoadedDigest",
+        "ExpectedBeforeFilesystem",
+        "ExpectedAfterFilesystem",
+        "ExpectedBeforeGit",
+        "ExpectedAfterGit",
+        "expanded prompt",
+        "evidence-manifest.json",
+        "custom-layout",
+    ),
+}
+WIKI_SCENARIO_SEMANTIC_MARKERS = {
+    "WIKI-NO-ROOT-CANDIDATE": ("docs/wiki/", "用户确认前创建"),
+    "WIKI-EXISTING-NO-CHANGE": ("第一行摘要", "页面正文"),
+    "WIKI-UNIQUE-UPDATE": ("最小 diff", "ExactFileSection"),
+    "WIKI-NEW-TOPIC-INDEX": ("同名说明页", "根索引", "topic 索引"),
+    "WIKI-AMBIGUOUS-MATCH": ("blocking question", "-2", "-new", "-final"),
+    "WIKI-DIRTY-OVERLAP": ("dirty bytes", "stash", "reset"),
+    "WIKI-OWNER-AMBIGUITY": ("owner/path blocking question", "均不变"),
+    "WIKI-CROSS-OWNER": ("docs owner", "stage、commit、push"),
+    "WIKI-SUMMARY-SPLIT-TRANSFER": ("summary", "split", "原始来源"),
+    "WIKI-SUMMARY-SPLIT-UPDATE": ("两个批准页面", "source digest", "split"),
+    "WIKI-EXPLICIT-FULL-TRANSFER": ("full", "原文保留"),
+    "WIKI-LEGACY-NO-MIGRATION": ("migration", "历史页面 bytes"),
+    "WIKI-NONDEFAULT-LAYOUT": ("index.md", "docs/wiki/wiki.md", "candidate"),
+    "WIKI-NONDEFAULT-LAYOUT-UPDATE": (
+        "references/wiki/",
+        "创建 `docs/wiki`",
+        "resolved",
+    ),
+    "WIKI-RECONFIRM-NEW-TARGET": ("blocked", "重新确认", "新增 target"),
+    "WIKI-NON-WIKI-CURATION": ("no-change", "wiki filesystem delta 为零"),
+    "WIKI-SCOPE-LIMIT": ("raw-source", "history", "零写入"),
+}
 RETIRED_SKILL_NAMES = ("quick-change", "diagnose-ue", "workflow-router")
 ACTIVE_ARTIFACT_SUFFIXES = {".html", ".md", ".sh", ".yaml", ".yml"}
 ADAPTIVE_PLANNING_STALE_TEXT = (
@@ -1537,6 +1683,214 @@ def validate_consolidation_contract(skill_dirs: list[Path]) -> list[str]:
     return errors
 
 
+def validate_wiki_profile_contract() -> list[str]:
+    errors: list[str] = []
+    focused_paths = {
+        **WIKI_PROFILE_REQUIRED_TEXT,
+        **WIKI_FEATURE_ARTIFACT_REQUIRED_TEXT,
+    }
+    focused_text: dict[str, str] = {}
+
+    for display_path, required_markers in focused_paths.items():
+        path = ROOT / display_path
+        text, strict_errors = read_strict_artifact(path)
+        errors.extend(strict_errors)
+        if text is None:
+            continue
+        focused_text[display_path] = text
+        for token in has_bad_text(text):
+            errors.append(f"{display_path}: contains {token!r}")
+        for marker in required_markers:
+            if marker not in text:
+                errors.append(f"{display_path}: missing wiki profile marker {marker!r}")
+
+    profile_text = focused_text.get("session-curator/references/wiki-profile.md", "")
+    for status in WIKI_STATUS_VALUES:
+        if f"`{status}`" not in profile_text:
+            errors.append(
+                "session-curator/references/wiki-profile.md: missing Wiki Check "
+                f"status value {status!r}"
+            )
+
+    spec_text = focused_text.get(
+        "docs/features/session-curator-wiki-profile/spec.md", ""
+    )
+    plan_text = focused_text.get(
+        "docs/features/session-curator-wiki-profile/plan.md", ""
+    )
+    manifest_text = focused_text.get(
+        "docs/features/session-curator-wiki-profile/manifest.md", ""
+    )
+    for number in range(1, 25):
+        marker = f"FR-{number:03d}"
+        if marker not in spec_text or marker not in plan_text:
+            errors.append(
+                "session-curator-wiki-profile artifacts: missing requirement "
+                f"coverage marker {marker!r}"
+            )
+    for number in range(1, 12):
+        marker = f"SC-{number:03d}"
+        if marker not in spec_text:
+            errors.append(
+                "docs/features/session-curator-wiki-profile/spec.md: missing "
+                f"success-criteria marker {marker!r}"
+            )
+
+    effective_match = re.search(
+        r"(?m)^- \*\*Effective Status\*\*:\s*(.+)$", spec_text
+    )
+    if effective_match is None or not re.match(
+        r"(?:Not yet effective|Effective)\b", effective_match.group(1)
+    ):
+        errors.append(
+            "docs/features/session-curator-wiki-profile/spec.md: invalid Effective Status"
+        )
+    contract_match = re.search(
+        r"(?m)^- Contract Effect:\s*(.+)$", manifest_text
+    )
+    if contract_match is None or not re.match(
+        r"(?:Not yet effective|Effective)\b", contract_match.group(1)
+    ):
+        errors.append(
+            "docs/features/session-curator-wiki-profile/manifest.md: invalid Contract Effect"
+        )
+    implementation_match = re.search(
+        r"(?m)^- Implementation:\s*(.+)$", manifest_text
+    )
+    if implementation_match is None or not re.match(
+        r"(?:Not started|In progress|Complete)\b", implementation_match.group(1)
+    ):
+        errors.append(
+            "docs/features/session-curator-wiki-profile/manifest.md: invalid Implementation status"
+        )
+    matrix_path = "docs/features/session-curator-wiki-profile/verification-matrix.md"
+    matrix_text = focused_text.get(matrix_path, "")
+    if (
+        "residual risk" in matrix_text.casefold()
+        and implementation_match is not None
+        and re.match(r"Complete\b", implementation_match.group(1))
+    ):
+        errors.append(
+            "docs/features/session-curator-wiki-profile/manifest.md: "
+            "Implementation cannot be Complete while verification matrix has residual risk"
+        )
+    if (
+        "residual risk" in matrix_text.casefold()
+        and contract_match is not None
+        and re.match(r"Effective\b", contract_match.group(1))
+    ):
+        errors.append(
+            "docs/features/session-curator-wiki-profile/manifest.md: "
+            "Contract Effect cannot be Effective while verification matrix has residual risk"
+        )
+    for scenario_id in WIKI_SCENARIO_IDS:
+        heading_pattern = rf"(?m)^### {re.escape(scenario_id)}$"
+        heading_matches = list(re.finditer(heading_pattern, matrix_text))
+        if len(heading_matches) != 1:
+            errors.append(
+                f"{matrix_path}: expected exactly one scenario heading "
+                f"'### {scenario_id}'"
+            )
+            continue
+        start = heading_matches[0].end()
+        next_heading = re.search(r"\n### WIKI-", matrix_text[start:])
+        scenario_text = (
+            matrix_text[start:]
+            if next_heading is None
+            else matrix_text[start : start + next_heading.start()]
+        )
+        for field in WIKI_SCENARIO_FIELDS:
+            if field not in scenario_text:
+                errors.append(
+                    f"{matrix_path}: {scenario_id} missing scenario field {field!r}"
+                )
+        expected_match = re.search(
+            r"(?m)^- Expected `Wiki Check`:\s*(.+)$", scenario_text
+        )
+        if expected_match is None:
+            errors.append(
+                f"{matrix_path}: {scenario_id} missing expected status line"
+            )
+        else:
+            expected_line = expected_match.group(1)
+            statuses = re.findall(
+                r"`(" + "|".join(map(re.escape, WIKI_STATUS_VALUES)) + r")`",
+                expected_line,
+            )
+            if not statuses:
+                errors.append(
+                    f"{matrix_path}: {scenario_id} expected status is not in the Wiki Check enum"
+                )
+            elif "->" in expected_line:
+                if statuses != ["candidate", "resolved"]:
+                    errors.append(
+                        f"{matrix_path}: {scenario_id} has invalid candidate/resolved transition "
+                        f"{statuses!r}"
+                    )
+            elif len(statuses) > 2:
+                errors.append(
+                    f"{matrix_path}: {scenario_id} lists too many alternative statuses "
+                    f"{statuses!r}"
+                )
+        for marker in WIKI_SCENARIO_SEMANTIC_MARKERS.get(scenario_id, ()):
+            if marker not in scenario_text:
+                errors.append(
+                    f"{matrix_path}: {scenario_id} missing semantic marker {marker!r}"
+                )
+
+    if len(re.findall(r"(?m)^### WIKI-[A-Z0-9-]+$", matrix_text)) != len(
+        WIKI_SCENARIO_IDS
+    ):
+        errors.append(
+            f"{matrix_path}: scenario heading count must be {len(WIKI_SCENARIO_IDS)}"
+        )
+
+    artifact_note = "docs/features/artifact-placement/"
+    if artifact_note not in matrix_text or "不作为 active contract" not in matrix_text:
+        errors.append(
+            f"{matrix_path}: must explicitly exclude {artifact_note} from the active contract"
+        )
+
+    if (ROOT / "wiki" / "SKILL.md").exists():
+        errors.append("wiki/SKILL.md: independent top-level wiki skill is forbidden")
+    if (ROOT / "session-curator" / "wiki" / "SKILL.md").exists():
+        errors.append("session-curator/wiki/SKILL.md: second wiki writer is forbidden")
+
+    forbidden_names = {
+        "source-manifest.json",
+        "watcher.py",
+        "watcher.ps1",
+        "auto-refresh.py",
+        "auto-refresh.ps1",
+    }
+    active_roots = (
+        ROOT / "session-curator",
+        ROOT / "scripts",
+        ROOT / "docs" / "features" / "session-curator-wiki-profile",
+    )
+    for active_root in active_roots:
+        if not active_root.exists():
+            continue
+        for path in active_root.rglob("*"):
+            if path.is_file() and path.name.casefold() in forbidden_names:
+                errors.append(
+                    f"{path.relative_to(ROOT)}: v1 automation/source artifact is forbidden"
+                )
+
+    actual_skills = {
+        path.name
+        for path in ROOT.iterdir()
+        if path.is_dir() and (path / "SKILL.md").exists()
+    }
+    if len(actual_skills) != 16:
+        errors.append(
+            "wiki profile must preserve the 16-skill inventory: "
+            f"found {len(actual_skills)}"
+        )
+
+    return errors
+
+
 def run_default_validation() -> int:
     skill_dirs = sorted(
         path for path in ROOT.iterdir()
@@ -1550,6 +1904,7 @@ def run_default_validation() -> int:
     errors.extend(validate_grill_me_contract())
     errors.extend(validate_adaptive_planning_contract())
     errors.extend(validate_consolidation_contract(skill_dirs))
+    errors.extend(validate_wiki_profile_contract())
 
     if errors:
         print("Skill validation failed:")

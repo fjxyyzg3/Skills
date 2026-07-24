@@ -1,4 +1,4 @@
 interface:
   display_name: "Session Curator"
-  short_description: "同步项目文档与记忆，先确认修改计划并防止文档腐烂回漂"
-  default_prompt: "使用 $session-curator 在本次对话结束后提炼可复用内容，先列修改计划并等我确认后再更新项目文档。"
+  short_description: "同步项目文档、wiki 与记忆，先执行 Wiki Check 并确认计划，防止文档腐烂回漂"
+  default_prompt: "使用 $session-curator 在本次对话结束后提炼可复用内容；先执行一次 Wiki Check、列出统一修改计划并等我确认，不要自动创建 wiki 或执行 Git 交付。"
