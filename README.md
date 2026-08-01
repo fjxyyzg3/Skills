@@ -68,6 +68,7 @@ workflow skills 使用 `Natural Handoff` 做自然交接：一个 skill 完成�
 
 - 主要语言使用中文。
 - Skill 结构要求、文件名、目录名、YAML frontmatter key、配置字段、命令、代码、API 名称、英文专业术语和英文专有名词保留英文。
+- `Skills/` 采用[完整包中文化](docs/wiki/skills/skill-package-localization.md)：`SKILL.md`、`references/`、`examples/`、模板及其他包内人类说明全部使用中文主文。
 - `Skills/` 下当前及未来 `SKILL.md` 的 `description` 值与普通正文使用中文主文；当中文会降低准确性或触发识别效果时，只保留有验证证据的必要 English trigger phrases。
 - 代码、命令、API 名称、contract fields、稳定 ID、英文专有名词和必要技术术语保留 English。
 - 既有 `Trigger Description`、`Pressure Scenarios`、`Natural Handoff` 使用中文标题加 English 括注；其他普通 section heading 使用中文。
