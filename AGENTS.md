@@ -7,6 +7,8 @@
 使用 `agents/`、`references/`、`examples/`、`assets/` 或 `scripts/`。功能规划记录放在
 `Skills/docs/features/`，工作区偏好放在 `docs/user/`。子模块仅作参考；翻译任务默认写入
 `Skills-ZH/<skill-name>/`，不要直接改动参考子模块或将其改动混入根仓库更新。
+`Skills-ZH/` 的双语格式、翻译范围、上游同步和验收必须遵循
+[`docs/wiki/skills/skill-zh-localization.md`](docs/wiki/skills/skill-zh-localization.md)。
 
 ## 开发与验证
 
@@ -20,10 +22,11 @@ Markdown 链接和引用文件
 ## 风格与命名
 
 目录使用小写 kebab-case，例如 `verification-before-completion`；入口文件必须精确命名为
-`SKILL.md`。技能正文和 `description` 以中文为主；路径、YAML key、命令、API、稳定 ID
-（如 `FR-001`）及会降低触发精度的术语保留英文。翻译技能须保留原有目录结构、frontmatter
-和机器契约。YAML 沿用两空格缩进，Markdown 保持短标题和短列表。可复用细节放入本技能的
-`references/`，不要复制其他 workflow 的契约。
+`SKILL.md`。`Skills/` 中的技能正文和 `description` 以中文为主；路径、YAML key、命令、
+API、稳定 ID（如 `FR-001`）及会降低触发精度的术语保留英文。`Skills-ZH/` 中的参考译本
+保留上游 frontmatter 和机器契约，采用英文原文在前、中文译文在后的逐段双语格式，具体
+边界以中文化规则 wiki 为准。YAML 沿用两空格缩进，Markdown 保持短标题和短列表。可复用
+细节放入本技能的 `references/`，不要复制其他 workflow 的契约。
 
 ## 测试指南
 

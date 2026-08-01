@@ -68,9 +68,10 @@ workflow skills 使用 `Natural Handoff` 做自然交接：一个 skill 完成�
 
 - 主要语言使用中文。
 - Skill 结构要求、文件名、目录名、YAML frontmatter key、配置字段、命令、代码、API 名称、英文专业术语和英文专有名词保留英文。
-- 当前及未来 `SKILL.md` 的 `description` 值与普通正文使用中文主文；当中文会降低准确性或触发识别效果时，只保留有验证证据的必要 English trigger phrases。
+- `Skills/` 下当前及未来 `SKILL.md` 的 `description` 值与普通正文使用中文主文；当中文会降低准确性或触发识别效果时，只保留有验证证据的必要 English trigger phrases。
 - 代码、命令、API 名称、contract fields、稳定 ID、英文专有名词和必要技术术语保留 English。
 - 既有 `Trigger Description`、`Pressure Scenarios`、`Natural Handoff` 使用中文标题加 English 括注；其他普通 section heading 使用中文。
+- `Skills-ZH/` 是 submodules 参考 Skill 的开发对照资料，不用于发行或实际使用；其中文化遵循 [`Skills-ZH` 参考 Skill 中文化规则](docs/wiki/skills/skill-zh-localization.md)。
 - 新增或修改 skill 时，明确 pressure scenarios、trigger description 和 metadata，再运行本地 validator。
 - workflow skill 完成后通过 `Natural Handoff` 最多推荐一个 next skill；自然确认只绑定上一条唯一推荐，不能跨过目标 skill 的内部安全门。
 - `clarify` 是只读解释路径，完成后自然结束，不推荐后续 skill。
