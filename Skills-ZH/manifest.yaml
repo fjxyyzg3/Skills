@@ -38,3 +38,16 @@ skills:
     translation_status: complete
     review_status: complete
     last_reviewed: 2026-08-01
+  - name: tdd
+    source_submodule: submodules/mattpocock-skills
+    source_path: skills/engineering/tdd
+    source_commit: 2ab958093e83e0ec752e6c1c5932da465bf23e0c
+    translated_files:
+      - SKILL.md
+      - mocking.md
+      - tests.md
+    copied_files:
+      - agents/openai.yaml
+    translation_status: complete
+    review_status: complete
+    last_reviewed: 2026-08-02
