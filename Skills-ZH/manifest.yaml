@@ -1,4 +1,21 @@
 skills:
+  - name: brainstorming
+    source_submodule: submodules/obra-superpowers
+    source_path: skills/brainstorming
+    source_commit: 44c9b2d6e889982ac18c27d05a19fefe335194e1
+    translated_files:
+      - SKILL.md
+      - spec-document-reviewer-prompt.md
+      - visual-companion.md
+    copied_files:
+      - scripts/frame-template.html
+      - scripts/helper.js
+      - scripts/server.cjs
+      - scripts/start-server.sh
+      - scripts/stop-server.sh
+    translation_status: complete
+    review_status: complete
+    last_reviewed: 2026-08-02
   - name: grilling
     source_submodule: submodules/mattpocock-skills
     source_path: skills/productivity/grilling
