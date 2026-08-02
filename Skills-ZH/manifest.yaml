@@ -51,3 +51,15 @@ skills:
     translation_status: complete
     review_status: complete
     last_reviewed: 2026-08-02
+  - name: diagnosing-bugs
+    source_submodule: submodules/mattpocock-skills
+    source_path: skills/engineering/diagnosing-bugs
+    source_commit: 2ab958093e83e0ec752e6c1c5932da465bf23e0c
+    translated_files:
+      - SKILL.md
+    copied_files:
+      - agents/openai.yaml
+      - scripts/hitl-loop.template.sh
+    translation_status: complete
+    review_status: complete
+    last_reviewed: 2026-08-02
