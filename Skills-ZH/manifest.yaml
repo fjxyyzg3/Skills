@@ -1,4 +1,15 @@
 skills:
+  - name: writing-plans
+    source_submodule: submodules/obra-superpowers
+    source_path: skills/writing-plans
+    source_commit: 44c9b2d6e889982ac18c27d05a19fefe335194e1
+    translated_files:
+      - SKILL.md
+      - plan-document-reviewer-prompt.md
+    copied_files: []
+    translation_status: complete
+    review_status: complete
+    last_reviewed: 2026-08-02
   - name: brainstorming
     source_submodule: submodules/obra-superpowers
     source_path: skills/brainstorming
