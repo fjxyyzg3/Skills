@@ -56,6 +56,7 @@ Spec 编写必须遵循以下职责规则：
 - 每条功能需求使用稳定 `FR-###`；每条可由实现或验证直接影响的成功标准使用稳定 `SC-###`。
 - 只记录稳定的 contract、schema、API、interaction、architecture decision 和 verification seam；文件级任务拆分、代码实现顺序和逐文件命令留给 `$to-plan`。
 - spec 与 manifest 必须形成同一 feature workspace 的成对产物；除非用户指定路径，否则使用 `docs/features/<feature-slug>/`。
+- 如果用户指定自定义 spec 路径，manifest 仍应放在同一 feature workspace；只有用户同时指定 manifest 路径时才使用该自定义路径。
 - 写入后必须执行本 skill 的验证清单，再向用户报告路径、manifest 和核心 assumptions。
 
 > **中文说明：** 本节是 spec 编写约定的集中入口；上方的稳定字段、路径和 ID 是 workflow contract，不得为了措辞优化而改名。

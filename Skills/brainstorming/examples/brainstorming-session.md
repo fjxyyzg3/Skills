@@ -16,7 +16,7 @@
    - `spec-only`：整理 formal-spec handoff，唯一推荐 `$to-spec`。
    - `stop-here`：不写 artifact，推荐 `none`。
 
-> **中文说明：** Brainstorming 在 handoff 处结束。formal spec 的模板、稳定 requirement ID、manifest 和 spec 验证由 `$to-spec` 负责；implementation plan 由 `$to-plan` 负责。
+> **中文说明：** Brainstorming 在 handoff 处结束。standalone formal spec 的模板、稳定 requirement ID、manifest 和 spec 验证由 `$to-spec` 负责；implementation plan 及其 planning-coupled `spec.md` 由 `$to-plan` 负责。
 
 ## Bad Flow
 
