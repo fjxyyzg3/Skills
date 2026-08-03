@@ -7,6 +7,13 @@ description: "当用户明确需要根据已确认设计、brainstorming 交接�
 
 将方向共识和必要的 codebase 理解沉淀成本地叙事型 spec。spec 回答"要什么、为什么、边界在哪、怎么算成"；文件级落点和执行拆分是 plan 的职责，不属于 spec。
 
+## 职责边界
+
+- 本 skill 是 standalone formal spec 的唯一 owner：负责把已确认的方向写入 spec、维护对应 manifest，并完成 spec 自审与结构验证。`$to-plan` 的 Full Path 生成的 planning-coupled `spec.md` 不经过本 skill。
+- 输入可以来自用户直接要求、`brainstorming` handoff、规划讨论或本地文件；如果来自 `brainstorming`，应消费其已确认的目标、范围、决策、约束、风险和 `Recommended spec focus`，不要无理由重新打开已收束的方案讨论。
+- 本 skill 不负责重新主持 Brainstorming，不负责逐文件 implementation plan，也不修改业务代码；需要 checked plan 时由用户随后明确转入 `$to-plan`。
+- spec-only 交付在报告 spec 与 manifest 路径后结束；不得在本 skill 内自动生成 plan、运行 `$analyze` 或进入实现。
+
 ## 进入边界
 
 - 这是独立 formal-spec 入口：适用于用户明确要 spec、design doc、requirements 或长期 decision artifact，而不要求同一次运行生成 implementation plan。
@@ -34,7 +41,7 @@ description: "当用户明确需要根据已确认设计、brainstorming 交接�
    - 未使用本 skill 时的常见失败：把 spec 写成逐文件 implementation plan。
    - 本 skill 必须强制的行为：文件级拆分留给 `$to-plan`。
 
-## 输出约定
+## Spec 编写约定
 
 - 只生成本地 Markdown 文档，不创建远端 issue 或 ticket。
 - 核心 section heading 遵循目标 artifact 已有规范；`FR-001`、`SC-001` 等 workflow contract fields 保持稳定。
@@ -43,11 +50,23 @@ description: "当用户明确需要根据已确认设计、brainstorming 交接�
 - 同时创建或更新 `docs/features/<feature-slug>/manifest.md`。
 - 文件名使用简短、可读、lowercase kebab-case slug。
 
+Spec 编写必须遵循以下职责规则：
+
+- 先写清问题、现状、选定方案和被排除的 alternatives，再提炼可验证需求和成功标准。
+- 每条功能需求使用稳定 `FR-###`；每条可由实现或验证直接影响的成功标准使用稳定 `SC-###`。
+- 只记录稳定的 contract、schema、API、interaction、architecture decision 和 verification seam；文件级任务拆分、代码实现顺序和逐文件命令留给 `$to-plan`。
+- spec 与 manifest 必须形成同一 feature workspace 的成对产物；除非用户指定路径，否则使用 `docs/features/<feature-slug>/`。
+- 写入后必须执行本 skill 的验证清单，再向用户报告路径、manifest 和核心 assumptions。
+
+> **中文说明：** 本节是 spec 编写约定的集中入口；上方的稳定字段、路径和 ID 是 workflow contract，不得为了措辞优化而改名。
+
 ## 工作流程
 
 ### 1. 收集上下文
 
 从 conversation context 开始。如果用户给出本地文件路径，读取该文件作为主要来源。
+
+如果输入来自 `brainstorming` handoff，先读取 handoff 中的 `Confirmed problem / goal`、`Scope / Non-goals`、`Chosen approach`、`Key decisions`、`Constraints`、`Risks and open questions` 和 `Recommended spec focus`，再补充必要的项目事实。
 
 轻量探索项目事实：
 
@@ -164,6 +183,8 @@ spec 的前半部分是叙事：问题是什么、选了什么方案、为什么
 - 各章节描述正文已完整填写，没有残留未替换模板句。
 - 没有逐文件实施计划；实现细节只到稳定 contract/schema/API/architecture decision 层。
 - 没有要求运行外部 setup skill 或创建远端 issue。
+
+完成以上检查后，spec-only 结果才算完成；报告中应明确哪些内容来自已确认 handoff，哪些仍是 assumptions 或 open questions。
 
 最后向用户报告 spec 路径、manifest 路径和核心 assumptions。
 

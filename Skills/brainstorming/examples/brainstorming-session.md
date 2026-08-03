@@ -16,11 +16,14 @@
    - `spec-only`：整理 formal-spec handoff，唯一推荐 `$to-spec`。
    - `stop-here`：不写 artifact，推荐 `none`。
 
+> **中文说明：** Brainstorming 在 handoff 处结束。formal spec 的模板、稳定 requirement ID、manifest 和 spec 验证由 `$to-spec` 负责；implementation plan 由 `$to-plan` 负责。
+
 ## Bad Flow
 
 - 在理解 context 前直接给单一路线。
 - 一次提出多个开放问题，让用户无法判断先回答哪个。
 - 用户尚未确认设计时，直接创建 spec、plan、mockup 或实现代码。
+- 在 Brainstorming 内编写 formal spec、分配 `FR-###` / `SC-###` 或更新 feature manifest。
 - 把 `$to-spec`、`$to-plan`、`$analyze` 或 `$implement` 串起来自动执行。
 - 同时推荐多个 next skills，让自然确认失去唯一指向。
 - 只给抽象优缺点，不提供可判断的结构、状态、用户路径或 verification seam。

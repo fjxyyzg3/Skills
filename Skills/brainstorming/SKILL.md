@@ -11,6 +11,13 @@ description: "当需要在设计、spec 或 implementation 前开展头脑风暴
 
 `brainstorming` 的 trigger 是需求仍需要方案探索或设计取舍：一次只问一个问题，比较 2-3 个方案并取得整体设计确认。确认后根据用户真正需要的 outcome，唯一推荐 `$to-plan`、`$to-spec` 或 `none`。
 
+## 职责边界
+
+- 本 skill 只负责 Brainstorming 过程：探索 context、澄清需求、比较方案、呈现设计、取得设计确认，以及整理 handoff packet。
+- 本 skill 不负责 formal spec 的编写约定：不得在这里套用 spec 模板、分配 `FR-###` / `SC-###`、创建 `docs/features/<feature-slug>/`，或更新 feature manifest。
+- 需要独立 formal spec 时，将已确认的设计和 `Recommended spec focus` 交给 `$to-spec`；`to-spec` 是 standalone spec 文档、manifest 和 spec 验证的唯一 owner。`$to-plan` 的 Full Path 生成的 planning-coupled `spec.md` 仍由 `$to-plan` 在同一次 Planning Run 内负责。
+- 需要 implementation plan 时，整理 `PlanningHandoffPacket v1` 并唯一推荐 `$to-plan`；不得把 `$to-spec` 和 `$to-plan` 串成固定链路。
+
 ## 进入边界
 
 - 适用于用户明确表达要 `brainstorm`、`brainstorming`、头脑风暴、方案探索、设计前澄清、比较多种产品/UX/架构方案，或当前任务明显需要把模糊想法整理成设计时。
@@ -87,7 +94,7 @@ description: "当需要在设计、spec 或 implementation 前开展头脑风暴
 
 ### 5. 准备结果交接
 
-只有在用户确认整体设计后，才整理下游所需的 handoff packet。不要在本 skill 中写本地设计文档、创建 `docs/brainstorming/`、写 `design.md` 或更新 feature workspace。
+只有在用户确认整体设计后，才整理下游所需的 handoff packet。不要在本 skill 中写本地设计文档、formal spec 或 spec manifest；不要创建 `docs/brainstorming/`、写 `design.md` 或更新 feature workspace。
 
 需要 implementation plan 时，输出 `PlanningHandoffPacket v1`，并包含：
 
@@ -116,6 +123,7 @@ description: "当需要在设计、spec 或 implementation 前开展头脑风暴
 
 - `implementation-plan`：用户需要 implementation-ready plan 时，最多推荐 `$to-plan`。自然确认会由 `$to-plan` 解释为一次 Planning Authorization，由它按风险选择 Fast/Full 并写入 checked plan。
 - `spec-only`：用户只需要正式 spec、requirements 或 decision artifact 时，最多推荐 `$to-spec`。
+- `spec-only` 的 handoff 只携带已确认的方向、决策、约束、风险和 `Recommended spec focus`；spec 模板、稳定 requirement IDs、manifest 和验证由 `$to-spec` 负责。
 - `stop-here`：用户只需要 brainstorming 结果、方案比较或暂不进入文档产出时，推荐 `none`。
 - handoff 只完成 skill 转场，不批准业务代码、测试或 Git/remote 操作；目标 skill 的 scope、artifact、branch、review 和 verification gate 继续有效。
 - 不要在本 skill 内自动执行 `$to-plan`、`$to-spec`、`$analyze` 或 `$implement`。
@@ -129,5 +137,5 @@ description: "当需要在设计、spec 或 implementation 前开展头脑风暴
 - 设计的关键 section 已经得到用户确认，或已明确记录仍未确认的开放问题。
 - 需要 plan 时已输出完整 `PlanningHandoffPacket v1` 并唯一推荐 `$to-plan`；需要正式 spec 时已唯一推荐 `$to-spec`。
 - 如果用户只需要 brainstorming / 方案比较，已用 `none` 结束。
-- 未写本地设计文档、未创建 browser/mockup 辅助资源。
+- 未写本地设计文档、formal spec 或 spec manifest；未创建 browser/mockup 辅助资源。
 - 未在设计确认前执行实现动作。

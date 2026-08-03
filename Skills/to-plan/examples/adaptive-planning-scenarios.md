@@ -49,7 +49,7 @@
 - **Expected artifacts**: 由 `$to-spec` 按其独立 contract 生成 spec/manifest。
 - **Allowed interruption**: 只服从 `$to-spec` 自身的阻塞条件。
 - **Forbidden actions**: 自动切换为 `$to-plan` 或生成 implementation plan。
-- **Pass signal**: spec-only 工作完成后最多 Natural Handoff 推荐 `$to-plan`。
+- **Pass signal**: spec-only 工作完成后推荐 `none`；只有用户随后明确需要 implementation plan 时，才由用户显式进入或自然确认唯一推荐的 `$to-plan`。
 - **Forward-test 2026-07-10**: 独立 `$to-spec` 仅生成 `spec.md + manifest.md`，没有 `plan.md`，结果 Pass。
 
 ## AP-DIRECT-ANALYZE
