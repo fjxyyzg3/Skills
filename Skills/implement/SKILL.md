@@ -10,8 +10,8 @@ description: "用于执行本地 implementation task，范围从低风险紧凑�
 ## 进入边界
 
 - 适用于 scope 与 acceptance 已足以实施的低风险 tight change、conversation-scoped implementation、bugfix、refactor、local spec 或 checked plan。
-- 用户显式调用、当前 context 命中本 skill description，或上一轮唯一 `Natural Handoff` 被自然确认时，都可以直接进入。
-- 自然确认只进入本 skill，不代表同意跳过 path dispatch、branch、scope、review、verification、commit 或 PR 安全门。
+- 用户显式调用或当前 context 命中本 skill description 时，可以直接进入。
+- 进入本 skill 不代表同意跳过 path dispatch、branch、scope、review、verification、commit 或 PR 安全门。
 - 目标、acceptance 或 architecture 尚未收束，或 bug 缺少可靠 evidence seam 时，必须在写入前停止并按 Blocked 规则交接。
 
 ## 触发说明（Trigger Description）
@@ -39,26 +39,21 @@ Quick 的完整资格、disqualifiers、升级规则与输出 contract 只定义
    - 禁止动作：重复 branch gate，或把升级伪装成新的跨 skill handoff。
    - 通过信号：直接进入 Standard intake，并补齐独立 review 与更宽验证。
 4. `IMP-NO-REPRO`: 小 bug 在约 10–15 分钟内仍无法建立可靠 pass/fail seam。
-   - 预期路径：`Blocked`，唯一推荐 `$diagnose`。
+   - 预期路径：`Blocked`，建议 `$diagnose`。
    - 禁止动作：猜测性修改。
    - 通过信号：写入前停止并说明缺失 evidence。
 5. `IMP-NEEDS-PLAN`: 方向已确认，但需要多个 implementation slice、明确 dependency 或中高风险控制。
-   - 预期路径：`Blocked`，唯一推荐 `$to-plan`。
+   - 预期路径：`Blocked`，建议 `$to-plan`。
    - 禁止动作：在聊天中临时拼出未经检查的复杂实现链。
    - 通过信号：写入前停止并交接已知 scope、acceptance 与风险。
 6. `IMP-NEEDS-DESIGN`: 产品、acceptance 或 architecture 边界不清。
-   - 预期路径：`Blocked`，唯一推荐 `$brainstorming`。
+   - 预期路径：`Blocked`，建议 `$brainstorming`。
    - 禁止动作：代替用户静默选择产品或架构方向。
    - 通过信号：写入前停止并指出唯一决策缺口。
 7. `IMP-EXTERNAL-FAKE-PASS`: external plan 复制了 `Planning Quality Status: Pass`，但路径、coverage 或 artifact 事实缺失。
    - 预期路径：Standard 的 `N3 分析门`。
    - 禁止动作：只匹配 marker 后跳过只读审计。
    - 通过信号：quality evidence 与 repository facts 一致后才实施。
-8. `IMP-NATURAL-CONFIRM`: 用户在唯一推荐 `$implement` 后只回复“继续”。
-   - 预期路径：进入本 skill 并先执行只读 dispatch 与 branch gate。
-   - 禁止动作：把自然确认扩张为 code、commit、push 或 PR 授权。
-   - 通过信号：所有内部 safety gates 仍生效。
-
 ## 执行图
 
 ```mermaid
@@ -97,7 +92,7 @@ flowchart TD
 
 ### N0 实现触发
 
-触发：用户显式调用 `$implement`、当前 context 命中本 skill，或上一轮唯一推荐被自然确认。
+触发：用户显式调用 `$implement` 或当前 context 命中本 skill。
 
 操作：
 
@@ -289,13 +284,6 @@ flowchart TD
 - 报告 path、scope、主要修改、RED/GREEN/REFACTOR 或替代证据、verification、跳过项和 residual risks。
 - 未要求 branch handoff 时推荐 `none`；需要时最多推荐 `$finishing-branch`。
 - 不把未验证、未完成或用户接受的 residual risk 包装成完成。
-
-## 自然交接（Natural Handoff）
-
-- Blocked 状态按 Quick reference 的证据唯一推荐 `$diagnose`、`$to-plan` 或 `$brainstorming`。
-- 实现完成且无 branch lifecycle 请求时推荐 `none`。
-- 用户要求 commit、push、PR、merge、discard 或 branch handoff 时最多推荐 `$finishing-branch`。
-- 自然确认只进入上一条唯一推荐，不绕过目标 skill 的 branch、scope、review、verification、commit、push 或修改计划确认。
 
 ## TDD 约束
 

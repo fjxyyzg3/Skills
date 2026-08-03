@@ -10,7 +10,7 @@ description: "当需要把已确认设计、既有 spec/design doc 或对话上�
 ## 进入边界
 
 - 适用于已确认设计、已有 spec/design doc 或方向明确的 conversation context，需要形成 implementation plan 的任务。
-- 可以由用户显式调用，也可以由当前 context trigger 或上一轮 `Natural Handoff` 唯一推荐后进入。
+- 可以由用户显式调用，也可以由当前 context trigger 进入。
 - 用户只要求正式 spec 或 decision artifact 时使用 `$to-spec`；只要求审查已有/外部 artifacts 时使用 `$analyze`。
 - 已可直接实施的任务使用 `$implement`，由它在写入前选择 Quick/Standard/Blocked；不需要先生成 plan。
 
@@ -20,7 +20,7 @@ description: "当需要把已确认设计、既有 spec/design doc 或对话上�
 
 ## 压力场景（Pressure Scenarios）
 
-1. 用户确认设计，并对唯一的 `$to-plan` 推荐回复“继续”。
+1. 用户明确调用 `$to-plan` 处理已确认设计。
    - 预期触发：把该确认解释为一次 Planning Authorization，连续完成风险分类、artifact 写入和 quality gate。
    - 未使用本 skill 时的常见失败：再要求用户分别确认 `$to-spec`、`$to-plan` 和 `$analyze`。
    - 本 skill 必须强制的行为：checked plan 完成前不产生中间 skill handoff。
@@ -35,11 +35,11 @@ description: "当需要把已确认设计、既有 spec/design doc 或对话上�
 4. 用户要求 planning 同时编辑代码、创建分支或推送改动。
    - 预期触发：完成本地 planning artifacts 后停在实现之前。
    - 未使用本 skill 时的常见失败：把一次 planning 确认扩张成 implementation 或 Git 授权。
-   - 本 skill 必须强制的行为：通过新的 `Natural Handoff` 最多推荐 `$implement`，保留其全部安全门。
+   - 本 skill 必须强制的行为：完成后只报告 `$implement` 作为后续选项；用户需显式调用，并保留其全部安全门。
 
 ## 规划授权
 
-用户显式调用 `$to-plan`，或自然确认上一条唯一推荐的 `$to-plan`，即创建一次 `Planning Authorization` 并授权一次 Planning Run。该授权允许读取与已确认设计直接相关的上下文、写入本地 planning artifacts、修复 Artifact-fixable findings 并复检。
+用户显式调用 `$to-plan` 即创建一次 `Planning Authorization` 并授权一次 Planning Run。该授权允许读取与已确认设计直接相关的上下文、写入本地 planning artifacts、修复 Artifact-fixable findings 并复检。
 
 该授权的停止边界是 checked plan：业务代码和测试修改、branch 操作、commit、push、PR、merge、discard 与远端操作仍需各自 workflow 的明确授权。遇到 Decision-required finding 时暂停并只问一个最高优先级问题；用户回答后恢复同一 Planning Run，无需重新授权。
 
@@ -93,9 +93,9 @@ quality gate 通过后只做一次最终汇报，包含：
 - auto-fix 摘要、assumptions 和 residual risks。
 - `Planning Quality Status`。
 
-## 自然交接（Natural Handoff）
+## 后续处理
 
-checked plan 达到 implementation-ready 且没有阻塞问题时，最多推荐 `$implement` 作为唯一 next skill。说明用户的自然确认只进入 `$implement`，不会绕过它的 branch、scope、review、verification、commit 或 push gate。用户只要求 planning artifacts 时推荐 `none`。
+checked plan 达到 implementation-ready 且没有阻塞问题时，报告 `$implement` 作为后续选项；用户需显式调用，不会绕过它的 branch、scope、review、verification、commit 或 push gate。用户只要求 planning artifacts 时，报告完成并结束。
 
 ## 完成标准
 

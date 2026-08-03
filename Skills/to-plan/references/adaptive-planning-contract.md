@@ -15,13 +15,13 @@
 
 | Field | Required | Contract |
 | --- | --- | --- |
-| `Source` | Yes | 显式 `$to-plan`，或上一条唯一推荐 `$to-plan` 后的自然确认 |
+| `Source` | Yes | 显式 `$to-plan` |
 | `AllowedActions` | Yes | 读取相关上下文；写本地 planning artifacts；修复 Artifact-fixable findings；重新检查 |
 | `ForbiddenActions` | Yes | 修改业务代码/测试；branch、commit、push、PR、merge、discard；远端操作 |
 | `ResumeToken` | Yes | Decision-required 问题回答后恢复同一 Planning Run，不重新授权 |
 | `StopBoundary` | Yes | checked plan 完成或 Decision-required 尚未解决 |
 
-自然确认只绑定上一条回复中唯一推荐的 `$to-plan`。上一条有多个选项或用户附加了改变方向的条件时，先重新路由。
+只有用户显式调用 `$to-plan` 才创建 Planning Authorization；此前输出的后续建议不会创建授权。
 
 ## RiskDecision
 

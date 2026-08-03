@@ -12,8 +12,8 @@ description: "用于诊断具体的 Generic 或 Unreal Engine 故障，包括 bu
 ## 进入边界
 
 - 适用于 concrete bug、failing test、crash、assert、wrong output、flaky behavior、performance regression，以及 UE 的 PIE/Standalone/Cooked/Packaged/Shipping、Blueprint、asset/load/cook、network、rendering、memory 或 platform-only failure。
-- 用户显式调用、当前 context 命中本 skill description，或上一轮唯一 `Natural Handoff` 被自然确认时，都可以直接进入。
-- 本 skill 只产出 diagnosis、evidence、repair direction、regression seam 与一个可选 handoff；不提交持久业务代码修改。
+- 用户显式调用或当前 context 命中本 skill description 时，可以直接进入。
+- 本 skill 只产出 diagnosis、evidence、repair direction、regression seam 与一个可选后续处理建议；不提交持久业务代码修改。
 - UE API 教学、普通代码解释、新功能设计和纯 code review 不属于本 skill。
 
 ## 触发说明（Trigger Description）
@@ -177,7 +177,7 @@ Artifact-based Triage 永远不能通过本 gate；取得运行环境后必须�
 
 UE Packaged/RHI/network/platform-only failure 必须在对应 runtime mode 验证；PIE 通过不能替代。
 
-repair scope、最小方向、风险与正确 seam 已可执行时，唯一推荐 `$implement`。修复后必须重新运行原始未最小化场景和 Phase 1 loop。
+repair scope、最小方向、风险与正确 seam 已可执行时，报告 `$implement` 作为后续选项。修复后必须重新运行原始未最小化场景和 Phase 1 loop。
 
 ## Phase 6 — 清理 + 事后复盘
 
@@ -192,12 +192,12 @@ repair scope、最小方向、风险与正确 seam 已可执行时，唯一推�
 
 最后记录“什么原本可以防止这个问题”。test seam、hidden coupling、asset rule、ownership model 或 profiling baseline 等 architecture observation 只能成为 residual/follow-up，不得产生第二个 next skill。
 
-## 自然交接（Natural Handoff）
+## 后续处理
 
-- repair scope 与正确 regression seam 已可执行：唯一推荐 `$implement`。
-- 证据不足、没有正确 seam、Artifact-only 结论仍 blocked，或用户只需要 diagnosis report：推荐 `none`。
-- handoff packet 必须包含 `DiagnosticContext v1`、root-cause evidence、regression seam、最小 repair direction、risk、cleanup 状态与 missing evidence。
-- 自然确认只进入上一条唯一推荐，不绕过目标 skill 的 branch、scope、review、verification、commit、push 或修改计划确认。
+- repair scope 与正确 regression seam 已可执行：报告 `$implement`，由用户显式调用；目标 skill 的 branch、scope、review、verification、commit、push 和修改计划确认继续有效。
+- 证据不足、没有正确 seam、Artifact-only 结论仍 blocked，或用户只需要 diagnosis report：报告完成并结束。
+- 输出包必须包含 `DiagnosticContext v1`、root-cause evidence、regression seam、最小 repair direction、risk、cleanup 状态与 missing evidence。
+- 本 skill 不自动进入其他 skill，也不绕过目标 skill 的安全门。
 
 ## 输出契约
 

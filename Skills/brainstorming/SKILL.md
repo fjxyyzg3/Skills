@@ -9,20 +9,20 @@ description: "当需要在设计、spec 或 implementation 前开展头脑风暴
 
 ## 触发说明（Trigger Description）
 
-`brainstorming` 的 trigger 是需求仍需要方案探索或设计取舍：一次只问一个问题，比较 2-3 个方案并取得整体设计确认。确认后根据用户真正需要的 outcome，唯一推荐 `$to-plan`、`$to-spec` 或 `none`。
+`brainstorming` 的 trigger 是需求仍需要方案探索或设计取舍：一次只问一个问题，比较 2-3 个方案并取得整体设计确认。确认后根据用户真正需要的 outcome，报告 `$to-plan`、`$to-spec` 或 `none` 作为后续选项；用户需要继续时显式调用目标 skill。
 
 ## 职责边界
 
 - 本 skill 只负责 Brainstorming 过程：探索 context、澄清需求、比较方案、呈现设计、取得设计确认，以及整理 handoff packet。
 - 本 skill 不负责 formal spec 的编写约定：不得在这里套用 spec 模板、分配 `FR-###` / `SC-###`、创建 `docs/features/<feature-slug>/`，或更新 feature manifest。
 - 需要独立 formal spec 时，将已确认的设计和 `Recommended spec focus` 交给 `$to-spec`；`to-spec` 是 standalone spec 文档、manifest 和 spec 验证的唯一 owner。`$to-plan` 的 Full Path 生成的 planning-coupled `spec.md` 仍由 `$to-plan` 在同一次 Planning Run 内负责。
-- 需要 implementation plan 时，整理 `PlanningHandoffPacket v1` 并唯一推荐 `$to-plan`；不得把 `$to-spec` 和 `$to-plan` 串成固定链路。
+- 需要 implementation plan 时，整理 `PlanningHandoffPacket v1` 并报告 `$to-plan` 作为后续选项；不得把 `$to-spec` 和 `$to-plan` 串成固定链路。
 
 ## 进入边界
 
 - 适用于用户明确表达要 `brainstorm`、`brainstorming`、头脑风暴、方案探索、设计前澄清、比较多种产品/UX/架构方案，或当前任务明显需要把模糊想法整理成设计时。
 - 不要因为普通小改动、明确 bugfix、直接实现请求或已有清晰 issues 就自动阻塞实现。
-- 如果当前任务明显缺少目标、边界或验收标准，可以由 context trigger 或上一轮唯一 `Natural Handoff` 进入 `$brainstorming`，但不要直接开始实现。
+- 如果当前任务明显缺少目标、边界或验收标准，可以由 context trigger 进入 `$brainstorming`，但不要直接开始实现。
 - 本 skill 一旦进入，在用户确认设计前不要写业务代码、scaffold 项目、改行为或调用 implementation skill。
 
 ## 压力场景（Pressure Scenarios）
@@ -92,7 +92,7 @@ description: "当需要在设计、spec 或 implementation 前开展头脑风暴
 
 关键 section 后明确问用户是否认可。如果用户提出修正，更新设计后再继续。
 
-### 5. 准备结果交接
+### 5. 准备结果
 
 只有在用户确认整体设计后，才整理下游所需的 handoff packet。不要在本 skill 中写本地设计文档、formal spec 或 spec manifest；不要创建 `docs/brainstorming/`、写 `design.md` 或更新 feature workspace。
 
@@ -119,15 +119,6 @@ description: "当需要在设计、spec 或 implementation 前开展头脑风暴
 
 不要自动写文件、commit 或进入实现。
 
-## 自然交接（Natural Handoff）
-
-- `implementation-plan`：用户需要 implementation-ready plan 时，最多推荐 `$to-plan`。自然确认会由 `$to-plan` 解释为一次 Planning Authorization，由它按风险选择 Fast/Full 并写入 checked plan。
-- `spec-only`：用户只需要正式 spec、requirements 或 decision artifact 时，最多推荐 `$to-spec`。
-- `spec-only` 的 handoff 只携带已确认的方向、决策、约束、风险和 `Recommended spec focus`；spec 模板、稳定 requirement IDs、manifest 和验证由 `$to-spec` 负责。
-- `stop-here`：用户只需要 brainstorming 结果、方案比较或暂不进入文档产出时，推荐 `none`。
-- handoff 只完成 skill 转场，不批准业务代码、测试或 Git/remote 操作；目标 skill 的 scope、artifact、branch、review 和 verification gate 继续有效。
-- 不要在本 skill 内自动执行 `$to-plan`、`$to-spec`、`$analyze` 或 `$implement`。
-
 ## 完成标准
 
 - 已说明检查过的 context 和仍需假设的点。
@@ -135,7 +126,8 @@ description: "当需要在设计、spec 或 implementation 前开展头脑风暴
 - 已比较至少 2 个方案；除非任务确实只有一个合理方案，并说明原因。
 - 已给出推荐方案及 trade-offs。
 - 设计的关键 section 已经得到用户确认，或已明确记录仍未确认的开放问题。
-- 需要 plan 时已输出完整 `PlanningHandoffPacket v1` 并唯一推荐 `$to-plan`；需要正式 spec 时已唯一推荐 `$to-spec`。
+- 需要 plan 时已输出完整 `PlanningHandoffPacket v1` 并报告 `$to-plan` 作为后续选项；需要正式 spec 时已报告 `$to-spec`。
 - 如果用户只需要 brainstorming / 方案比较，已用 `none` 结束。
+- 未自动执行 `$to-plan`、`$to-spec`、`$analyze` 或 `$implement`；后续 skill 由用户显式调用。
 - 未写本地设计文档、formal spec 或 spec manifest；未创建 browser/mockup 辅助资源。
 - 未在设计确认前执行实现动作。

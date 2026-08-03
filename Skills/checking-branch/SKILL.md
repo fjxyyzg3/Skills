@@ -112,8 +112,3 @@ Pre-existing changes: <none or list>
 - Baseline 是否通过已经记录。
 - 用户已有改动没有被覆盖或误纳入本任务。
 - 实现阶段可以安全继续。
-
-## 自然交接（Natural Handoff）
-
-- 作为内部 gate 调用时，把分支选择和 baseline 结果返回给调用中的 `$implement`；这不是新的跨 skill 交接。
-- 用户只要求 branch 操作时，完成后推荐 `none`，不自动开始实现。

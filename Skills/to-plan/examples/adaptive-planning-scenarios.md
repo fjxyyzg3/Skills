@@ -9,7 +9,7 @@
 - **Expected artifacts**: 只生成一个自包含 `plan.md`。
 - **Allowed interruption**: 仅当实际仓库证据与输入风险描述冲突。
 - **Forbidden actions**: 新建 `spec.md`、`analysis.md`、`manifest.md`；修改业务代码/测试；执行 branch、index、ref、commit、push、PR、merge、discard 或远端操作。
-- **Pass signal**: 一次 Planning Authorization、零中间 handoff、所有 `FR-###` 有 task 与 verification、quality status 为 Pass；working tree 变化仅来自允许的 planning artifact。
+- **Pass signal**: 一次 Planning Authorization、零中间 skill 切换、所有 `FR-###` 有 task 与 verification、quality status 为 Pass；working tree 变化仅来自允许的 planning artifact。
 - **Forward-test 2026-07-10**: isolated fixture 只生成 `plan.md`；`FR-001..003` 全覆盖，源码/测试及 branch/index/ref/remote 状态未改变，结果 Pass。
 
 ## AP-FULL
@@ -18,7 +18,7 @@
 - **Expected mode**: `Planning Mode: Full`，明确列出命中的 Full trigger。
 - **Expected artifacts**: 同一 Planning Run 内生成 `spec.md + plan.md`；存在 manifest 时更新它。
 - **Allowed interruption**: 仅限 Decision-required finding。
-- **Forbidden actions**: 生成 `analysis.md`；在 spec 与 plan 之间请求 handoff/确认。
+- **Forbidden actions**: 生成 `analysis.md`；在 spec 与 plan 之间切换其他 skill 或请求额外确认。
 - **Pass signal**: 两个 artifacts 的 `FR-###` 集合完全一致，quality status 为 Pass。
 - **Forward-test 2026-07-10**: existing-spec fixture 在一个运行内更新 `spec.md` 并生成 `plan.md`；双方仅含 `FR-101..103`，无 manifest/analysis，结果 Pass。
 
@@ -49,7 +49,7 @@
 - **Expected artifacts**: 由 `$to-spec` 按其独立 contract 生成 spec/manifest。
 - **Allowed interruption**: 只服从 `$to-spec` 自身的阻塞条件。
 - **Forbidden actions**: 自动切换为 `$to-plan` 或生成 implementation plan。
-- **Pass signal**: spec-only 工作完成后推荐 `none`；只有用户随后明确需要 implementation plan 时，才由用户显式进入或自然确认唯一推荐的 `$to-plan`。
+- **Pass signal**: spec-only 工作完成后报告 `none`；只有用户随后明确需要 implementation plan 时，才由用户显式调用 `$to-plan`。
 - **Forward-test 2026-07-10**: 独立 `$to-spec` 仅生成 `spec.md + manifest.md`，没有 `plan.md`，结果 Pass。
 
 ## AP-DIRECT-ANALYZE
@@ -69,5 +69,5 @@
 - **Expected artifacts**: 只写 mode 对应的本地 planning artifacts。
 - **Allowed interruption**: 只为 planning 所需的 Decision-required finding。
 - **Forbidden actions**: 修改业务代码/测试；branch、commit、push、PR、merge、discard 或远端操作。
-- **Pass signal**: checked plan 完成后停住；需要实现时最多推荐 `$implement`，并保留其全部 gate。
-- **Forward-test 2026-07-10**: 即使请求同时要求代码、branch、commit、push，运行也只生成 Fast `plan.md` 并停在 `$implement` handoff 前，结果 Pass。
+- **Pass signal**: checked plan 完成后停住；需要实现时报告 `$implement` 作为后续选项，由用户显式调用，并保留其全部 gate。
+- **Forward-test 2026-07-10**: 即使请求同时要求代码、branch、commit、push，运行也只生成 Fast `plan.md` 并停在 `$implement` 之前，结果 Pass。

@@ -18,7 +18,7 @@ description: "当用户明确需要根据已确认设计、brainstorming 交接�
 
 - 这是独立 formal-spec 入口：适用于用户明确要 spec、design doc、requirements 或长期 decision artifact，而不要求同一次运行生成 implementation plan。
 - 适用于需要把 conversation context、brainstorming handoff、planning discussion 或本地文件整理成 spec/design doc 的任务。
-- 可以由用户显式调用，也可以由当前 context trigger 或上一轮唯一 `Natural Handoff` 推荐后进入。
+- 可以由用户显式调用，也可以由当前 context trigger 进入。
 - 不要把 spec 写成逐文件实施计划；实现细节只记录稳定 contract、schema、API、interaction 或 architecture decision。
 - 如果用户要的是 checked implementation plan，应使用 `$to-plan`；其 Full Path 会在同一次 Planning Run 内生成需要的 spec 与 plan。
 
@@ -189,8 +189,8 @@ spec 的前半部分是叙事：问题是什么、选了什么方案、为什么
 
 最后向用户报告 spec 路径、manifest 路径和核心 assumptions。
 
-## 自然交接（Natural Handoff）
+## 后续处理
 
-- 用户随后需要 implementation plan 时，最多推荐 `$to-plan`；自然确认会创建新的 Planning Authorization，不代表已经进入实现。
-- 用户只需要 formal spec 时推荐 `none`。
+- spec-only 完成后报告路径并结束，不自动进入其他 skill。
+- 用户随后明确需要 implementation plan 时，由用户显式调用 `$to-plan`。
 - 不在本 skill 内自动生成 plan、运行 `$analyze` 或进入实现。

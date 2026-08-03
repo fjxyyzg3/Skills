@@ -95,15 +95,14 @@ Quick 默认不启动独立 review subagent；一旦风险或验证需要独立 
 - 直接进入主 skill 的 `N2 Standard Input Intake`。
 - 不重复 `N1 Branch Gate`。
 - 补齐 serial tasks、独立 review subagent 和更宽 verification。
-- 不产生一次指向 `$implement` 自身的 Natural Handoff。
 
 ## Blocked Escalation
 
-- bug 缺少可靠 pass/fail seam：停止写入，唯一推荐 `$diagnose`。
-- scope 已确认但需要 checked multi-task plan：停止写入，唯一推荐 `$to-plan`。
-- acceptance、产品或 architecture 边界不清：停止写入，唯一推荐 `$brainstorming`。
+- bug 缺少可靠 pass/fail seam：停止写入，建议 `$diagnose`。
+- scope 已确认但需要 checked multi-task plan：停止写入，建议 `$to-plan`。
+- acceptance、产品或 architecture 边界不清：停止写入，建议 `$brainstorming`。
 
-一次只能根据当前 blocker 推荐一个 next skill。自然确认不扩大 scope，也不授权 branch、code、commit、push 或 PR。
+一次只能根据当前 blocker 给出一个 next skill 建议。建议不扩大 scope，也不授权 branch、code、commit、push 或 PR。
 
 ## Result
 

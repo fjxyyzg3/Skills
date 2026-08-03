@@ -112,9 +112,9 @@ description: "当用户要求对既有或外部 spec/plan 产物执行只读审�
 - 没有写入或修改 artifacts，除非用户后续明确要求修复。
 - 没有把本次独立 audit 宣称为 adaptive planning 的默认必经阶段。
 
-## 自然交接（Natural Handoff）
+## 后续处理
 
-- audit 通过且用户明确要实现时，最多推荐 `$implement`；其 branch、scope、review 和 verification gate 保持有效。
-- artifacts 需要重新生成 checked plan 时，最多推荐 `$to-plan`。
-- 用户只要求审计结果时推荐 `none`。
-- 本 skill 不在 handoff 前修改输入 artifacts 或进入实现。
+- audit 通过且用户明确要实现时，报告 `$implement` 作为后续选项；用户需显式调用，其 branch、scope、review 和 verification gate 保持有效。
+- artifacts 需要重新生成 checked plan 时，报告 `$to-plan` 作为后续选项。
+- 用户只要求审计结果时报告完成并结束。
+- 本 skill 不修改输入 artifacts，也不自动进入实现。

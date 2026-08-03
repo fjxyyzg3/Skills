@@ -35,13 +35,13 @@ flowchart LR
   FinishDecision -->|"no"| Done["completion / none"]
 ```
 
-workflow skills 使用 `Natural Handoff` 做自然交接：一个 skill 完成后最多推荐一个 next skill，并用 1-3 句说明结果、推荐下一步和理由。用户回复 `继续`、`可以`、`按你说的办`、`go ahead`、`ok` 或 `好的` 时，只会进入上一条回复中唯一推荐的 next skill；如果上一条给了多个选项，或用户确认时改变条件，必须重新路由。
+workflow skills 不自动串联。每个 skill 完成后只报告结果和必要的后续选项；用户需要下一步时显式调用目标 skill。后续建议不授权代码、测试、branch、review、commit、push 或其他远端操作。
 
-设计确认后需要 implementation plan 时，`brainstorming` 唯一推荐 `$to-plan`。用户自然确认或显式调用会创建一次 Planning Authorization：`$to-plan` 根据风险自动选择 Fast Path 或 Full Path，在同一次 Planning Run 内生成所需 artifacts、闭环机械 findings 并交付 checked plan。Fast 只写自包含 `plan.md`；Full 写共享 `FR-###` 的 `spec.md + plan.md`；两者都不默认生成 `analysis.md`。
+设计确认后需要 implementation plan 时，`brainstorming` 报告 `$to-plan` 作为后续选项；用户显式调用后创建一次 Planning Authorization：`$to-plan` 根据风险自动选择 Fast Path 或 Full Path，在同一次 Planning Run 内生成所需 artifacts、闭环机械 findings 并交付 checked plan。Fast 只写自包含 `plan.md`；Full 写共享 `FR-###` 的 `spec.md + plan.md`；两者都不默认生成 `analysis.md`。
 
 独立 `$to-spec` 用于用户只需要 formal spec / decision artifact 的场景；独立 `$analyze` 用于审查已有或外部 artifacts。它们继续可直接调用，但不再是每次 planning 的固定中间阶段。
 
-`Natural Handoff` 与 Planning Authorization 都不会绕过目标 skill 的安全门。planning 只授权本地 planning artifacts；实现类、分支类、提交类 skill 仍必须处理自己的 scope、branch、verification、review、commit 和 push gate。
+Planning Authorization 不会绕过目标 skill 的安全门。planning 只授权本地 planning artifacts；实现类、分支类、提交类 skill 仍必须处理自己的 scope、branch、verification、review、commit 和 push gate。
 
 ## Skills
 
@@ -71,12 +71,12 @@ workflow skills 使用 `Natural Handoff` 做自然交接：一个 skill 完成�
 - `Skills/` 采用[完整包中文化](docs/wiki/skills/skill-package-localization.md)：`SKILL.md`、`references/`、`examples/`、模板及其他包内人类说明全部使用中文主文。
 - `Skills/` 下当前及未来 `SKILL.md` 的 `description` 值与普通正文使用中文主文；当中文会降低准确性或触发识别效果时，只保留有验证证据的必要 English trigger phrases。
 - 代码、命令、API 名称、contract fields、稳定 ID、英文专有名词和必要技术术语保留 English。
-- 既有 `Trigger Description`、`Pressure Scenarios`、`Natural Handoff` 使用中文标题加 English 括注；其他普通 section heading 使用中文。
+- 既有 `Trigger Description`、`Pressure Scenarios` 使用中文标题加 English 括注；其他普通 section heading 使用中文。
 - `Skills-ZH/` 是 submodules 参考 Skill 的开发对照资料，不用于发行或实际使用；其中文化遵循 [`Skills-ZH` 参考 Skill 中文化规则](docs/wiki/skills/skill-zh-localization.md)。
 - 新增或修改 skill 时，明确 pressure scenarios、trigger description 和 metadata，再运行本地 validator。
-- workflow skill 完成后通过 `Natural Handoff` 最多推荐一个 next skill；自然确认只绑定上一条唯一推荐，不能跨过目标 skill 的内部安全门。
+- workflow skill 完成后只报告必要的后续选项；用户显式调用目标 skill，不能跨过其内部安全门。
 - `clarify` 是只读解释路径，完成后自然结束，不推荐后续 skill。
-- `grill-me`、`brainstorming` 和 `diagnose` 不直接写业务代码；repair-ready diagnosis 只推荐 `$implement`。
+- `grill-me`、`brainstorming` 和 `diagnose` 不直接写业务代码；repair-ready diagnosis 报告 `$implement` 作为后续选项。
 - 普通 implementation request 直接进入 `$implement`；它在写入前选择 Quick/Standard/Blocked，可执行路径再由内部 `checking-branch` gate 确认分支。
 - 小、清楚、低风险且可快速验证的 feature 或 bug fix 由 `$implement` 选择 Quick Path；风险扩大时在同一 skill 内升级 Standard。
 - 需要 checked plan 时直接进入 `$to-plan`：Fast Path 处理边界明确的普通需求，Full Path 固化 public contract、schema、migration、核心 workflow 或跨模块高风险决策。
