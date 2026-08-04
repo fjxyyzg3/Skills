@@ -58,7 +58,7 @@ Quick 必须同时满足：
 - 需要多个 behavior slice、跨模块协调、中高风险验证或独立 review。
 - acceptance、产品方向或 architecture 边界仍需用户决策。
 - bug 在约 10–15 分钟内无法建立可信 failing signal 或等价 repro。
-- external artifacts 未检查、失效或与 repository facts 不一致；这类输入在 executable scope 与 authorization 清楚时进入 Standard 的 `N3 Analyze Gate`。
+- external artifacts 未检查、失效或与 repository facts 不一致；这类输入在 executable scope 与 authorization 清楚时进入 Standard 的 `N3 Artifact Quality Gate`。
 - implementation authorization 或 scope 尚不明确。current/new branch 的选择由主 skill 的 `N1 Branch Gate` 处理，不影响写入前的 path dispatch。
 
 如果 scope、acceptance 与 implementation authorization 已明确，但仅因复杂度、风险或 artifact quality 不符合 Quick，选择 `Standard`；若这些授权边界本身不明确，选择 `Blocked`。

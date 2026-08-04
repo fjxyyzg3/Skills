@@ -14,7 +14,6 @@ flowchart LR
   Need -->|"只要 formal spec"| SpecOnly["to-spec"]
   Start --> Plan
   Start --> SpecOnly
-  Start --> Audit["analyze existing/external artifacts"]
   Diagnose -->|"repair-ready"| Implement
   Plan --> Risk{"risk routing"}
   Risk -->|"Fast Path"| Fast["plan.md"]
@@ -23,25 +22,24 @@ flowchart LR
   Full --> Checked
   Checked --> Implement
   Implement --> Path{"Quick / Standard / Blocked"}
-  Path -->|"Quick / Standard"| Branch["internal checking-branch gate"]
+  Path -->|"Quick / Standard"| Branch["internal branch/status gate"]
   Path -->|"Blocked"| Blocked["unique handoff / stop"]
   Branch -->|"Quick"| QuickWork["tight change + light review"]
   Branch -->|"Standard"| Work["serial implementation"]
-  QuickWork --> Verify["verification-before-completion"]
-  Work --> Review["requesting-code-review"]
-  Review --> Verify["verification-before-completion"]
-  Verify --> FinishDecision{"branch handoff requested?"}
-  FinishDecision -->|"yes"| Finish["finishing-branch"]
-  FinishDecision -->|"no"| Done["completion / none"]
+  QuickWork --> Verify["final verification"]
+  Work --> Review["two-pass review"]
+  Review --> Verify["final verification"]
+  Verify --> Delivery["delivery decision"]
+  Delivery --> Done["completion / none"]
 ```
 
 workflow skills 不自动串联。每个 skill 完成后只报告结果和必要的后续选项；用户需要下一步时显式调用目标 skill。后续建议不授权代码、测试、branch、review、commit、push 或其他远端操作。
 
 设计确认后需要 implementation plan 时，`brainstorming` 报告 `$to-plan` 作为后续选项；用户显式调用后创建一次 Planning Authorization：`$to-plan` 根据风险自动选择 Fast Path 或 Full Path，在同一次 Planning Run 内生成所需 artifacts、闭环机械 findings 并交付 checked plan。Fast 只写自包含 `plan.md`；Full 写共享 `FR-###` 的 `spec.md + plan.md`；两者都不默认生成 `analysis.md`。
 
-独立 `$to-spec` 用于用户只需要 formal spec / decision artifact 的场景；独立 `$analyze` 用于审查已有或外部 artifacts。它们继续可直接调用，但不再是每次 planning 的固定中间阶段。
+独立 `$to-spec` 用于用户只需要 formal spec / decision artifact 的场景；已有或外部 artifacts 的质量检查由 `$to-plan` 的 Planning Run 或 `$implement` 的内部 artifact quality gate 负责，不再依赖独立 audit Skill。
 
-Planning Authorization 不会绕过目标 skill 的安全门。planning 只授权本地 planning artifacts；实现类、分支类、提交类 skill 仍必须处理自己的 scope、branch、verification、review、commit 和 push gate。
+Planning Authorization 不会绕过目标 skill 的安全门。planning 只授权本地 planning artifacts；实现类 skill 仍必须处理自己的 scope、branch、verification、review、commit 和 push gate。
 
 ## Skills
 
@@ -52,15 +50,10 @@ Planning Authorization 不会绕过目标 skill 的安全门。planning 只授�
 | `grill-me` | 追问方案、约束、风险和验收 |
 | `to-spec` | 独立生成叙事型 formal spec 和需求/决策契约 |
 | `to-plan` | 按风险生成 Fast/Full planning artifacts 与 checked plan |
-| `analyze` | 独立只读检查已有/外部 artifacts 的一致性、覆盖率和接口契约 |
-| `checking-branch` | 展示当前分支状态，确认直接修改或创建新分支 |
 | `tdd` | 按 RED/GREEN/REFACTOR 循环推进测试先行实现 |
-| `implement` | 唯一实现入口；写入前选择 Quick/Standard/Blocked，再按风险执行 branch、review 和 verification |
+| `implement` | 唯一实现入口；写入前选择 Quick/Standard/Blocked，并内部执行 branch、artifact、review、verification 和 delivery gates |
 | `diagnose` | 唯一诊断入口；按 Generic/UE Profile 与 Active Repro/Artifact-based Triage 产出 root cause 和修复入口 |
 | `improve-codebase-architecture` | 架构加深、重构机会和 testability 改进 |
-| `requesting-code-review` | 两阶段实现评审 |
-| `verification-before-completion` | 完成前验证质量门 |
-| `finishing-branch` | 开发分支收尾和交付选项 |
 | `handoff` | 生成跨会话交接文档，方便下一位 agent 接手 |
 | `session-curator` | 会话结束后手动提炼通用经验，确认计划后同步项目文档、agent 规则和记忆 |
 
@@ -77,10 +70,10 @@ Planning Authorization 不会绕过目标 skill 的安全门。planning 只授�
 - workflow skill 完成后只报告必要的后续选项；用户显式调用目标 skill，不能跨过其内部安全门。
 - `clarify` 是只读解释路径，完成后自然结束，不推荐后续 skill。
 - `grill-me`、`brainstorming` 和 `diagnose` 不直接写业务代码；repair-ready diagnosis 报告 `$implement` 作为后续选项。
-- 普通 implementation request 直接进入 `$implement`；它在写入前选择 Quick/Standard/Blocked，可执行路径再由内部 `checking-branch` gate 确认分支。
+- 普通 implementation request 直接进入 `$implement`；它在写入前选择 Quick/Standard/Blocked，可执行路径再由内部 N1 branch/status gate 确认分支。
 - 小、清楚、低风险且可快速验证的 feature 或 bug fix 由 `$implement` 选择 Quick Path；风险扩大时在同一 skill 内升级 Standard。
 - 需要 checked plan 时直接进入 `$to-plan`：Fast Path 处理边界明确的普通需求，Full Path 固化 public contract、schema、migration、核心 workflow 或跨模块高风险决策。
-- `Planning Quality Status: Pass` 的 checked plan 可直接进入 `$implement` 的 branch gate；未检查、失效或 external artifacts 进入 `$implement` Standard，再由内部 N3 Analyze Gate 使用只读 `$analyze`，不在 implementation entry 前另行路由。
+- `Planning Quality Status: Pass` 的 checked plan 可直接进入 `$implement` 的 N1 branch/status gate；未检查、失效或 external artifacts 进入 `$implement` Standard，再由内部 N3 artifact quality gate 做只读核对，不在 implementation entry 前另行路由。
 
 ## 验证
 

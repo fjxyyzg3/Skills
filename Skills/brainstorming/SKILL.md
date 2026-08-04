@@ -128,6 +128,6 @@ description: "当需要在设计、spec 或 implementation 前开展头脑风暴
 - 设计的关键 section 已经得到用户确认，或已明确记录仍未确认的开放问题。
 - 需要 plan 时已输出完整 `PlanningHandoffPacket v1` 并报告 `$to-plan` 作为后续选项；需要正式 spec 时已报告 `$to-spec`。
 - 如果用户只需要 brainstorming / 方案比较，已用 `none` 结束。
-- 未自动执行 `$to-plan`、`$to-spec`、`$analyze` 或 `$implement`；后续 skill 由用户显式调用。
+- 未自动执行 `$to-plan`、`$to-spec` 或 `$implement`；后续 skill 由用户显式调用。
 - 未写本地设计文档、formal spec 或 spec manifest；未创建 browser/mockup 辅助资源。
 - 未在设计确认前执行实现动作。

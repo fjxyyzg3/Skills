@@ -11,7 +11,7 @@ description: "当需要把已确认设计、既有 spec/design doc 或对话上�
 
 - 适用于已确认设计、已有 spec/design doc 或方向明确的 conversation context，需要形成 implementation plan 的任务。
 - 可以由用户显式调用，也可以由当前 context trigger 进入。
-- 用户只要求正式 spec 或 decision artifact 时使用 `$to-spec`；只要求审查已有/外部 artifacts 时使用 `$analyze`。
+- 用户只要求正式 spec 或 decision artifact 时使用 `$to-spec`；需要把已有/外部 artifacts 形成 checked plan 时，由本 skill 在 Planning Run 内完成质量检查。
 - 已可直接实施的任务使用 `$implement`，由它在写入前选择 Quick/Standard/Blocked；不需要先生成 plan。
 
 ## 触发说明（Trigger Description）
@@ -22,7 +22,7 @@ description: "当需要把已确认设计、既有 spec/design doc 或对话上�
 
 1. 用户明确调用 `$to-plan` 处理已确认设计。
    - 预期触发：把该确认解释为一次 Planning Authorization，连续完成风险分类、artifact 写入和 quality gate。
-   - 未使用本 skill 时的常见失败：再要求用户分别确认 `$to-spec`、`$to-plan` 和 `$analyze`。
+   - 未使用本 skill 时的常见失败：再要求用户分别确认 `$to-spec` 和 `$to-plan`。
    - 本 skill 必须强制的行为：checked plan 完成前不产生中间 skill handoff。
 2. 一个看似很小的请求改变了 public contract、schema、migration、安全边界或核心 workflow。
    - 预期触发：命中任一高风险证据即选择 Full Path，并说明依据。

@@ -52,16 +52,6 @@
 - **Pass signal**: spec-only 工作完成后报告 `none`；只有用户随后明确需要 implementation plan 时，才由用户显式调用 `$to-plan`。
 - **Forward-test 2026-07-10**: 独立 `$to-spec` 仅生成 `spec.md + manifest.md`，没有 `plan.md`，结果 Pass。
 
-## AP-DIRECT-ANALYZE
-
-- **Input shape**: 用户显式调用 `$analyze` 审查已有或外部 artifacts。
-- **Expected mode**: 不创建 Planning Run。
-- **Expected artifacts**: 只读 findings/report；输入 artifacts 不被修改。
-- **Allowed interruption**: 输入 artifact 无法识别时按 `$analyze` contract 处理。
-- **Forbidden actions**: 自动修复 artifacts、生成 checked plan 或进入实现。
-- **Pass signal**: 报告具体 locations、severity、coverage 和是否可实现。
-- **Forward-test 2026-07-10**: 独立 `$analyze` 报告 1 个 CRITICAL 与 3 个 HIGH findings；输入 spec/plan 前后 SHA-256 相同，结果 Pass。
-
 ## AP-AUTH-BOUNDARY
 
 - **Input shape**: 用户授权 planning，同时要求顺便改业务代码、创建分支、commit 或 push。

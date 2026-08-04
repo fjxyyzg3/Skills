@@ -12,7 +12,7 @@ description: "当用户明确需要根据已确认设计、brainstorming 交接�
 - 本 skill 是 standalone formal spec 的唯一 owner：负责把已确认的方向写入 spec、维护对应 manifest，并完成 spec 自审与结构验证。`$to-plan` 的 Full Path 生成的 planning-coupled `spec.md` 不经过本 skill。
 - 输入可以来自用户直接要求、`brainstorming` handoff、规划讨论或本地文件；如果来自 `brainstorming`，应消费其已确认的目标、范围、决策、约束、风险和 `Recommended spec focus`，不要无理由重新打开已收束的方案讨论。
 - 本 skill 不负责重新主持 Brainstorming，不负责逐文件 implementation plan，也不修改业务代码；需要 checked plan 时由用户随后明确转入 `$to-plan`。
-- spec-only 交付在报告 spec 与 manifest 路径后结束；不得在本 skill 内自动生成 plan、运行 `$analyze` 或进入实现。
+- spec-only 交付在报告 spec 与 manifest 路径后结束；不得在本 skill 内自动生成 plan 或进入实现。
 
 ## 进入边界
 
@@ -164,13 +164,11 @@ spec 的前半部分是叙事：问题是什么、选了什么方案、为什么
 
 - Spec: `spec.md`
 - Plan: `plan.md` (pending)
-- Analysis: not requested（独立 `$analyze` 按需执行）
 
 ## 状态
 
 - Spec: Draft
 - Plan: Not started
-- Analysis: Not requested
 - Implementation: Not started
 ```
 
@@ -193,4 +191,4 @@ spec 的前半部分是叙事：问题是什么、选了什么方案、为什么
 
 - spec-only 完成后报告路径并结束，不自动进入其他 skill。
 - 用户随后明确需要 implementation plan 时，由用户显式调用 `$to-plan`。
-- 不在本 skill 内自动生成 plan、运行 `$analyze` 或进入实现。
+- 不在本 skill 内自动生成 plan 或进入实现。

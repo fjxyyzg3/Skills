@@ -1,11 +1,11 @@
 ---
 name: implement
-description: "用于执行本地 implementation task，范围从低风险紧凑改动到 checked multi-task plan；必须在 branch 操作或写入前分派至 Quick、Standard 或 Blocked，并保留 scope、review、verification 与收尾 gate。"
+description: "用于执行本地 implementation task，范围从低风险紧凑改动到 checked multi-task plan；必须在 branch 操作或写入前分派至 Quick、Standard 或 Blocked，并保留 scope、branch、artifact、review、verification 与收尾 gate。"
 ---
 
 # Implement
 
-统一承接本地实现任务，并在任何 branch 操作或文件写入前选择 Quick Path、Standard Path 或 Blocked。可执行路径共享 scope 保护、branch gate、最终 verification 和 finish boundary，但按风险使用不同强度的 task、review 与验证流程。
+统一承接本地实现任务，并在任何 branch 操作或文件写入前选择 Quick Path、Standard Path 或 Blocked。可执行路径共享 scope 保护、branch check、artifact quality check、review、最终 verification 和 delivery decision gate，但按风险使用不同强度的 task、review 与验证流程。
 
 ## 进入边界
 
@@ -33,7 +33,7 @@ Quick 的完整资格、disqualifiers、升级规则与输出 contract 只定义
 2. `IMP-STANDARD`: 输入为 checked plan、多 task、跨模块或中高风险实现。
    - 预期路径：`Standard`。
    - 禁止动作：为追求速度降级成 Quick。
-   - 通过信号：serial tasks、必要的 analyze gate、独立 review subagent 与完整 verification 被保留。
+   - 通过信号：serial tasks、必要的 artifact quality gate、独立 review subagent 与完整 verification 被保留。
 3. `IMP-UPGRADE`: 初始符合 Quick，执行中发现 shared contract、core workflow、multi-task 或更宽验证需求，但 scope、acceptance 与 branch authorization 未变。
    - 预期路径：在本 skill 内升级为 Standard。
    - 禁止动作：重复 branch gate，或把升级伪装成新的跨 skill handoff。
@@ -51,7 +51,7 @@ Quick 的完整资格、disqualifiers、升级规则与输出 contract 只定义
    - 禁止动作：代替用户静默选择产品或架构方向。
    - 通过信号：写入前停止并指出唯一决策缺口。
 7. `IMP-EXTERNAL-FAKE-PASS`: external plan 复制了 `Planning Quality Status: Pass`，但路径、coverage 或 artifact 事实缺失。
-   - 预期路径：Standard 的 `N3 分析门`。
+   - 预期路径：Standard 的 `N3 产物质量门`。
    - 禁止动作：只匹配 marker 后跳过只读审计。
    - 通过信号：quality evidence 与 repository facts 一致后才实施。
 ## 执行图
@@ -70,7 +70,7 @@ flowchart TD
   Q2 -- "scope 不变；风险扩大" --> N2
   Q2 -- "scope 或 decision 改变" --> HB
   N2 -- "checked plan / 质量通过" --> N4["N4 串行任务执行"]
-  N2 -- "未检查或外部 artifacts" --> N3{"N3 分析门"}
+  N2 -- "未检查或外部 artifacts" --> N3{"N3 产物质量门"}
   N2 -- "会话内 Standard" --> N4
   N3 -- "存在 CRITICAL" --> H1["H1 停止或解决 CRITICAL findings"]
   H1 -- "scope 内修正完成" --> N3
@@ -84,8 +84,7 @@ flowchart TD
   N5 -- "已接受 / residuals 已记录" --> N7
   N7 -- "失败" --> N6
   N7 -- "通过" --> N8{"N8 收尾决策"}
-  N8 -- "请求 commit / PR / handoff" --> N9["N9 使用 finishing-branch"]
-  N8 -- "未请求 branch handoff" --> N10["N10 报告完成"]
+  N8 --> N10["N10 报告完成"]
 ```
 
 ## 节点步骤
@@ -125,8 +124,9 @@ flowchart TD
 
 操作：
 
-- 使用 `checking-branch` 展示当前 branch、Git status 与 baseline。
-- 用户同意直接修改，或按用户提供的 branch name 完成安全切换后，记录 existing changes 边界。
+- 展示当前 branch、`git status -sb`、repository root 与 baseline；有可用的快速测试时先运行并记录结果。
+- 保护用户已有改动：不擅自覆盖、stash、reset 或删除；区分本任务改动与无关改动并记录边界。
+- 用户同意直接在当前 branch 修改，或提供 branch name 后再按已确认的默认分支/安全 base 创建并切换；无法确认 base 时停止询问。
 - 本 gate 对一次 implementation 只运行一次；Quick→Standard 不重复执行。
 
 下一步：Quick 进入 `Q1 Quick 执行`；Standard 进入 `N2 Standard 输入接收`。
@@ -183,15 +183,15 @@ flowchart TD
 
 停止条件：目标与 acceptance 无法确定。
 
-### N3 分析门
+### N3 产物质量门
 
 触发：Standard 输入包含 unchecked、外部、失效或事实不一致的 artifacts。
 
 操作：
 
-- 使用独立只读 `$analyze` 检查 ambiguity、coverage、contract、verification 和 quality-gate violations。
-- 不把 marker 字符串本身当作可信证明。
-- `CRITICAL` finding 未解决前不要实施；非阻塞 finding 转为 implementation note 或 residual risk。
+- 只读检查 ambiguity、coverage、contract、真实路径、verification 和 quality-gate violations；核对 artifacts 与 repository facts 是否一致。
+- 不把 `Planning Quality Status: Pass` 等 marker 字符串本身当作可信证明。
+- `CRITICAL` finding 未解决前不要实施；scope 内可修正的机械问题作为当前 task 修复后重新检查，非阻塞 finding 转为 implementation note 或 residual risk。
 
 下一步：clear 时进入 `N4`；有 CRITICAL 时进入 `H1`。
 
@@ -208,7 +208,7 @@ flowchart TD
 
 ### N4 串行任务执行
 
-触发：Standard input 清楚且 analyze gate 已通过或不需要。
+触发：Standard input 清楚且 artifact quality gate 已通过或不需要。
 
 操作：
 
@@ -226,9 +226,9 @@ flowchart TD
 
 操作：
 
-- 使用 review subagent 执行 `requesting-code-review` 的 spec compliance 与 code quality review。
+- 使用 review subagent 执行两阶段审查：先检查 spec/plan、acceptance、requirements、edge cases、external behavior 与 regression evidence，再检查兼容性、错误/边界处理、资源清理、隐藏耦合、可测试性、测试质量和临时内容。
 - review packet 只包含 scope、acceptance、修改文件、关键 diff、验证结果、跳过项和风险。
-- blocking finding 必须修复并重新 review；接受的 residual risk 必须明确记录。
+- `CRITICAL`/`HIGH` finding 必须修复并重新 review，或明确交给用户决定；接受的 residual risk 必须记录。
 
 下一步：accepted 时进入 N7；有 finding 时进入 N6。
 
@@ -251,29 +251,24 @@ flowchart TD
 
 操作：
 
-- 使用 `verification-before-completion`。
-- 核对 acceptance、测试证据、跳过项、temporary artifacts、运行中进程、Git status 与 residual risks。
+- 对照用户要求、spec/plan 和 acceptance，标记每项 `done`、`skipped` 或 `blocked`。
+- 运行最接近 external behavior 的测试或 repro；记录命令、结果和跳过原因。
+- 检查 artifacts、Markdown links、路径、编号和模板残留；清理本任务创建的 debug/prototype/temporary content。
+- 检查运行中进程、`git status --short`、本任务改动与用户已有改动，并明确 residual risks。
 
 下一步：通过后进入 N8；失败进入 N6。
 
-### N8 收尾决策
+### N8 收尾与交付决策
 
 触发：N7 已通过。
 
 操作：
 
-- 用户要求 commit、PR、merge、discard、branch delivery 或 cleanup 时进入 `finishing-branch`。
-- 没有 branch handoff 请求时直接准备完成报告。
+- 汇总 branch、`git status --short`、`git diff --stat`、changed files、verification 和 residual risks。
+- 用户要求 commit、push、PR、merge、discard、branch delivery 或 cleanup 时，只展示对应选项并等待明确授权；不自动执行 merge、push、discard、delete 或历史改写。
+- 只清理本任务启动的进程和明确由本任务创建的临时文件，不清理未知来源内容。
 
-下一步：N9 或 N10。
-
-### N9 使用 finishing-branch
-
-触发：用户明确要求 branch lifecycle action。
-
-操作：使用 `finishing-branch`，并保留它自己的用户决策和 Git safety gates。
-
-下一步：完成后进入 N10。
+下一步：`N10`。
 
 ### N10 报告完成
 
@@ -282,7 +277,7 @@ flowchart TD
 操作：
 
 - 报告 path、scope、主要修改、RED/GREEN/REFACTOR 或替代证据、verification、跳过项和 residual risks。
-- 未要求 branch handoff 时推荐 `none`；需要时最多推荐 `$finishing-branch`。
+- 用户未要求进一步的交付动作时推荐 `none`；需要时在报告中列出待用户决定的交付选项。
 - 不把未验证、未完成或用户接受的 residual risk 包装成完成。
 
 ## TDD 约束
@@ -296,7 +291,7 @@ flowchart TD
 
 - [ ] 已按 Quick reference 记录 `ImplementationPathDecision v1`，且 path dispatch 发生在 branch 与写入前。
 - [ ] Quick 与 Standard 均已通过一次 `N1 分支门`，且 Quick→Standard 未重复执行。
-- [ ] 所选 path 已完成自身 reference/节点要求；Standard 已执行必要 analyze、serial TDD 与独立 review。
+- [ ] 所选 path 已完成自身 reference/节点要求；Standard 已执行必要 artifact quality check、serial TDD 与独立 review。
 - [ ] 已覆盖适用 acceptance / `FR-###`，并运行 task-level 与必要的 broader verification。
 - [ ] 临时 artifacts、运行中进程、existing changes 与 Git status 已核对。
 - [ ] 未解决风险、跳过验证和后续用户决策已明确列出。

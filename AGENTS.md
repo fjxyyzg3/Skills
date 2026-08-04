@@ -23,7 +23,7 @@ Markdown 链接和引用文件
 
 ## 风格与命名
 
-目录使用小写 kebab-case，例如 `verification-before-completion`；入口文件必须精确命名为
+目录使用小写 kebab-case，例如 `brainstorming`；入口文件必须精确命名为
 `SKILL.md`。`Skills/` 采用完整包中文化：`SKILL.md`、`references/`、`examples/`、模板及
 其他包内人类说明使用中文主文；路径、YAML key、命令、API、稳定 ID（如 `FR-001`）及会
 降低触发精度的术语保留英文。`Skills-ZH/` 中的参考译本保留上游 frontmatter 和机器契约，
